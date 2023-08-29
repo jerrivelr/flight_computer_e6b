@@ -3,8 +3,8 @@ import 'package:flight_e6b/menu_screens.dart';
 import 'package:flight_e6b/simple_io.dart';
 
 final console = Console();
-// TODO Limit the amount of the digits the user can enter in each input.
 
+// hello
 void main(List<String> arguments) {
   String? userSelection = 'menu';
   // TODO EXIT does not work after going back to the menu from another option. It only works when the program first run.
