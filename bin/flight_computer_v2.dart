@@ -4,7 +4,6 @@ import 'package:flight_e6b/simple_io.dart';
 
 final console = Console();
 
-// hello
 void main(List<String> arguments) {
   String? userSelection = 'menu';
   // TODO EXIT does not work after going back to the menu from another option. It only works when the program first run.
