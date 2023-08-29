@@ -59,6 +59,8 @@ class MenuLogic {
     required this.variable,
     required this.optionName,
     required this.inCaseInvalid,
+    this.digitLimit = 5,
+    this.ifDigitLimit = '',
     this.autofillText = '',
     this.ifNegative = '',
     this.checkNegative = false,
@@ -68,10 +70,12 @@ class MenuLogic {
   });
 
   double? variable;
+  int digitLimit;
   String optionName;
   String inCaseInvalid;
   String autofillText;
   String ifNegative;
+  String ifDigitLimit;
   bool checkNegative;
   bool checkWindDir;
   bool checkTrueDir;
@@ -84,6 +88,8 @@ class MenuLogic {
             variable: variable,
             optionName: inputNames['temp']!,
             inCaseInvalid: 'Invalid Temperature',
+            digitLimit: 3,
+            ifDigitLimit: 'Temperature must be between [-999°C] — [999°C]',
             autofillText: 'Temperature: ${MenuLogic.formatNumber(variable ?? 0)}°C '
         );
       case InputType.dewpoint:
@@ -91,15 +97,18 @@ class MenuLogic {
             variable: variable,
             optionName: inputNames['dew']!,
             inCaseInvalid: 'Invalid Dewpoint',
+            digitLimit: 3,
+            ifDigitLimit: 'Dewpoint must be between [-999°C] — [999°C]',
             autofillText: 'Dewpoint: ${MenuLogic.formatNumber(variable ?? 0)}°C'
         );
       case InputType.indicatedAlt:
         return MenuLogic(
             variable: variable,
             optionName: inputNames['IALT']!,
-            inCaseInvalid: 'Invalid Altitude',
+            inCaseInvalid: 'Invalid Indicated Altitude',
             checkNegative: true,
-            ifNegative: 'Altitude must be positive',
+            ifNegative: 'Indicated Altitude must be positive',
+            ifDigitLimit: 'Indicated Altitude must less than 100,000ft',
             autofillText: 'Indicated Altitude: ${MenuLogic.formatNumber(variable ?? 0)}ft'
         );
       case InputType.baro:
@@ -118,6 +127,7 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Distance',
             checkNegative: true,
             ifNegative: 'Distance must be positive',
+            ifDigitLimit: 'Distance must less than 100,000nm',
             autofillText: 'Distance: ${MenuLogic.formatNumber(variable ?? 0)}nm'
         );
       case InputType.time:
@@ -126,6 +136,8 @@ class MenuLogic {
             optionName: inputNames['time']!,
             inCaseInvalid: 'Invalid Time. Ex. 1.5.',
             checkNegative: true,
+            digitLimit: 2,
+            ifDigitLimit: 'Time must be less 100hr',
             ifNegative: 'Time must be positive',
             autofillText: 'Temperature: ${MenuLogic.formatNumber(variable ?? 0)}hr'
         );
@@ -135,6 +147,8 @@ class MenuLogic {
             optionName: inputNames['calibratedAir']!,
             inCaseInvalid: 'Invalid Calibrated Airspeed',
             checkNegative: true,
+            digitLimit: 3,
+            ifDigitLimit: 'Calibrated Airspeed must less than 1,000kt',
             ifNegative: 'Calibrated Airspeed must be positive',
             autofillText: 'Calibrated Airspeed: ${MenuLogic.formatNumber(variable ?? 0)}kt'
         );
@@ -144,6 +158,7 @@ class MenuLogic {
             optionName: inputNames['pressureAlt']!,
             inCaseInvalid: 'Invalid Pressure Altitude',
             checkNegative: true,
+            ifDigitLimit: 'Pressure Altitude must less than 100,000ft',
             ifNegative: 'Pressure Altitude must be positive',
             autofillText: 'Pressure Altitude: ${MenuLogic.formatNumber(variable ?? 0)}ft'
         );
@@ -163,6 +178,8 @@ class MenuLogic {
             optionName: inputNames['windSpeed']!,
             inCaseInvalid: 'Invalid Wind Speed',
             checkNegative: true,
+            digitLimit: 3,
+            ifDigitLimit: 'Wind Speed must less than 1,000kt',
             ifNegative: 'Wind Speed must be positive',
             autofillText: 'Wind Speed: ${MenuLogic.formatNumber(variable ?? 0)}kt'
         );
@@ -189,7 +206,9 @@ class MenuLogic {
             variable: variable,
             optionName: inputNames['trueAirspeed']!,
             inCaseInvalid: 'Invalid True Airspeed',
+            digitLimit: 3,
             checkNegative: true,
+            ifDigitLimit: 'True Airspeed must less than 1,000kt',
             ifNegative: 'True Airspeed must be positive',
             autofillText: 'True Airspeed: ${MenuLogic.formatNumber(variable ?? 0)}kt'
         );
@@ -199,9 +218,9 @@ class MenuLogic {
   double? optionLogic() {
     while (!condition) {
       if (variable == null) {
-        userInput = _inputChecker(optionName, ifInvalid: inCaseInvalid);
+        userInput = _inputChecker(optionName, ifInvalid: inCaseInvalid, digitAmount: digitLimit, ifDigitLimit: ifDigitLimit);
 
-        if (userInput == inCaseInvalid) {
+        if (userInput == inCaseInvalid || userInput == ifDigitLimit) {
           error = userInput!;
           break;
 
@@ -321,8 +340,10 @@ class MenuLogic {
     console.resetColorAttributes();
   }
 
-  String? _inputChecker(String printOut, {String ifInvalid = 'Invalid number'}) {
-    final digitChecker = RegExp(r'^\d{1,6}$');
+  String? _inputChecker(String printOut, {required int digitAmount, String ifDigitLimit = 'Invalid Digit', String ifInvalid = 'Invalid number', }) {
+    digitAmount++;
+
+    final digitChecker = RegExp('^-?\\d{$digitAmount,}\$');
 
     String? userInput;
 
@@ -331,8 +352,10 @@ class MenuLogic {
 
     if (optionList.contains(userInput)) {
       return userInput;
-    } else if (!digitChecker.hasMatch(userInput ?? '')) {
+    } else if (double.tryParse(userInput ?? '') == null) {
       return ifInvalid;
+    } else if (digitChecker.hasMatch(userInput ?? '')) {
+      return ifDigitLimit;
     }
 
     return userInput;
