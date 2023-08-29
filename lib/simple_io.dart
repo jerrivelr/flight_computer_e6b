@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:characters/characters.dart';
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/menu_screens.dart';
+import 'package:flight_e6b/menu_logic.dart';
 
 
 String? input([String? printOut]) {
@@ -119,5 +120,14 @@ List<String> windComponentString({required double headTail, required double xCro
   }
 
   return finalString;
+}
+
+void optionPrinter({required String title, required String options}) {
+  MenuLogic.screenHeader(title: title, errorWindow: false);
+
+  console.setForegroundColor(ConsoleColor.white);
+  console.setTextStyle(bold: true, italic: true);
+
+  console.writeLine(options);
 }
 
