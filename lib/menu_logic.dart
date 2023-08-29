@@ -322,6 +322,8 @@ class MenuLogic {
   }
 
   String? _inputChecker(String printOut, {String ifInvalid = 'Invalid number'}) {
+    final digitChecker = RegExp(r'^\d{1,6}$');
+
     String? userInput;
 
     // Make sure the input lowercase.
@@ -329,13 +331,7 @@ class MenuLogic {
 
     if (optionList.contains(userInput)) {
       return userInput;
-    }
-
-    else if (double.tryParse(userInput ?? '') == null) {
-      return ifInvalid;
-    }
-
-    else if (double.tryParse(userInput ?? '')! > 100000) {
+    } else if (!digitChecker.hasMatch(userInput ?? '')) {
       return ifInvalid;
     }
 
