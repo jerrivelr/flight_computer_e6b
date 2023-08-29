@@ -35,7 +35,10 @@ void main(List<String> arguments) {
         console.clearScreen();
         userSelection = headingCorrectionScreen();
         break;
-
+      case 'opt7':
+        console.clearScreen();
+        userSelection = fuelScreen();
+        break;
     }
   }
 }
