@@ -60,7 +60,7 @@ class MenuLogic {
     required this.optionName,
     required this.inCaseInvalid,
     this.digitLimit = 5,
-    this.ifDigitLimit = '',
+    this.ifDigitLimit = 'Invalid number',
     this.autofillText = '',
     this.ifNegative = '',
     this.checkNegative = false,
@@ -117,6 +117,7 @@ class MenuLogic {
             optionName: inputNames['baro']!,
             inCaseInvalid: 'Invalid Altimeter',
             checkNegative: true,
+            digitLimit: 2,
             ifNegative: 'Altimeter setting must be positive',
             autofillText: 'Baro: ${MenuLogic.formatNumber(variable ?? 0)} InHg'
         );
@@ -342,7 +343,6 @@ class MenuLogic {
 
   String? _inputChecker(String printOut, {required int digitAmount, String ifDigitLimit = 'Invalid Digit', String ifInvalid = 'Invalid number', }) {
     digitAmount++;
-
     final digitChecker = RegExp('^-?\\d{$digitAmount,}\$');
 
     String? userInput;
