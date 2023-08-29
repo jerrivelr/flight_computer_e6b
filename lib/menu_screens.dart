@@ -6,21 +6,23 @@ import 'package:flight_e6b/menu_logic.dart';
 // Used for creating the screens.
 final console = Console();
 
-void mainMenu() {
-  MenuLogic.screenHeader(title: 'Flight Computer (E6B)', errorWindow: false);
+String? mainMenu() {
+  const options =
+      '[1] — Cloud Base (ft)\n'
+      '[2] — Pressure/Density Altitude (ft)\n'
+      '[3] — Ground Speed (GS)\n'
+      '[4] — True Airspeed (TAS)\n'
+      '[5] — Wind Component\n'
+      '[6] — Heading/Wind Correction Angle (WCA)\n'
+      '[7] — Fuel';
 
-  console.setForegroundColor(ConsoleColor.white);
-  console.setTextStyle(bold: true, italic: true);
-
-  resultPrinter(['0 — Help']);
-  console.writeLine(
-          '[1] — Cloud Base (ft)\n'
-          '[2] — Pressure/Density Altitude (ft)\n'
-          '[3] — Ground Speed (GS)\n'
-          '[4] — True Airspeed (TAS)\n'
-          '[5] — Wind Component\n'
-          '[6] — Heading/Wind Correction Angle (WCA)\n'
-          '[7] — Fuel'
+  final optionList = MenuLogic.optionList.getRange(1, 9).toList();
+  return optionMenu(
+      title: 'FLIGHT COMPUTER (E6B)',
+      options: options,
+      startRange: 1,
+      endRange: 7,
+      optionList: optionList
   );
 }
 
