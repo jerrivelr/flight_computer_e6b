@@ -1,7 +1,5 @@
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/menu_screens.dart';
-import 'package:flight_e6b/simple_io.dart';
-import 'package:flight_e6b/menu_logic.dart';
 
 final console = Console();
 
