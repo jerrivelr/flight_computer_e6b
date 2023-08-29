@@ -122,12 +122,33 @@ List<String> windComponentString({required double headTail, required double xCro
   return finalString;
 }
 
-void optionPrinter({required String title, required String options}) {
-  MenuLogic.screenHeader(title: title, errorWindow: false);
+String? optionMenu({required String title, required String options, required int startRange, required int endRange, required List<String> optionList}) {
+  String error = '';
 
-  console.setForegroundColor(ConsoleColor.white);
-  console.setTextStyle(bold: true, italic: true);
+  while (true) {
+    MenuLogic.screenHeader(title: title, errorWindow: false);
+    console.setForegroundColor(ConsoleColor.white);
+    console.setTextStyle(bold: true, italic: true);
 
-  console.writeLine(options);
+    console.writeLine(options);
+    errorMessage(error);
+    console.setForegroundExtendedColor(250);
+
+    String? userInput = input(': ');
+    int? selection = int.tryParse(userInput ?? '');
+
+    if (selection == null) {
+      console.clearScreen();
+      error = 'Enter a valid option';
+      continue;
+    } else if (selection < startRange || selection > endRange) {
+      console.clearScreen();
+      error = 'Choose an option between [$startRange] — [$endRange]';
+      continue;
+    }
+
+    return optionList.elementAt(selection);
+
+  }
 }
 
