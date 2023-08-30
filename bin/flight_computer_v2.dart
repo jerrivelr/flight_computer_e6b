@@ -1,5 +1,5 @@
 import 'package:dart_console/dart_console.dart';
-import 'package:flight_e6b/menu_screens.dart';
+import 'package:flight_e6b/main_screens/menu_screens.dart';
 
 final console = Console();
 
