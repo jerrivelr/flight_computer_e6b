@@ -36,7 +36,7 @@ String? cloudBaseScreen() {
     final tempInput = MenuLogic.screenType(InputType.temperature, temperature);
     final dewInput = MenuLogic.screenType(InputType.dewpoint, dewpoint);
 
-    MenuLogic.screenHeader(title: 'Cloud Base 🌧️');
+    MenuLogic.screenHeader(title: 'CLOUD BASE 🌧️');
 
     // Getting temperature.
     temperature = tempInput.optionLogic();
@@ -47,7 +47,7 @@ String? cloudBaseScreen() {
     if (MenuLogic.repeatLoop(dewpoint)) {
       continue;
     } else if (dewpoint! > temperature!) {
-      MenuLogic.error = 'Dewpoint must be less or equal to temperature';
+      MenuLogic.error = 'Dewpoint must be less than or equal to temperature';
       dewpoint = null;
       console.clearScreen();
       continue;
@@ -85,7 +85,7 @@ String? pressDensityScreen() {
     final tempInput = MenuLogic.screenType(InputType.temperature, temperature);
     final dewInput = MenuLogic.screenType(InputType.dewpoint, dewpoint);
 
-    MenuLogic.screenHeader(title: 'Pressure/Density Altitude');
+    MenuLogic.screenHeader(title: 'PRESSURE/DENSITY ALTITUDE');
 
     // Getting indicated altitude
     indicatedAlt = indicatedAltInput.optionLogic();
@@ -113,7 +113,7 @@ String? pressDensityScreen() {
     if (MenuLogic.repeatLoop(dewpoint)) {
       continue;
     } else if (dewpoint! > temperature) {
-      MenuLogic.error = 'Dewpoint must be less or equal to temperature';
+      MenuLogic.error = 'Dewpoint must be less than or equal to temperature';
       dewpoint = null;
       console.clearScreen();
       continue;
@@ -156,7 +156,7 @@ String? groundSpeedScreen() {
     final distanceInput = MenuLogic.screenType(InputType.distance, distanceNm);
     final timeInput = MenuLogic.screenType(InputType.time, timeHr);
 
-    MenuLogic.screenHeader(title: 'Ground Speed (kt)');
+    MenuLogic.screenHeader(title: 'GROUND SPEED (kt)');
 
     // Getting distance
     distanceNm = distanceInput.optionLogic();
@@ -200,7 +200,7 @@ String? trueAirspeedScreen() {
     final pressAltInput = MenuLogic.screenType(InputType.pressureAlt, pressAltitude);
     final tempInput = MenuLogic.screenType(InputType.temperature, temperature);
 
-    MenuLogic.screenHeader(title: 'True Airspeed (kt)');
+    MenuLogic.screenHeader(title: 'TRUE AIRSPEED (kt)');
 
     // If pressure altitude or temperature was input from option 2, the user is ask weather or not they want to autofill.
     if (pressCheck || tempCheck) {
@@ -276,7 +276,7 @@ String? windComponentScreen() {
     final windSpeedInput = MenuLogic.screenType(InputType.windSpeed, windSpeedKt);
     final runwayInput = MenuLogic.screenType(InputType.runway, runwayNumber);
 
-    MenuLogic.screenHeader(title: 'Wind Component 💨');
+    MenuLogic.screenHeader(title: 'WIND COMPONENT 💨');
 
     // Getting wind direction.
     windDirection = windDirInput.optionLogic();
@@ -334,7 +334,7 @@ String? headingCorrectionScreen() {
     final windSpeedInput = MenuLogic.screenType(InputType.windSpeed, windSpeedKt);
     final trueAirspeedInput = MenuLogic.screenType(InputType.trueAirspeed, trueAirspeedTas);
 
-    MenuLogic.screenHeader(title: 'Heading/Wind Correction Angle (WCA)');
+    MenuLogic.screenHeader(title: 'HEADING/WIND CORRECTION ANGLE (WCA)');
 
     if ([windDirExits, windSpeedExits, trueAirExits].contains(true)) {
       console.setTextStyle(italic: true);
@@ -373,7 +373,7 @@ String? headingCorrectionScreen() {
 
     // Getting true airspeed.
     trueAirspeedTas = trueAirspeedInput.optionLogic();
-    if (MenuLogic.repeatLoop(windSpeedKt)) continue;
+    if (MenuLogic.repeatLoop(trueAirspeedTas)) continue;
 
     MenuLogic.dataResult['trueAirspeed'] = trueAirspeedTas!; // saving true airspeed input for reuse
 
@@ -415,6 +415,34 @@ String? headingCorrectionScreen() {
       continue;
     }
   }
+
+  return MenuLogic.selectedOption;
+}
+
+String? fuelScreen() {
+  double? fuelVolume;
+  double? time;
+  double? fuelRate;
+
+  const fuelOptions =
+      '[1] — Volume (US Gal)\n'
+      '[2] — Duration (hr)\n'
+      '[3] — Rate (US GPH)';
+
+  MenuLogic.selectedOption = null;
+
+  while (MenuLogic.selectedOption == null) {
+    optionMenu(
+        title: 'FUEL',
+        options: fuelOptions,
+        startRange: 1,
+        endRange: 3,
+        optionList: []
+    );
+
+  }
+
+
 
   return MenuLogic.selectedOption;
 }
