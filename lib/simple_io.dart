@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:characters/characters.dart';
 import 'package:dart_console/dart_console.dart';
-import 'package:flight_e6b/menu_screens.dart';
+import 'package:flight_e6b/main_screens/menu_screens.dart';
 import 'package:flight_e6b/menu_logic.dart';
 
 
