@@ -5,7 +5,7 @@ final console = Console();
 
 void main(List<String> arguments) {
   String? userSelection = 'menu';
-  // TODO EXIT does not work after going back to the menu from another option. It only works when the program first run.
+
   while (userSelection != 'exit') {
     switch (userSelection) {
       case 'menu':
