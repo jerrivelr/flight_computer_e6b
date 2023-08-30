@@ -425,8 +425,9 @@ String? fuelScreen() {
   double? fuelRate;
 
   const fuelOptions =
+      'Calculate Fuel:\n'
       '[1] — Volume (US Gal)\n'
-      '[2] — Duration (hr)\n'
+      '[2] — Endurance (hr)\n'
       '[3] — Rate (US GPH)';
 
   MenuLogic.selectedOption = null;
