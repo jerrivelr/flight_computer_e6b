@@ -190,8 +190,8 @@ String? trueAirspeedScreen() {
   double? pressAltitude;
   double? temperature;
 
-  bool pressCheck = MenuLogic.dataResult.containsKey('pressureAlt');
-  bool tempCheck = MenuLogic.dataResult.containsKey('temperature');
+  bool pressExists = MenuLogic.dataResult.containsKey('pressureAlt');
+  bool tempExits = MenuLogic.dataResult.containsKey('temperature');
 
   MenuLogic.selectedOption = null;
 
@@ -203,19 +203,19 @@ String? trueAirspeedScreen() {
     MenuLogic.screenHeader(title: 'TRUE AIRSPEED (kt)');
 
     // If pressure altitude or temperature was input from option 2, the user is ask weather or not they want to autofill.
-    if (pressCheck || tempCheck) {
+    if (pressExists || tempExits) {
       console.setTextStyle(italic: true);
       console.writeLine(MenuLogic.inputNames['autofill']);
       MenuLogic.userInput = input(': ')?.toLowerCase();
 
       if (MenuLogic.userInput == 'y' || MenuLogic.userInput == 'yes') {
-        pressAltitude = (pressCheck) ? MenuLogic.dataResult['pressureAlt']?.toDouble() : null;
-        temperature = (tempCheck) ? MenuLogic.dataResult['temperature']?.toDouble() : null;
+        pressAltitude = (pressExists) ? MenuLogic.dataResult['pressureAlt']?.toDouble() : null;
+        temperature = (tempExits) ? MenuLogic.dataResult['temperature']?.toDouble() : null;
       }
 
       console.clearScreen();
-      pressCheck = false;
-      tempCheck = false;
+      pressExists = false;
+      tempExits = false;
 
       continue;
     }
@@ -254,8 +254,8 @@ String? trueAirspeedScreen() {
       pressAltitude = null;
       temperature = null;
 
-      pressCheck = true;
-      tempCheck = true;
+      pressExists = true;
+      tempExits = true;
 
       continue;
     }
