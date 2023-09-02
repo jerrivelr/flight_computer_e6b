@@ -143,7 +143,7 @@ String? optionMenu({required String title, required String options, required int
       continue;
     } else if (selection < startRange || selection > endRange) {
       console.clearScreen();
-      error = 'Choose an option between [$startRange] — [$endRange]';
+      error = 'Choose an option between ($startRange) — ($endRange)';
       continue;
     }
 

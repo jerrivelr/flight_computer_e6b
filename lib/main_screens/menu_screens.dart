@@ -8,13 +8,13 @@ final console = Console();
 
 String? mainMenu() {
   const options =
-      '[1] — Cloud Base (ft)\n'
-      '[2] — Pressure/Density Altitude (ft)\n'
-      '[3] — Ground Speed (GS)\n'
-      '[4] — True Airspeed (TAS)\n'
-      '[5] — Wind Component\n'
-      '[6] — Heading/Wind Correction Angle (WCA)\n'
-      '[7] — Fuel';
+      '(1) —— Cloud Base (ft)\n'
+      '(2) —— Pressure/Density Altitude (ft)\n'
+      '(3) —— Ground Speed (GS)\n'
+      '(4) —— True Airspeed (TAS)\n'
+      '(5) —— Wind Component\n'
+      '(6) —— Heading/Wind Correction Angle (WCA)\n'
+      '(7) —— Fuel';
 
   final optionList = MenuLogic.optionList.getRange(1, 9).toList();
   return optionMenu(
@@ -426,9 +426,9 @@ String? fuelScreen() {
 
   const fuelOptions =
       'Calculate Fuel:\n'
-      '[1] — Volume (US Gal)\n'
-      '[2] — Endurance (hr)\n'
-      '[3] — Rate (US GPH)';
+      '(1) —— Volume (US Gal)\n'
+      '(2) —— Endurance (hr)\n'
+      '(3) —— Rate (US GPH)';
 
   MenuLogic.selectedOption = null;
 

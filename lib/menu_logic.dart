@@ -89,7 +89,7 @@ class MenuLogic {
             optionName: inputNames['temp']!,
             inCaseInvalid: 'Invalid Temperature',
             digitLimit: 3,
-            ifDigitLimit: 'Temperature must be between [-999°C] — [999°C]',
+            ifDigitLimit: 'Temperature must be between (-999°C) — (999°C)',
             autofillText: 'Temperature: ${MenuLogic.formatNumber(variable ?? 0)}°C '
         );
       case InputType.dewpoint:
@@ -98,7 +98,7 @@ class MenuLogic {
             optionName: inputNames['dew']!,
             inCaseInvalid: 'Invalid Dewpoint',
             digitLimit: 3,
-            ifDigitLimit: 'Dewpoint must be between [-999°C] — [999°C]',
+            ifDigitLimit: 'Dewpoint must be between (-999°C) — (999°C)',
             autofillText: 'Dewpoint: ${MenuLogic.formatNumber(variable ?? 0)}°C'
         );
       case InputType.indicatedAlt:
