@@ -2,6 +2,7 @@ import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/aviation_math.dart';
 import 'package:flight_e6b/menu_logic.dart';
+import 'package:flight_e6b/screen_options.dart';
 
 // Used for creating the screens.
 final console = Console();
@@ -16,14 +17,15 @@ String? mainMenu() {
       '(6) —— Heading/Wind Correction Angle (WCA)\n'
       '(7) —— Fuel';
 
-  final optionList = MenuLogic.optionList.getRange(1, 9).toList();
-  return optionMenu(
+  final optionList = MenuLogic.optionList.getRange(0, 7).toList();
+  final menuDisplay = OptionMenu(
       title: 'FLIGHT COMPUTER (E6B)',
-      options: options,
+      displayOptions: options,
       startRange: 1,
       endRange: 7,
       optionList: optionList
   );
+  return menuDisplay.displayMenu();
 }
 
 String? cloudBaseScreen() {
@@ -420,30 +422,46 @@ String? headingCorrectionScreen() {
 }
 
 String? fuelScreen() {
+  String? selection;
+
   double? fuelVolume;
   double? time;
   double? fuelRate;
 
   const fuelOptions =
-      'Calculate Fuel:\n'
+      'Calculate Fuel...\n'
       '(1) —— Volume (US Gal)\n'
       '(2) —— Endurance (hr)\n'
       '(3) —— Rate (US GPH)';
 
+  final menuDisplay = OptionMenu(
+      title: 'FUEL',
+      displayOptions: fuelOptions,
+      startRange: 1,
+      endRange: 3,
+      optionList: ['vol', 'dur', 'rate']
+  );
+
   MenuLogic.selectedOption = null;
 
   while (MenuLogic.selectedOption == null) {
-    optionMenu(
-        title: 'FUEL',
-        options: fuelOptions,
-        startRange: 1,
-        endRange: 3,
-        optionList: []
-    );
+    selection = menuDisplay.displayMenu();
 
+    switch (selection) {
+      case 'vol':
+        print('volume');
+        break;
+      case 'dur':
+        print('Endurance');
+        break;
+      case 'rate':
+        print('Fuel rate');
+        break;
+      default:
+        return selection;
+
+    }
   }
-
-
 
   return MenuLogic.selectedOption;
 }
