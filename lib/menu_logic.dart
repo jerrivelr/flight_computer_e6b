@@ -16,6 +16,7 @@ enum InputType {
   runway,
   trueCourse,
   trueAirspeed,
+  fuelVolume,
 }
 
 class MenuLogic {
@@ -39,6 +40,8 @@ class MenuLogic {
     'autofill': 'Autofill previously calculated/entered values: [Y] yes ——— [N] no (any key)?',
     'trueCourse' : 'Course°: ',
     'trueAirspeed': 'True Airspeed (kt): ',
+    'fuelVolume': 'Fuel Volume (Gal): ',
+
   };
 
   // Stores all user inputs
@@ -53,7 +56,6 @@ class MenuLogic {
   static Map<String, num> dataResult = {};
   // The condition of the while loop inside optionLogic method
   static var condition = optionList.contains(userInput?.toLowerCase().trim());
-
 
   MenuLogic({
     required this.variable,
@@ -212,6 +214,16 @@ class MenuLogic {
             ifDigitLimit: 'True Airspeed must less than 1,000kt',
             ifNegative: 'True Airspeed must be positive',
             autofillText: 'True Airspeed: ${MenuLogic.formatNumber(variable ?? 0)}kt'
+        );
+      case InputType.fuelVolume:
+        return MenuLogic(
+            variable: variable,
+            optionName: inputNames['fuelVolume']!,
+            inCaseInvalid: 'Invalid Fuel Volume',
+            ifDigitLimit: 'Fuel Volume must be less than 100,000 Gal',
+            checkNegative: true,
+            ifNegative: 'Fuel Volume must be positive',
+            autofillText: 'Fuel Volume: ${MenuLogic.formatNumber(variable ?? 0)}Gal'
         );
     }
   }
