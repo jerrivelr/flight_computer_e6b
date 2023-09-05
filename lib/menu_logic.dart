@@ -22,7 +22,7 @@ class MenuLogic {
 
   static final console = Console();
   // List of possible options while inside a certain screen.
-  static const optionList = ['menu', 'exit', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5', 'opt6', 'opt7'];
+  static const optionList = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5', 'opt6', 'opt7', 'menu', 'exit'];
   // Stores all the names of all inputs.
   static const inputNames = {
     'temp': 'Temperature °C: ',
