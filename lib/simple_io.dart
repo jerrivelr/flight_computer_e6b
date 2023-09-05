@@ -123,17 +123,22 @@ List<String> windComponentString({required double headTail, required double xCro
 }
 
 String? optionMenu({required String title, required String options, required int startRange, required int endRange, required List<String> optionList}) {
+  // optionList should be a list with all the names of each option.
   String error = '';
 
   while (true) {
+    // Creating the title bar.
     MenuLogic.screenHeader(title: title, errorWindow: false);
     console.setForegroundColor(ConsoleColor.white);
     console.setTextStyle(bold: true, italic: true);
 
+    // Displaying the list of options.
     console.writeLine(options);
+    // Displaying error messages bellow the list of options
     errorMessage(error);
     console.setForegroundExtendedColor(250);
 
+    // Getting input from user
     String? userInput = input(': ');
     int? selection = int.tryParse(userInput ?? '');
 
