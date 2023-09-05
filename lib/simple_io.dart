@@ -122,38 +122,3 @@ List<String> windComponentString({required double headTail, required double xCro
   return finalString;
 }
 
-String? optionMenu({required String title, required String options, required int startRange, required int endRange, required List<String> optionList}) {
-  // optionList should be a list with all the names of each option.
-  String error = ''; // This variable contains all the error messages to be display if any.
-
-  while (true) {
-    // Creating the title bar.
-    MenuLogic.screenHeader(title: title, errorWindow: false);
-    console.setForegroundColor(ConsoleColor.white);
-    console.setTextStyle(bold: true, italic: true);
-
-    // Displaying the list of options.
-    console.writeLine(options);
-    // Displaying error messages bellow the list of options
-    errorMessage(error);
-    console.setForegroundExtendedColor(250);
-
-    // Getting input from user
-    String? userInput = input(': ');
-    int? selection = int.tryParse(userInput ?? '');
-
-    if (selection == null) {
-      console.clearScreen();
-      error = 'Enter a valid option';
-      continue;
-    } else if (selection < startRange || selection > endRange) {
-      console.clearScreen();
-      error = 'Choose an option between ($startRange) — ($endRange)';
-      continue;
-    }
-
-    return optionList.elementAt(selection);
-
-  }
-}
-
