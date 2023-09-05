@@ -304,7 +304,7 @@ class MenuLogic {
     return false;
   }
 
-  static bool backToMenu([String text = 'Back to main menu: [Y] yes (any key) ——— [N] no?']) {
+  static bool backToMenu({String text = 'Back to main menu: [Y] yes (any key) ——— [N] no?', String backMenuSelection = 'menu'}) {
     console.setTextStyle(italic: true);
     console.writeLine(text);
     userInput = input(': ')?.toLowerCase().trim();
@@ -314,7 +314,7 @@ class MenuLogic {
       return false;
     }
 
-    selectedOption = 'menu';
+    selectedOption = backMenuSelection;
     console.clearScreen();
     return true;
   }
