@@ -1,4 +1,5 @@
 import 'package:dart_console/dart_console.dart';
+import 'package:flight_e6b/inter_screens/fuel_inter_screens.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/aviation_math.dart';
 import 'package:flight_e6b/menu_logic.dart';
@@ -449,15 +450,19 @@ String? fuelScreen() {
 
     switch (selection) {
       case 'vol':
-        print('volume');
+        console.clearScreen();
+        volumeScreen();
         break;
       case 'dur':
+        console.clearScreen();
         print('Endurance');
         break;
       case 'rate':
+        console.clearScreen();
         print('Fuel rate');
         break;
       default:
+        console.clearScreen();
         return selection;
 
     }
