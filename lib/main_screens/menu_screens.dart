@@ -36,6 +36,7 @@ String? cloudBaseScreen() {
   MenuLogic.selectedOption = null;
 
   while (MenuLogic.selectedOption == null) {
+    // Sending calculated pressure altitude to the dataResult Map.
     final tempInput = MenuLogic.screenType(InputType.temperature, temperature);
     final dewInput = MenuLogic.screenType(InputType.dewpoint, dewpoint);
 
@@ -83,6 +84,7 @@ String? pressDensityScreen() {
   MenuLogic.selectedOption = null;
 
   while (MenuLogic.selectedOption == null) {
+    // Sending calculated pressure altitude to the dataResult Map.
     final indicatedAltInput = MenuLogic.screenType(InputType.indicatedAlt, indicatedAlt);
     final pressInHgInput = MenuLogic.screenType(InputType.baro, pressInHg);
     final tempInput = MenuLogic.screenType(InputType.temperature, temperature);
@@ -156,6 +158,7 @@ String? groundSpeedScreen() {
   MenuLogic.selectedOption = null;
 
   while (MenuLogic.selectedOption == null) {
+    // Creating input object for each input.
     final distanceInput = MenuLogic.screenType(InputType.distance, distanceNm);
     final timeInput = MenuLogic.screenType(InputType.time, timeHr);
 
@@ -170,7 +173,7 @@ String? groundSpeedScreen() {
     if (MenuLogic.repeatLoop(timeHr)) continue;
 
     final calGroundSpeed = groundSpeed(distanceNm!, timeHr!);
-    MenuLogic.dataResult['groundSpeed'] = calGroundSpeed;
+    MenuLogic.dataResult['groundSpeed'] = calGroundSpeed; // Sending ground speed to the dataResult map.
 
     resultPrinter(['Ground Speed: ${MenuLogic.formatNumber(calGroundSpeed)}kt']);
 
@@ -193,32 +196,34 @@ String? trueAirspeedScreen() {
   double? pressAltitude;
   double? temperature;
 
+  // Checking pressure altitude was previously calculated or input.
   bool pressExists = MenuLogic.dataResult.containsKey('pressureAlt');
-  bool tempExits = MenuLogic.dataResult.containsKey('temperature');
+  bool tempExists = MenuLogic.dataResult.containsKey('temperature');
 
   MenuLogic.selectedOption = null;
 
   while (MenuLogic.selectedOption == null) {
+    // Creating input object for each input.
     final calibratedInput = MenuLogic.screenType(InputType.calibratedAir, calibratedAir);
     final pressAltInput = MenuLogic.screenType(InputType.pressureAlt, pressAltitude);
     final tempInput = MenuLogic.screenType(InputType.temperature, temperature);
 
     MenuLogic.screenHeader(title: 'TRUE AIRSPEED (kt)');
 
-    // If pressure altitude or temperature was input from option 2, the user is ask weather or not they want to autofill.
-    if (pressExists || tempExits) {
+    // If pressure altitude or temperature was input from option 2, the user is asked weather or not they want to autofill.
+    if (pressExists || tempExists) {
       console.setTextStyle(italic: true);
       console.writeLine(MenuLogic.inputNames['autofill']);
       MenuLogic.userInput = input(': ')?.toLowerCase();
 
       if (MenuLogic.userInput == 'y' || MenuLogic.userInput == 'yes') {
         pressAltitude = (pressExists) ? MenuLogic.dataResult['pressureAlt']?.toDouble() : null;
-        temperature = (tempExits) ? MenuLogic.dataResult['temperature']?.toDouble() : null;
+        temperature = (tempExists) ? MenuLogic.dataResult['temperature']?.toDouble() : null;
       }
 
       console.clearScreen();
       pressExists = false;
-      tempExits = false;
+      tempExists = false;
 
       continue;
     }
@@ -258,7 +263,7 @@ String? trueAirspeedScreen() {
       temperature = null;
 
       pressExists = true;
-      tempExits = true;
+      tempExists = true;
 
       continue;
     }
@@ -275,6 +280,7 @@ String? windComponentScreen() {
   MenuLogic.selectedOption = null;
 
   while (MenuLogic.selectedOption == null) {
+    // Creating input object for each input.
     final windDirInput = MenuLogic.screenType(InputType.windDirection, windDirection);
     final windSpeedInput = MenuLogic.screenType(InputType.windSpeed, windSpeedKt);
     final runwayInput = MenuLogic.screenType(InputType.runway, runwayNumber);
@@ -285,13 +291,13 @@ String? windComponentScreen() {
     windDirection = windDirInput.optionLogic();
     if (MenuLogic.repeatLoop(windDirection)) continue;
 
-    MenuLogic.dataResult['windDirection'] = windDirection!;
+    MenuLogic.dataResult['windDirection'] = windDirection!; // Sending the inputted wind direction to the dataResult map.
 
     // Getting wind speed
     windSpeedKt = windSpeedInput.optionLogic();
     if (MenuLogic.repeatLoop(windSpeedKt)) continue;
 
-    MenuLogic.dataResult['windSpeed'] = windSpeedKt!;
+    MenuLogic.dataResult['windSpeed'] = windSpeedKt!; // Sending the inputted wind speed to the dataResult map.
 
     // Getting runway number.
     runwayNumber = runwayInput.optionLogic();
@@ -299,6 +305,7 @@ String? windComponentScreen() {
 
     // Map with calculated wind component.
     final result = windComponent(direction: runwayNumber!, windDirection: windDirection, windSpeed: windSpeedKt, runway: true);
+    // Calculated head wind and tail wind component.
     final crossWindComp =  result['crossWind']!;
     final headTailComp = result['headWind']!;
 
@@ -325,13 +332,15 @@ String? headingCorrectionScreen() {
   double? windSpeedKt;
   double? trueAirspeedTas;
 
-  bool windDirExits = MenuLogic.dataResult.containsKey('windDirection');
-  bool windSpeedExits = MenuLogic.dataResult.containsKey('windSpeed');
-  bool trueAirExits = MenuLogic.dataResult.containsKey('trueAirspeed');
+  // Checking if wind direction, wind speed, and true airspeed was previously input or calculated.
+  bool windDirExists = MenuLogic.dataResult.containsKey('windDirection');
+  bool windSpeedExists = MenuLogic.dataResult.containsKey('windSpeed');
+  bool trueAirExists = MenuLogic.dataResult.containsKey('trueAirspeed');
 
   MenuLogic.selectedOption = null;
 
   while (MenuLogic.selectedOption == null) {
+    // Creating input object for each input.
     final trueCourseInput = MenuLogic.screenType(InputType.trueCourse, trueCourse);
     final windDirInput = MenuLogic.screenType(InputType.windDirection, windDirection);
     final windSpeedInput = MenuLogic.screenType(InputType.windSpeed, windSpeedKt);
@@ -339,20 +348,21 @@ String? headingCorrectionScreen() {
 
     MenuLogic.screenHeader(title: 'HEADING/WIND CORRECTION ANGLE (WCA)');
 
-    if ([windDirExits, windSpeedExits, trueAirExits].contains(true)) {
+    // If the user decides to autofill the calculated or input values they will be autofilled.
+    if ([windDirExists, windSpeedExists, trueAirExists].contains(true)) {
       console.setTextStyle(italic: true);
       console.writeLine(MenuLogic.inputNames['autofill']);
       MenuLogic.userInput = input(': ')?.toLowerCase();
 
       if (MenuLogic.userInput == 'y' || MenuLogic.userInput == 'yes') {
-        windDirection = (windDirExits) ? MenuLogic.dataResult['windDirection']?.toDouble() : null;
-        windSpeedKt = (windSpeedExits) ? MenuLogic.dataResult['windSpeed']?.toDouble() : null;
-        trueAirspeedTas = (trueAirExits) ? MenuLogic.dataResult['trueAirspeed']?.toDouble() : null;
+        windDirection = (windDirExists) ? MenuLogic.dataResult['windDirection']?.toDouble() : null;
+        windSpeedKt = (windSpeedExists) ? MenuLogic.dataResult['windSpeed']?.toDouble() : null;
+        trueAirspeedTas = (trueAirExists) ? MenuLogic.dataResult['trueAirspeed']?.toDouble() : null;
       }
 
-      windDirExits = false;
-      windSpeedExits = false;
-      trueAirExits = false;
+      windDirExists = false;
+      windSpeedExists = false;
+      trueAirExists = false;
 
       console.clearScreen();
       continue;
@@ -380,6 +390,7 @@ String? headingCorrectionScreen() {
 
     MenuLogic.dataResult['trueAirspeed'] = trueAirspeedTas!; // saving true airspeed input for reuse
 
+    // Calculating wind correction angle.
     final windCorrectionAngle = correctionAngle(
         trueCourse: trueCourse!,
         windDirection: windDirection,
@@ -387,6 +398,7 @@ String? headingCorrectionScreen() {
         trueAirspeed: trueAirspeedTas
     ).round();
 
+    // To make sure true heading is not equal to more than 360.
     var trueHeading = trueCourse + windCorrectionAngle;
     if (trueHeading > 360) {
       trueHeading -= 360;
@@ -403,6 +415,7 @@ String? headingCorrectionScreen() {
       'Ground Speed: ${groundSpeedKt.round()}kt'
     ]);
 
+    // Asking the user weather to go back to the main menu or stay in this option for new calculations.
     if (!MenuLogic.backToMenu()) {
       console.clearScreen();
       // Resetting all the variables for new calculations.
@@ -411,9 +424,9 @@ String? headingCorrectionScreen() {
       windSpeedKt = null;
       trueAirspeedTas = null;
 
-      windDirExits = true;
-      windSpeedExits = true;
-      trueAirExits = true;
+      windDirExists = true;
+      windSpeedExists = true;
+      trueAirExists = true;
 
       continue;
     }
