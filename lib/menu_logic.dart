@@ -304,9 +304,9 @@ class MenuLogic {
     return false;
   }
 
-  static bool backToMenu() {
+  static bool backToMenu([String text = 'Back to main menu: [Y] yes (any key) ——— [N] no?']) {
     console.setTextStyle(italic: true);
-    console.writeLine('Back to main menu: [Y] yes (any key) ——— [N] no?');
+    console.writeLine(text);
     userInput = input(': ')?.toLowerCase().trim();
 
     if (userInput == 'n' || userInput == 'no') {
