@@ -163,17 +163,17 @@ int trueCourseChecker() {
 double _saturationVapor({required double tempC}) {
   // Returns saturation vapor pressure in Pascals
   // Private function to calculate the partial vapor pressure
-  const double eso = 6.1078;
-  const double c0 = 0.99999683;
-  const double c1 = -0.90826951 * 1e-2;
-  const double c2 = 0.78736169 * 1e-4;
-  const double c3 = -0.61117958 * 1e-6;
-  const double c4 = 0.43884187 * 1e-8;
-  const double c5 = -0.29883885 * 1e-10;
-  const double c6 = 0.21874425 * 1e-12;
-  const double c7 = -0.17892321 * 1e-14;
-  const double c8 = 0.11112018 * 1e-16;
-  const double c9 = -0.30994571 * 1e-19;
+  const eso = 6.1078;
+  const c0 = 0.99999683;
+  const c1 = -0.90826951 * 1e-2;
+  const c2 = 0.78736169 * 1e-4;
+  const c3 = -0.61117958 * 1e-6;
+  const c4 = 0.43884187 * 1e-8;
+  const c5 = -0.29883885 * 1e-10;
+  const c6 = 0.21874425 * 1e-12;
+  const c7 = -0.17892321 * 1e-14;
+  const c8 = 0.11112018 * 1e-16;
+  const c9 = -0.30994571 * 1e-19;
 
   final p =
       c0 + tempC *
