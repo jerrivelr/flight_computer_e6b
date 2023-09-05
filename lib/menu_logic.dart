@@ -17,6 +17,8 @@ enum InputType {
   trueCourse,
   trueAirspeed,
   fuelVolume,
+  fuelRate,
+
 }
 
 class MenuLogic {
@@ -41,6 +43,7 @@ class MenuLogic {
     'trueCourse' : 'Course°: ',
     'trueAirspeed': 'True Airspeed (kt): ',
     'fuelVolume': 'Fuel Volume (Gal): ',
+    'fuelRate': 'Fuel Rate (Gal/hr): ',
 
   };
 
@@ -224,6 +227,17 @@ class MenuLogic {
             checkNegative: true,
             ifNegative: 'Fuel Volume must be positive',
             autofillText: 'Fuel Volume: ${MenuLogic.formatNumber(variable ?? 0)}Gal'
+        );
+      case InputType.fuelRate:
+        return MenuLogic(
+            variable: variable,
+            optionName: inputNames['fuelRate']!,
+            inCaseInvalid: 'Invalid Fuel Rate',
+            digitLimit: 4,
+            ifDigitLimit: 'Fuel Rate must be less 10,000 Gal/hr',
+            checkNegative: true,
+            ifNegative: 'Fuel Rate must be positive',
+            autofillText: 'Fuel Rate: ${MenuLogic.formatNumber(variable ?? 0)}Gal/hr'
         );
     }
   }
