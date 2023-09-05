@@ -124,7 +124,7 @@ List<String> windComponentString({required double headTail, required double xCro
 
 String? optionMenu({required String title, required String options, required int startRange, required int endRange, required List<String> optionList}) {
   // optionList should be a list with all the names of each option.
-  String error = '';
+  String error = ''; // This variable contains all the error messages to be display if any.
 
   while (true) {
     // Creating the title bar.
