@@ -425,10 +425,6 @@ String? headingCorrectionScreen() {
 String? fuelScreen() {
   String? selection;
 
-  double? fuelVolume;
-  double? time;
-  double? fuelRate;
-
   const fuelOptions =
       'Calculate Fuel...\n'
       '(1) —— Volume (US Gal)\n'
