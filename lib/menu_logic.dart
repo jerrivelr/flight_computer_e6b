@@ -145,7 +145,7 @@ class MenuLogic {
             digitLimit: 2,
             ifDigitLimit: 'Time must be less 100hr',
             ifNegative: 'Time must be positive',
-            autofillText: 'Temperature: ${MenuLogic.formatNumber(variable ?? 0)}hr'
+            autofillText: 'Time: ${MenuLogic.formatNumber(variable ?? 0)} hr'
         );
       case InputType.calibratedAir:
         return MenuLogic(
@@ -226,7 +226,7 @@ class MenuLogic {
             ifDigitLimit: 'Fuel Volume must be less than 100,000 Gal',
             checkNegative: true,
             ifNegative: 'Fuel Volume must be positive',
-            autofillText: 'Fuel Volume: ${MenuLogic.formatNumber(variable ?? 0)}Gal'
+            autofillText: 'Fuel Volume: ${MenuLogic.formatNumber(variable ?? 0)} Gal'
         );
       case InputType.fuelRate:
         return MenuLogic(
@@ -237,7 +237,7 @@ class MenuLogic {
             ifDigitLimit: 'Fuel Rate must be less 10,000 Gal/hr',
             checkNegative: true,
             ifNegative: 'Fuel Rate must be positive',
-            autofillText: 'Fuel Rate: ${MenuLogic.formatNumber(variable ?? 0)}Gal/hr'
+            autofillText: 'Fuel Rate: ${MenuLogic.formatNumber(variable ?? 0)} Gal/hr'
         );
     }
   }

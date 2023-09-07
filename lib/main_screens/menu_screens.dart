@@ -464,11 +464,11 @@ String? fuelScreen() {
         break;
       case 'dur':
         console.clearScreen();
-        print('Endurance');
+        enduranceScreen();
         break;
       case 'rate':
         console.clearScreen();
-        print('Fuel rate');
+        fuelRateScreen();
         break;
       default:
         console.clearScreen();

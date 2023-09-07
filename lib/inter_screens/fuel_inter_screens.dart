@@ -7,23 +7,23 @@ final console = Console();
 
 String? volumeScreen() {
   double? fuelRate;
-  double? duration;
+  double? fuelTime;
 
   MenuLogic.selectedOption = null;
 
   while (MenuLogic.selectedOption == null) {
     final fuelRateInput = MenuLogic.screenType(InputType.fuelRate, fuelRate);
-    final durationInput = MenuLogic.screenType(InputType.time, duration);
+    final durationInput = MenuLogic.screenType(InputType.time, fuelTime);
 
     MenuLogic.screenHeader(title: 'FUEL VOLUME (Gal)');
 
     fuelRate = fuelRateInput.optionLogic();
     if (MenuLogic.repeatLoop(fuelRate)) continue;
 
-    duration = durationInput.optionLogic();
-    if (MenuLogic.repeatLoop(duration)) continue;
+    fuelTime = durationInput.optionLogic();
+    if (MenuLogic.repeatLoop(fuelTime)) continue;
 
-    final fuelVolume = fuelRate! * duration!;
+    final fuelVolume = fuelRate! * fuelTime!;
 
     resultPrinter([
       'Fuel Volume: ${MenuLogic.formatNumber(fuelVolume)} Gal',
@@ -34,11 +34,88 @@ String? volumeScreen() {
       console.clearScreen();
       // Resetting all the variables for new calculations.
       fuelRate = null;
-      duration = null;
+      fuelTime = null;
 
       continue;
     }
 
+  }
+
+  return MenuLogic.selectedOption;
+}
+
+String? enduranceScreen() {
+  double? fuelVolume;
+  double? fuelRate;
+
+  MenuLogic.selectedOption = null;
+
+  while (MenuLogic.selectedOption == null) {
+    final volumeInput = MenuLogic.screenType(InputType.fuelVolume, fuelVolume);
+    final fuelRateInput = MenuLogic.screenType(InputType.fuelRate, fuelRate);
+
+    MenuLogic.screenHeader(title: 'FUEL ENDURANCE');
+
+    fuelVolume = volumeInput.optionLogic();
+    if (MenuLogic.repeatLoop(fuelVolume)) continue;
+
+    fuelRate = fuelRateInput.optionLogic();
+    if (MenuLogic.repeatLoop(fuelRate)) continue;
+
+    final endurance = fuelVolume! / fuelRate!;
+
+    resultPrinter([
+      'Fuel Endurance: ${MenuLogic.formatNumber(endurance)} hr',
+      'Fuel Weight: ${MenuLogic.formatNumber(fuelVolume * 6)} Ibs'
+    ]);
+
+    if (!MenuLogic.backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
+      console.clearScreen();
+      // Resetting all the variables for new calculations.
+      fuelVolume = null;
+      fuelRate = null;
+
+      continue;
+    }
+
+  }
+
+  return MenuLogic.selectedOption;
+}
+
+String? fuelRateScreen() {
+  double? fuelVolume;
+  double? fuelTime;
+
+  MenuLogic.selectedOption = null;
+
+  while (MenuLogic.selectedOption == null) {
+    final volumeInput = MenuLogic.screenType(InputType.fuelVolume, fuelVolume);
+    final fuelTimeInput = MenuLogic.screenType(InputType.time, fuelTime);
+
+    MenuLogic.screenHeader(title: 'FUEL RATE');
+
+    fuelVolume = volumeInput.optionLogic();
+    if (MenuLogic.repeatLoop(fuelVolume)) continue;
+
+    fuelTime = fuelTimeInput.optionLogic();
+    if (MenuLogic.repeatLoop(fuelTime)) continue;
+
+    final fuelRate = fuelVolume! / fuelTime!;
+
+    resultPrinter([
+      'Fuel Rate: ${MenuLogic.formatNumber(fuelRate)} Gal/hr',
+      'Fuel Weight: ${MenuLogic.formatNumber(fuelVolume * 6)} Ibs'
+    ]);
+
+    if (!MenuLogic.backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
+      console.clearScreen();
+      // Resetting all the variables for new calculations.
+      fuelVolume = null;
+      fuelTime = null;
+
+      continue;
+    }
   }
 
   return MenuLogic.selectedOption;
