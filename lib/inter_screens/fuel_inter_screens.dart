@@ -1,4 +1,3 @@
-import 'package:flight_e6b/aviation_math.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/menu_logic.dart';
 import 'package:dart_console/dart_console.dart';
