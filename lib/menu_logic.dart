@@ -3,49 +3,30 @@ import 'package:flight_e6b/simple_io.dart';
 import 'package:intl/intl.dart';
 
 enum InputType {
-  temperature,
-  dewpoint,
-  indicatedAlt,
-  baro,
-  distance,
-  time,
-  calibratedAir,
-  pressureAlt,
-  windDirection,
-  windSpeed,
-  runway,
-  trueCourse,
-  trueAirspeed,
-  fuelVolume,
-  fuelRate,
+  temperature('Temperature °C: '),
+  dewpoint('Dewpoint °C: '),
+  indicatedAlt('Indicated Altitude (ft): '),
+  baro('Baro (In Hg): '),
+  distance('Distance (nm): '),
+  time('Time (hr): '),
+  calibratedAir('Calibrated Airspeed (kt): '),
+  pressureAlt('Pressure Altitude (ft): '),
+  windDirection('Wind Direction°: '),
+  windSpeed('Wind Speed (kt): '),
+  runway('Runway°: '),
+  trueCourse('Course°: '),
+  trueAirspeed('True Airspeed (kt): '),
+  fuelVolume('Fuel Volume (Gal): '),
+  fuelRate('Fuel Rate (Gal/hr): ');
 
+  const InputType(this.title);
+  final String title;
 }
 
 class MenuLogic {
-
   static final console = Console();
   // List of possible options while inside a certain screen.
   static const optionList = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5', 'opt6', 'opt7', 'menu', 'exit'];
-  // Stores all the names of all inputs.
-  static const inputNames = {
-    'temp': 'Temperature °C: ',
-    'dew': 'Dewpoint °C: ',
-    'IALT': 'Indicated Altitude (ft): ',
-    'baro': 'Baro (In Hg): ',
-    'distance': 'Distance (nm): ',
-    'time': 'Time (hr): ',
-    'calibratedAir': 'Calibrated Airspeed (kt): ',
-    'pressureAlt': 'Pressure Altitude (ft): ',
-    'windDirection': 'Wind Direction°: ',
-    'windSpeed': 'Wind Speed (kt): ',
-    'runway': 'Runway°: ',
-    'autofill': 'Autofill previously calculated/entered values: [Y] yes ——— [N] no (any key)?',
-    'trueCourse' : 'Course°: ',
-    'trueAirspeed': 'True Airspeed (kt): ',
-    'fuelVolume': 'Fuel Volume (Gal): ',
-    'fuelRate': 'Fuel Rate (Gal/hr): ',
-
-  };
 
   // Stores all user inputs
   static String? userInput;
@@ -91,7 +72,7 @@ class MenuLogic {
       case InputType.temperature:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['temp']!,
+            optionName: InputType.temperature.title,
             inCaseInvalid: 'Invalid Temperature',
             digitLimit: 3,
             ifDigitLimit: 'Temperature must be between (-999°C) — (999°C)',
@@ -100,7 +81,7 @@ class MenuLogic {
       case InputType.dewpoint:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['dew']!,
+            optionName: InputType.dewpoint.title,
             inCaseInvalid: 'Invalid Dewpoint',
             digitLimit: 3,
             ifDigitLimit: 'Dewpoint must be between (-999°C) — (999°C)',
@@ -109,7 +90,7 @@ class MenuLogic {
       case InputType.indicatedAlt:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['IALT']!,
+            optionName: InputType.indicatedAlt.title,
             inCaseInvalid: 'Invalid Indicated Altitude',
             checkNegative: true,
             ifNegative: 'Indicated Altitude must be positive',
@@ -119,7 +100,7 @@ class MenuLogic {
       case InputType.baro:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['baro']!,
+            optionName: InputType.baro.title,
             inCaseInvalid: 'Invalid Altimeter',
             checkNegative: true,
             digitLimit: 2,
@@ -129,7 +110,7 @@ class MenuLogic {
       case InputType.distance:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['distance']!,
+            optionName: InputType.distance.title,
             inCaseInvalid: 'Invalid Distance',
             checkNegative: true,
             ifNegative: 'Distance must be positive',
@@ -139,7 +120,7 @@ class MenuLogic {
       case InputType.time:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['time']!,
+            optionName: InputType.time.title,
             inCaseInvalid: 'Invalid Time. Ex. 1.5.',
             checkNegative: true,
             digitLimit: 2,
@@ -150,7 +131,7 @@ class MenuLogic {
       case InputType.calibratedAir:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['calibratedAir']!,
+            optionName: InputType.calibratedAir.title,
             inCaseInvalid: 'Invalid Calibrated Airspeed',
             checkNegative: true,
             digitLimit: 3,
@@ -161,7 +142,7 @@ class MenuLogic {
       case InputType.pressureAlt:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['pressureAlt']!,
+            optionName: InputType.pressureAlt.title,
             inCaseInvalid: 'Invalid Pressure Altitude',
             checkNegative: true,
             ifDigitLimit: 'Pressure Altitude must less than 100,000ft',
@@ -171,7 +152,7 @@ class MenuLogic {
       case InputType.windDirection:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['windDirection']!,
+            optionName: InputType.windDirection.title,
             inCaseInvalid: 'Invalid Wind Direction',
             checkWindDir: true,
             checkNegative: true,
@@ -181,7 +162,7 @@ class MenuLogic {
       case InputType.windSpeed:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['windSpeed']!,
+            optionName: InputType.windSpeed.title,
             inCaseInvalid: 'Invalid Wind Speed',
             checkNegative: true,
             digitLimit: 3,
@@ -192,7 +173,7 @@ class MenuLogic {
       case InputType.runway:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['runway']!,
+            optionName: InputType.runway.title,
             inCaseInvalid: 'Invalid Runway',
             checkRunway: true,
             autofillText: 'Runway ${MenuLogic.formatNumber(variable ?? 0)}'
@@ -200,7 +181,7 @@ class MenuLogic {
       case InputType.trueCourse:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['trueCourse']!,
+            optionName: InputType.trueCourse.title,
             inCaseInvalid: 'Invalid Course',
             checkTrueDir: true,
             checkNegative: true,
@@ -210,7 +191,7 @@ class MenuLogic {
       case InputType.trueAirspeed:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['trueAirspeed']!,
+            optionName: InputType.trueAirspeed.title,
             inCaseInvalid: 'Invalid True Airspeed',
             digitLimit: 3,
             checkNegative: true,
@@ -221,7 +202,7 @@ class MenuLogic {
       case InputType.fuelVolume:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['fuelVolume']!,
+            optionName: InputType.fuelVolume.title,
             inCaseInvalid: 'Invalid Fuel Volume',
             ifDigitLimit: 'Fuel Volume must be less than 100,000 Gal',
             checkNegative: true,
@@ -231,7 +212,7 @@ class MenuLogic {
       case InputType.fuelRate:
         return MenuLogic(
             variable: variable,
-            optionName: inputNames['fuelRate']!,
+            optionName: InputType.fuelRate.title,
             inCaseInvalid: 'Invalid Fuel Rate',
             digitLimit: 4,
             ifDigitLimit: 'Fuel Rate must be less 10,000 Gal/hr',

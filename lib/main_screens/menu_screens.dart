@@ -213,7 +213,7 @@ String? trueAirspeedScreen() {
     // If pressure altitude or temperature was input from option 2, the user is asked weather or not they want to autofill.
     if (pressExists || tempExists) {
       console.setTextStyle(italic: true);
-      console.writeLine(MenuLogic.inputNames['autofill']);
+      console.writeLine('Autofill previously calculated/entered values: [Y] yes ——— [N] no (any key)?');
       MenuLogic.userInput = input(': ')?.toLowerCase();
 
       if (MenuLogic.userInput == 'y' || MenuLogic.userInput == 'yes') {
@@ -351,7 +351,7 @@ String? headingCorrectionScreen() {
     // If the user decides to autofill the calculated or input values they will be autofilled.
     if ([windDirExists, windSpeedExists, trueAirExists].contains(true)) {
       console.setTextStyle(italic: true);
-      console.writeLine(MenuLogic.inputNames['autofill']);
+      console.writeLine('Autofill previously calculated/entered values: [Y] yes ——— [N] no (any key)?');
       MenuLogic.userInput = input(': ')?.toLowerCase();
 
       if (MenuLogic.userInput == 'y' || MenuLogic.userInput == 'yes') {
