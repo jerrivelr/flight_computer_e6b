@@ -28,6 +28,9 @@ class MenuLogic {
   // List of possible options while inside a certain screen.
   static const optionList = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5', 'opt6', 'opt7', 'menu', 'exit'];
 
+  static bool noInternet = false; // Checks when there is no internet.
+  static bool backOnline = false; // Checks when the internet comes back.
+
   // Stores all user inputs
   static String? userInput;
   // Stores values that are part of the optionList if userInput equals to one of the options
@@ -306,9 +309,9 @@ class MenuLogic {
 
   }
 
-  static bool repeatLoop(double? number) {
+  static bool repeatLoop(Object? variable) {
     // Make sure the input value is not null and that the screen is refreshed.
-    if (MenuLogic.screenCleared || number == null) {
+    if (MenuLogic.screenCleared || variable == null) {
       MenuLogic.screenCleared = false;
       console.clearScreen();
       return true;

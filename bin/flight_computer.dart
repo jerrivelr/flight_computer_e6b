@@ -3,7 +3,7 @@ import 'package:flight_e6b/main_screens/menu_screens.dart';
 
 final console = Console();
 
-void main(List<String> arguments) {
+Future<void> main(List<String> arguments) async {
   String? userSelection = 'menu';
 
   while (userSelection != 'exit') {
@@ -17,7 +17,7 @@ void main(List<String> arguments) {
         break;
       case 'opt2':
         console.clearScreen();
-        userSelection = pressDensityScreen();
+        userSelection = await pressDensityScreen();
         break;
       case 'opt3':
         console.clearScreen();

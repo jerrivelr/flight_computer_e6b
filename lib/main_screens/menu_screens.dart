@@ -1,9 +1,10 @@
-import 'package:dart_console/dart_console.dart';
-import 'package:flight_e6b/inter_screens/fuel_inter_screens.dart';
-import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/aviation_math.dart';
+import 'package:dart_console/dart_console.dart';
+import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/menu_logic.dart';
 import 'package:flight_e6b/screen_options.dart';
+import 'package:flight_e6b/inter_screens/fuel_inter_screens.dart';
+import 'package:flight_e6b/inter_screens/pd_altitude_inter_screens.dart';
 
 // Used for creating the screens.
 final console = Console();
@@ -75,76 +76,39 @@ String? cloudBaseScreen() {
   return MenuLogic.selectedOption;
 }
 
-String? pressDensityScreen() {
-  double? indicatedAlt;
-  double? pressInHg;
-  double? temperature;
-  double? dewpoint;
+Future<String?> pressDensityScreen() async {
+  String? selection;
+
+  const densityPressOption =
+      'Calculate Pressure/Density Altitude From...\n'
+      '(1) —— Conditions at Airport\n'
+      '(2) —— Manual Values';
+
+  final menuDisplay = OptionMenu(
+      title: 'PRESSURE/DENSITY ALTITUDE',
+      displayOptions: densityPressOption,
+      startRange: 1,
+      endRange: 2,
+      optionList: ['airport', 'manual']
+  );
 
   MenuLogic.selectedOption = null;
 
   while (MenuLogic.selectedOption == null) {
-    // Sending calculated pressure altitude to the dataResult Map.
-    final indicatedAltInput = MenuLogic.screenType(InputType.indicatedAlt, indicatedAlt);
-    final pressInHgInput = MenuLogic.screenType(InputType.baro, pressInHg);
-    final tempInput = MenuLogic.screenType(InputType.temperature, temperature);
-    final dewInput = MenuLogic.screenType(InputType.dewpoint, dewpoint);
+    selection = menuDisplay.displayMenu();
 
-    MenuLogic.screenHeader(title: 'PRESSURE/DENSITY ALTITUDE');
-
-    // Getting indicated altitude
-    indicatedAlt = indicatedAltInput.optionLogic();
-    if (MenuLogic.repeatLoop(indicatedAlt)) continue;
-
-    // Getting altimeter setting
-    pressInHg = pressInHgInput.optionLogic();
-    if (MenuLogic.repeatLoop(pressInHg)) continue;
-
-    // Calculated pressure altitude.
-    final pressure = pressureAlt(indicatedAlt!, pressInHg!);
-
-    // Sending calculated pressure altitude to the dataResult Map.
-    MenuLogic.dataResult['pressureAlt'] = pressure.toDouble();
-    resultPrinter(['Pressure Altitude: ${MenuLogic.formatNumber(pressure)}ft']);
-
-    // Getting temperature.
-    temperature = tempInput.optionLogic();
-    if (MenuLogic.repeatLoop(temperature)) continue;
-
-    MenuLogic.dataResult['temperature'] = temperature!;
-
-    // Getting dewpoint.
-    dewpoint = dewInput.optionLogic();
-    if (MenuLogic.repeatLoop(dewpoint)) {
-      continue;
-    } else if (dewpoint! > temperature) {
-      MenuLogic.error = 'Dewpoint must be less than or equal to temperature';
-      dewpoint = null;
-      console.clearScreen();
-      continue;
-    }
-
-    final density = densityAlt(
-        tempC: temperature,
-        stationInches: pressInHg,
-        dewC: dewpoint,
-        elevation: indicatedAlt
-    );
-
-  // Sending calculated pressure altitude to the dataResult Map.
-  MenuLogic.dataResult['densityAlt'] = density;
-  resultPrinter(['Density Altitude: ${MenuLogic.formatNumber(density)}ft']);
-
-    // Asking user weather to make a new calculation or back to menu.
-    if (!MenuLogic.backToMenu()) {
-      console.clearScreen();
-      // Resetting all the variables for new calculations.
-      indicatedAlt = null;
-      pressInHg = null;
-      temperature = null;
-      dewpoint = null;
-
-      continue;
+    switch (selection) {
+      case 'airport':
+        console.clearScreen();
+        await conditionsAirportScreen();
+        break;
+      case 'manual':
+        console.clearScreen();
+        manualScreen();
+        break;
+      default:
+        console.clearScreen();
+        return selection;
     }
   }
 

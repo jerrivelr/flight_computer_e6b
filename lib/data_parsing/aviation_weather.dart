@@ -19,7 +19,7 @@ Future<List<dynamic>> metar(String airportId, {bool includeTaf = false}) async {
     MenuLogic.noInternet = false;
 
     return jsonMap;
-  } on SocketException catch (e) {
+  } on SocketException {
     MenuLogic.noInternet = true;
     await Future.delayed(Duration(seconds: 2));
     return <dynamic>[];
