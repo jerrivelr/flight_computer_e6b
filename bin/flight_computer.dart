@@ -4,6 +4,7 @@ import 'package:flight_e6b/main_screens/menu_screens.dart';
 final console = Console();
 
 Future<void> main(List<String> arguments) async {
+  console.clearScreen();
   String? userSelection = 'menu';
 
   while (userSelection != 'exit') {
