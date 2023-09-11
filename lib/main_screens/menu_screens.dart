@@ -10,14 +10,16 @@ import 'package:flight_e6b/inter_screens/pd_altitude_inter_screens.dart';
 final console = Console();
 
 String? mainMenu() {
-  const options =
-      '(1) —— Cloud Base (ft)\n'
-      '(2) —— Pressure/Density Altitude (ft)\n'
-      '(3) —— Ground Speed (GS)\n'
-      '(4) —— True Airspeed (TAS)\n'
-      '(5) —— Wind Component\n'
-      '(6) —— Heading/Wind Correction Angle (WCA)\n'
-      '(7) —— Fuel';
+  const options = {
+  '(1) —— ': 'Cloud Base (ft)\n',
+  '(2) —— ': 'Pressure/Density Altitude (ft)\n',
+  '(3) —— ': 'Ground Speed (GS)\n',
+  '(4) —— ': 'True Airspeed (TAS)\n',
+  '(5) —— ': 'Wind Component\n',
+  '(6) —— ': 'Heading/Wind Correction Angle (WCA)\n',
+  '(7) —— ': 'Fuel\n'
+  };
+
 
   final optionList = MenuLogic.optionList.getRange(0, 7).toList();
   final menuDisplay = OptionMenu(
@@ -79,10 +81,12 @@ String? cloudBaseScreen() {
 Future<String?> pressDensityScreen() async {
   String? selection;
 
-  const densityPressOption =
-      'Calculate Pressure/Density Altitude From...\n'
-      '(1) —— Conditions at Airport\n'
-      '(2) —— Manual Values';
+  const densityPressOption = {
+  'Calculate Pressure/Density Altitude From...\n': '',
+  '(1) —— ': 'Conditions at Airport\n',
+  '(2) —— ': 'Manual Values\n'
+  };
+
 
   final menuDisplay = OptionMenu(
       title: 'PRESSURE/DENSITY ALTITUDE',
@@ -402,11 +406,13 @@ String? headingCorrectionScreen() {
 String? fuelScreen() {
   String? selection;
 
-  const fuelOptions =
-      'Calculate Fuel...\n'
-      '(1) —— Volume (US Gal)\n'
-      '(2) —— Endurance (hr)\n'
-      '(3) —— Rate (US GPH)';
+  const fuelOptions = {
+  'Calculate Fuel...\n': '',
+  '(1) —— ': 'Volume (US Gal)\n',
+  '(2) —— ': 'Endurance (hr)\n',
+  '(3) —— ': 'Rate (US GPH)\n'
+  };
+
 
   final menuDisplay = OptionMenu(
       title: 'FUEL',
