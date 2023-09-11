@@ -48,9 +48,9 @@ class MenuLogic {
     required this.variable,
     required this.optionName,
     required this.inCaseInvalid,
+    required this.autofillText,
     this.digitLimit = 5,
     this.ifDigitLimit = 'Invalid number',
-    this.autofillText = '',
     this.ifNegative = '',
     this.invalidDir = '',
     this.checkNegative = false,
@@ -62,10 +62,10 @@ class MenuLogic {
   int digitLimit;
   String optionName;
   String inCaseInvalid;
-  String autofillText;
   String ifNegative;
   String ifDigitLimit;
   String invalidDir;
+  Map<String, String> autofillText;
   bool checkNegative;
   bool checkDir;
   bool checkRunway;
@@ -79,8 +79,7 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Temperature',
             digitLimit: 3,
             ifDigitLimit: 'Temperature must be between (-999°C) — (999°C)',
-            autofillText: 'Temperature: ${MenuLogic.formatNumber(variable ?? 0)}°C '
-        );
+            autofillText: {'Temperature: ': '${MenuLogic.formatNumber(variable ?? 0)}°C '});
       case InputType.dewpoint:
         return MenuLogic(
             variable: variable,
@@ -88,7 +87,7 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Dewpoint',
             digitLimit: 3,
             ifDigitLimit: 'Dewpoint must be between (-999°C) — (999°C)',
-            autofillText: 'Dewpoint: ${MenuLogic.formatNumber(variable ?? 0)}°C'
+            autofillText: {'Dewpoint: ': '${MenuLogic.formatNumber(variable ?? 0)}°C'}
         );
       case InputType.indicatedAlt:
         return MenuLogic(
@@ -98,7 +97,7 @@ class MenuLogic {
             checkNegative: true,
             ifNegative: 'Indicated Altitude must be greater than 0ft',
             ifDigitLimit: 'Indicated Altitude must less than 100,000ft',
-            autofillText: 'Indicated Altitude: ${MenuLogic.formatNumber(variable ?? 0)}ft'
+            autofillText: {'Indicated Altitude: ': '${MenuLogic.formatNumber(variable ?? 0)}ft'}
         );
       case InputType.baro:
         return MenuLogic(
@@ -108,7 +107,7 @@ class MenuLogic {
             checkNegative: true,
             digitLimit: 2,
             ifNegative: 'Altimeter setting must be greater than 0 InHg',
-            autofillText: 'Baro: ${MenuLogic.formatNumber(variable ?? 0)} InHg'
+            autofillText: {'Baro: ': '${MenuLogic.formatNumber(variable ?? 0)} InHg'}
         );
       case InputType.distance:
         return MenuLogic(
@@ -118,7 +117,7 @@ class MenuLogic {
             checkNegative: true,
             ifNegative: 'Distance must be greater than 0nm',
             ifDigitLimit: 'Distance must less than 100,000nm',
-            autofillText: 'Distance: ${MenuLogic.formatNumber(variable ?? 0)}nm'
+            autofillText: {'Distance: ': '${MenuLogic.formatNumber(variable ?? 0)}nm'}
         );
       case InputType.time:
         return MenuLogic(
@@ -129,7 +128,7 @@ class MenuLogic {
             digitLimit: 2,
             ifDigitLimit: 'Time must be less 100hr',
             ifNegative: 'Time must be greater than 0 hr',
-            autofillText: 'Time: ${MenuLogic.formatNumber(variable ?? 0)} hr'
+            autofillText: {'Time: ': '${MenuLogic.formatNumber(variable ?? 0)} hr'}
         );
       case InputType.calibratedAir:
         return MenuLogic(
@@ -140,7 +139,7 @@ class MenuLogic {
             digitLimit: 3,
             ifDigitLimit: 'Calibrated Airspeed must less than 1,000kt',
             ifNegative: 'Calibrated Airspeed must be greater than 0kt',
-            autofillText: 'Calibrated Airspeed: ${MenuLogic.formatNumber(variable ?? 0)}kt'
+            autofillText: {'Calibrated Airspeed: ': '${MenuLogic.formatNumber(variable ?? 0)}kt'}
         );
       case InputType.pressureAlt:
         return MenuLogic(
@@ -150,7 +149,7 @@ class MenuLogic {
             checkNegative: true,
             ifDigitLimit: 'Pressure Altitude must less than 100,000ft',
             ifNegative: 'Pressure Altitude must be greater than 0ft',
-            autofillText: 'Pressure Altitude: ${MenuLogic.formatNumber(variable ?? 0)}ft'
+            autofillText: {'Pressure Altitude: ': '${MenuLogic.formatNumber(variable ?? 0)}ft'}
         );
       case InputType.windDirection:
         return MenuLogic(
@@ -159,7 +158,7 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Wind Direction',
             checkDir: true,
             invalidDir: 'Wind Direction must be between 0° — 360°',
-            autofillText: 'Wind Direction: ${MenuLogic.formatNumber(variable ?? 0)}°'
+            autofillText: {'Wind Direction: ': '${MenuLogic.formatNumber(variable ?? 0)}°'}
         );
       case InputType.windSpeed:
         return MenuLogic(
@@ -170,7 +169,7 @@ class MenuLogic {
             digitLimit: 3,
             ifDigitLimit: 'Wind Speed must less than 1,000kt',
             ifNegative: 'Wind Speed must be greater than 0kt',
-            autofillText: 'Wind Speed: ${MenuLogic.formatNumber(variable ?? 0)}kt'
+            autofillText: {'Wind Speed: ': '${MenuLogic.formatNumber(variable ?? 0)}kt'}
         );
       case InputType.runway:
         return MenuLogic(
@@ -178,7 +177,7 @@ class MenuLogic {
             optionName: InputType.runway.title,
             inCaseInvalid: 'Invalid Runway',
             checkRunway: true,
-            autofillText: 'Runway ${MenuLogic.formatNumber(variable ?? 0)}'
+            autofillText: {'Runway ': '${MenuLogic.formatNumber(variable ?? 0)}'}
         );
       case InputType.trueCourse:
         return MenuLogic(
@@ -187,7 +186,7 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Course',
             checkDir: true,
             invalidDir: 'The Course must be between 0° — 360°',
-            autofillText: 'Course: ${MenuLogic.formatNumber(variable ?? 0)}°'
+            autofillText: {'Course: ': '${MenuLogic.formatNumber(variable ?? 0)}°'}
         );
       case InputType.trueAirspeed:
         return MenuLogic(
@@ -198,7 +197,7 @@ class MenuLogic {
             checkNegative: true,
             ifDigitLimit: 'True Airspeed must less than 1,000kt',
             ifNegative: 'True Airspeed must be positive',
-            autofillText: 'True Airspeed: ${MenuLogic.formatNumber(variable ?? 0)}kt'
+            autofillText: {'True Airspeed: ': '${MenuLogic.formatNumber(variable ?? 0)}kt'}
         );
       case InputType.fuelVolume:
         return MenuLogic(
@@ -208,7 +207,7 @@ class MenuLogic {
             ifDigitLimit: 'Fuel Volume must be less than 100,000 Gal',
             checkNegative: true,
             ifNegative: 'Fuel Volume must be positive',
-            autofillText: 'Fuel Volume: ${MenuLogic.formatNumber(variable ?? 0)} Gal'
+            autofillText: {'Fuel Volume: ': '${MenuLogic.formatNumber(variable ?? 0)} Gal'}
         );
       case InputType.fuelRate:
         return MenuLogic(
@@ -219,7 +218,7 @@ class MenuLogic {
             ifDigitLimit: 'Fuel Rate must be less 10,000 Gal/hr',
             checkNegative: true,
             ifNegative: 'Fuel Rate must be greater than 0 Gal/hr',
-            autofillText: 'Fuel Rate: ${MenuLogic.formatNumber(variable ?? 0)} Gal/hr'
+            autofillText: {'Fuel Rate: ': '${MenuLogic.formatNumber(variable ?? 0)} Gal/hr'}
         );
     }
   }
@@ -259,7 +258,14 @@ class MenuLogic {
         return variable;
 
       } else {
-        console.writeLine(autofillText);
+        for (final item in autofillText.entries) {
+          console.setForegroundExtendedColor(253);
+          console.write(item.key);
+          console.setForegroundExtendedColor(180);
+          console.writeLine(item.value);
+
+          console.resetColorAttributes();
+        }
         return variable;
       }
     }
@@ -322,7 +328,7 @@ class MenuLogic {
 
   static void screenHeader({required String title, int color = 22, bool errorWindow = true}) {
     console.setBackgroundExtendedColor(color);
-    console.setForegroundColor(ConsoleColor.white);
+    console.setForegroundExtendedColor(253);
     console.setTextStyle(bold: true, italic: true);
 
     console.writeLine(title, TextAlignment.center);
