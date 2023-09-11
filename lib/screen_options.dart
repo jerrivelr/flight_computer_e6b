@@ -8,7 +8,7 @@ class OptionMenu {
   String? _currentSelection;
 
   final String title;
-  final String displayOptions;
+  final Map<String, String> displayOptions;
   final int startRange;
   final int endRange;
   final List<String> optionList;
@@ -29,11 +29,23 @@ class OptionMenu {
     while (true) {
       // Creating the title bar.
       MenuLogic.screenHeader(title: title, errorWindow: false);
-      console.setForegroundColor(ConsoleColor.white);
-      console.setTextStyle(bold: true, italic: true);
 
-      // Displaying the list of options.
-      console.writeLine(displayOptions);
+      for (final items in displayOptions.entries) {
+        console.setForegroundColor(ConsoleColor.white);
+        if (items.key.length > 7) {
+          console.resetColorAttributes();
+          console.write(items.key);
+          continue;
+        }
+        console.setForegroundExtendedColor(180);
+        console.write(items.key);
+
+        console.setTextStyle(bold: true, italic: true);
+        console.setForegroundExtendedColor(253);
+        console.write(items.value);
+
+        console.resetColorAttributes();
+      }
       // Displaying error messages bellow the list of displayOptions
       errorMessage(error);
       console.setForegroundExtendedColor(250);
