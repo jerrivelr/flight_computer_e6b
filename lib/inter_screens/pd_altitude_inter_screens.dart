@@ -9,7 +9,6 @@ import 'package:flight_e6b/simple_io.dart';
 final console = Console();
 
 Future<String?> conditionsAirportScreen() async {
-  final validAirport = RegExp(r'^\w{3,4}$'); // To check the airport identifier.
   AirportData? airportData;
 
   MenuLogic.selectedOption = null;
@@ -21,23 +20,17 @@ Future<String?> conditionsAirportScreen() async {
 
     final airportId = airportData.airportId;
 
-    final airpName = airportName(airportId ?? '');
-    final airpElevation = airportElevation(airportId ?? '');
     final airpName = await airportData.airportName();
     final airpElevation = await airportData.airportElevation();
 
-    if (!validAirport.hasMatch(airportId!)) {
+    if (_invalidAirportFormat(airportId)) {
       // Airport invalid and screens updates.
-      console.clearScreen();
-      MenuLogic.error = 'Invalid Airport';
-      airportId = null;
+      airportData = null;
       continue;
 
-    } else if (airpName == null) {
+    } else if (_airportNotFound(airpName)) {
       // Airport not in the airports.json file
-      console.clearScreen();
-      MenuLogic.error = 'Airport Not Found';
-      airportId = null;
+      airportData = null;
       continue;
 
     } else if (MenuLogic.repeatLoop(airportId)) {
@@ -48,9 +41,6 @@ Future<String?> conditionsAirportScreen() async {
       continue;
     }
 
-    // Prints the airport name, not the identifier.
-    console.writeLine('Airport: $airpName');
-
     // Downloads METAR information from the selected airport.
     final downloadMetar = await metar(airportId);
     // Checks for no internet connection and when the connection comes back.
@@ -60,15 +50,27 @@ Future<String?> conditionsAirportScreen() async {
       await Future.delayed(Duration(seconds: 2));
       console.clearScreen();
       continue;
+
     } else if (MenuLogic.backOnline) {
       MenuLogic.error = '';
-      console.clearScreen();
       MenuLogic.backOnline = false;
+      console.clearScreen();
+      continue;
+
+    } else if (downloadMetar.isEmpty) {
+      MenuLogic.error = 'No Weather Information Available for $airpName';
+      airportData = null;
+
+      MenuLogic.screenCleared = true;
+      console.clearScreen();
       continue;
     }
 
     // Makes a map with all downloaded METAR data from easier access.
     final metarData = Metar.fromJson(downloadMetar);
+
+    // Prints the airport name, not the identifier.
+    console.writeLine('Airport: $airpName ($airportId)');
 
     // Data for calculation.
     final elevation = airpElevation?.toDouble();
@@ -106,7 +108,7 @@ Future<String?> conditionsAirportScreen() async {
     if (!MenuLogic.backToMenu(text: 'Back to Pressure/Density Altitude Menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt2')) {
       console.clearScreen();
       // Resetting all the variables for new calculations.
-      airportId = null;
+      airportData = null;
       MenuLogic.screenCleared = true;
 
       continue;
@@ -190,4 +192,28 @@ String? manualScreen() {
   }
 
   return MenuLogic.selectedOption;
+}
+
+bool _invalidAirportFormat(String id) {
+  // Airport invalid and screens updates.
+  final validAirport = RegExp(r'^\w{3,4}$'); // To check the airport identifier.
+
+  if (validAirport.hasMatch(id)) {
+    return false;
+  }
+  console.clearScreen();
+  MenuLogic.error = 'Enter ICAO/IATA Airport Code';
+
+  return true;
+}
+
+bool _airportNotFound(String? airportName) {
+
+  if (airportName == null) {
+    console.clearScreen();
+    MenuLogic.error = 'Airport Not Found';
+    return true;
+  }
+
+  return false;
 }
