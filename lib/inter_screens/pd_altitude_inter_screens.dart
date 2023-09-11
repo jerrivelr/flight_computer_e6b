@@ -9,19 +9,22 @@ import 'package:flight_e6b/simple_io.dart';
 final console = Console();
 
 Future<String?> conditionsAirportScreen() async {
-  final validAirport = RegExp(r'^[A-Za-z]{4}$'); // To check the airport identifier.
-  String? airportId; // Stores airport identifier.
+  final validAirport = RegExp(r'^\w{3,4}$'); // To check the airport identifier.
+  AirportData? airportData;
 
   MenuLogic.selectedOption = null;
   MenuLogic.screenCleared = true;
 
   while(MenuLogic.selectedOption == null) {
     MenuLogic.screenHeader(title: 'PRESSURE/DENSITY ALTITUDE');
+    airportData ??= AirportData.inputCheck();
 
-    airportId ??= input('Airport ID: ')?.toUpperCase();
+    final airportId = airportData.airportId;
 
     final airpName = airportName(airportId ?? '');
     final airpElevation = airportElevation(airportId ?? '');
+    final airpName = await airportData.airportName();
+    final airpElevation = await airportData.airportElevation();
 
     if (!validAirport.hasMatch(airportId!)) {
       // Airport invalid and screens updates.
