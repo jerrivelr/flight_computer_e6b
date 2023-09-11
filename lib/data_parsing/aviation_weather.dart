@@ -23,5 +23,8 @@ Future<List<dynamic>> metar(String airportId, {bool includeTaf = false}) async {
     MenuLogic.noInternet = true;
     await Future.delayed(Duration(seconds: 2));
     return <dynamic>[];
+  } on HandshakeException {
+    // TODO add an implentation
+    return <dynamic>[];
   }
 }
