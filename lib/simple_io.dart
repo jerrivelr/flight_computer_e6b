@@ -9,6 +9,8 @@ String? input([String? printOut]) {
   if (printOut != null) {
     stdout.write(printOut);
   }
+  console.setForegroundExtendedColor(180);
+
   final String? userInput = stdin.readLineSync();
 
   return userInput?.trim();
@@ -100,7 +102,6 @@ void resultPrinter(List<String> displayString) {
   }
 
   console.write(table);
-  console.setTextStyle(bold: true, italic: true);
 }
 
 List<String> windComponentString({required double headTail, required double xCross}) {
