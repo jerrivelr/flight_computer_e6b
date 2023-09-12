@@ -31,8 +31,8 @@ class OptionMenu {
       MenuLogic.screenHeader(title: title, errorWindow: false);
 
       for (final items in displayOptions.entries) {
-        console.setForegroundColor(ConsoleColor.white);
         if (items.key.length > 7) {
+          console.setForegroundColor(ConsoleColor.white);
           console.resetColorAttributes();
           console.write(items.key);
           continue;
