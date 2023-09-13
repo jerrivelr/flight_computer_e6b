@@ -122,3 +122,11 @@ List<String> windComponentString({required double headTail, required double xCro
   return finalString;
 }
 
+void printDownData(Map<String, String> data) {
+  for (final item in data.entries) {
+    console.setForegroundExtendedColor(253);
+    console.write(item.key);
+    console.setForegroundExtendedColor(180);
+    console.write(item.value);
+  }
+}
