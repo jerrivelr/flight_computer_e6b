@@ -69,22 +69,22 @@ Future<String?> conditionsAirportScreen() async {
     // Makes a map with all downloaded METAR data from easier access.
     final metarData = Metar.fromJson(downloadMetar);
 
-    // Prints the airport name, not the identifier.
-    console.writeLine('Airport: $airpName ($airportId)');
-
     // Data for calculation.
     final elevation = airpElevation?.toDouble();
     final temperature = metarData.temperature?.toDouble();
     final dewpoint = metarData.dewpoint?.toDouble();
     final altimeter = metarData.altimeterInHg.toDouble();
 
-    console.writeLine(
-      'METAR: ${metarData.rawMetar}\n'
-      'Elevation: ${elevation?.round()}ft\n'
-      'Temperature: ${MenuLogic.formatNumber(temperature ?? 0)}°C\n'
-      'Dewpoint: ${MenuLogic.formatNumber(dewpoint ?? 0)}°C\n'
-      'Altimeter: ${MenuLogic.formatNumber(altimeter)} InHg'
-    );
+    final result = {
+        'Airport: ': '$airpName ($airportId)\n',
+        'METAR: ': '${metarData.rawMetar}\n',
+        'Elevation: ': '${elevation?.round()}ft\n',
+        'Temperature: ': '${MenuLogic.formatNumber(temperature ?? 0)}°C\n',
+        'Dewpoint: ': '${MenuLogic.formatNumber(dewpoint ?? 0)}°C\n',
+        'Altimeter: ': '${MenuLogic.formatNumber(altimeter)} InHg\n'
+    };
+
+    printDownData(result); // Prints downloaded data with colors.
 
     // Calculated pressure altitude.
     final pressure = pressureAlt(elevation!, altimeter);
@@ -217,3 +217,4 @@ bool _airportNotFound(String? airportName) {
 
   return false;
 }
+
