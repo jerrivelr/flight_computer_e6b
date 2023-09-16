@@ -1,16 +1,14 @@
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/menu_logic.dart';
-import 'package:dart_console/dart_console.dart';
-
-final console = Console();
+import 'package:flight_e6b/communication_var.dart' as comm;
 
 String? volumeScreen() {
   double? fuelRate;
   double? fuelTime;
 
-  MenuLogic.selectedOption = null;
+  comm.selectedOption = null;
 
-  while (MenuLogic.selectedOption == null) {
+  while (comm.selectedOption == null) {
     final fuelRateInput = MenuLogic.screenType(InputType.fuelRate, fuelRate);
     final durationInput = MenuLogic.screenType(InputType.time, fuelTime);
 
@@ -30,7 +28,7 @@ String? volumeScreen() {
     ]);
 
     if (!MenuLogic.backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
-      console.clearScreen();
+      comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       fuelRate = null;
       fuelTime = null;
@@ -40,16 +38,16 @@ String? volumeScreen() {
 
   }
 
-  return MenuLogic.selectedOption;
+  return comm.selectedOption;
 }
 
 String? enduranceScreen() {
   double? fuelVolume;
   double? fuelRate;
 
-  MenuLogic.selectedOption = null;
+  comm.selectedOption = null;
 
-  while (MenuLogic.selectedOption == null) {
+  while (comm.selectedOption == null) {
     final volumeInput = MenuLogic.screenType(InputType.fuelVolume, fuelVolume);
     final fuelRateInput = MenuLogic.screenType(InputType.fuelRate, fuelRate);
 
@@ -69,7 +67,7 @@ String? enduranceScreen() {
     ]);
 
     if (!MenuLogic.backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
-      console.clearScreen();
+      comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       fuelVolume = null;
       fuelRate = null;
@@ -79,16 +77,16 @@ String? enduranceScreen() {
 
   }
 
-  return MenuLogic.selectedOption;
+  return comm.selectedOption;
 }
 
 String? fuelRateScreen() {
   double? fuelVolume;
   double? fuelTime;
 
-  MenuLogic.selectedOption = null;
+  comm.selectedOption = null;
 
-  while (MenuLogic.selectedOption == null) {
+  while (comm.selectedOption == null) {
     final volumeInput = MenuLogic.screenType(InputType.fuelVolume, fuelVolume);
     final fuelTimeInput = MenuLogic.screenType(InputType.time, fuelTime);
 
@@ -108,7 +106,7 @@ String? fuelRateScreen() {
     ]);
 
     if (!MenuLogic.backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
-      console.clearScreen();
+      comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       fuelVolume = null;
       fuelTime = null;
@@ -117,5 +115,5 @@ String? fuelRateScreen() {
     }
   }
 
-  return MenuLogic.selectedOption;
+  return comm.selectedOption;
 }

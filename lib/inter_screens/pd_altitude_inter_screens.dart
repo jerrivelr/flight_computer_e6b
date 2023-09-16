@@ -1,20 +1,19 @@
 import 'package:flight_e6b/airport_database/airport_data.dart';
 import 'package:flight_e6b/aviation_math.dart';
 import 'package:flight_e6b/data_parsing/aviation_weather.dart';
-import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/data_parsing/metar_data.dart';
 import 'package:flight_e6b/menu_logic.dart';
 import 'package:flight_e6b/simple_io.dart';
+import 'package:flight_e6b/communication_var.dart' as comm;
 
-final console = Console();
 
 Future<String?> conditionsAirportScreen() async {
   AirportData? airportData;
 
-  MenuLogic.selectedOption = null;
-  MenuLogic.screenCleared = true;
+  comm.selectedOption = null;
+  comm.screenCleared = true;
 
-  while(MenuLogic.selectedOption == null) {
+  while(comm.selectedOption == null) {
     MenuLogic.screenHeader(title: 'PRESSURE/DENSITY ALTITUDE');
     airportData ??= AirportData.inputCheck();
 
@@ -35,34 +34,34 @@ Future<String?> conditionsAirportScreen() async {
 
     } else if (MenuLogic.repeatLoop(airportId)) {
       // Makes one loop to redraw the screen.
-      console.clearScreen();
-      MenuLogic.screenCleared = false;
-      MenuLogic.error = '';
+      comm.console.clearScreen();
+      comm.screenCleared = false;
+      comm.error = '';
       continue;
     }
 
     // Downloads METAR information from the selected airport.
     final downloadMetar = await metar(airportId);
     // Checks for no internet connection and when the connection comes back.
-    if (MenuLogic.noInternet) {
-      MenuLogic.error = 'Check your internet connection. Waiting...';
-      MenuLogic.backOnline = MenuLogic.noInternet;
+    if (comm.noInternet) {
+      comm.error = 'Check your internet connection. Waiting...';
+      comm.backOnline = comm.noInternet;
       await Future.delayed(Duration(seconds: 2));
-      console.clearScreen();
+      comm.console.clearScreen();
       continue;
 
-    } else if (MenuLogic.backOnline) {
-      MenuLogic.error = '';
-      MenuLogic.backOnline = false;
-      console.clearScreen();
+    } else if (comm.backOnline) {
+      comm.error = '';
+      comm.backOnline = false;
+      comm.console.clearScreen();
       continue;
 
     } else if (downloadMetar.isEmpty) {
-      MenuLogic.error = 'No Weather Information Available for $airpName';
+      comm.error = 'No Weather Information Available for $airpName';
       airportData = null;
 
-      MenuLogic.screenCleared = true;
-      console.clearScreen();
+      comm.screenCleared = true;
+      comm.console.clearScreen();
       continue;
     }
 
@@ -88,7 +87,7 @@ Future<String?> conditionsAirportScreen() async {
 
     // Calculated pressure altitude.
     final pressure = pressureAlt(elevation!, altimeter);
-    MenuLogic.dataResult['pressureAlt'] = pressure.toDouble();
+    comm.dataResult['pressureAlt'] = pressure.toDouble();
 
     // Calculated density altitude
     final density = densityAlt(
@@ -98,24 +97,24 @@ Future<String?> conditionsAirportScreen() async {
         elevation: elevation
     );
 
-    // Sending calculated density altitude to the dataResult Map.
-    MenuLogic.dataResult['densityAlt'] = density;
+    // Sending calculated density altitude to comm dataResult Map.
+    comm.dataResult['densityAlt'] = density;
     resultPrinter([
       'Pressure Altitude: ${formatNumber(pressure)}ft',
       'Density Altitude: ${formatNumber(density)}ft']
     );
 
     if (!MenuLogic.backToMenu(text: 'Back to Pressure/Density Altitude Menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt2')) {
-      console.clearScreen();
+      comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       airportData = null;
-      MenuLogic.screenCleared = true;
+      comm.screenCleared = true;
 
       continue;
     }
   }
 
-  return MenuLogic.selectedOption;
+  return comm.selectedOption;
 }
 
 String? manualScreen() {
@@ -124,10 +123,10 @@ String? manualScreen() {
   double? temperature;
   double? dewpoint;
 
-  MenuLogic.selectedOption = null;
+  comm.selectedOption = null;
 
-  while (MenuLogic.selectedOption == null) {
-    // Sending calculated pressure altitude to the dataResult Map.
+  while (comm.selectedOption == null) {
+    // Sending calculated pressure altitude to comm dataResult Map.
     final indicatedAltInput = MenuLogic.screenType(InputType.indicatedAlt, indicatedAlt);
     final pressInHgInput = MenuLogic.screenType(InputType.baro, pressInHg);
     final tempInput = MenuLogic.screenType(InputType.temperature, temperature);
@@ -146,24 +145,24 @@ String? manualScreen() {
     // Calculated pressure altitude.
     final pressure = pressureAlt(indicatedAlt!, pressInHg!);
 
-    // Sending calculated pressure altitude to the dataResult Map.
-    MenuLogic.dataResult['pressureAlt'] = pressure.toDouble();
+    // Sending calculated pressure altitude to comm dataResult Map.
+    comm.dataResult['pressureAlt'] = pressure.toDouble();
     resultPrinter(['Pressure Altitude: ${formatNumber(pressure)}ft']);
 
     // Getting temperature.
     temperature = tempInput.optionLogic();
     if (MenuLogic.repeatLoop(temperature)) continue;
 
-    MenuLogic.dataResult['temperature'] = temperature!;
+    comm.dataResult['temperature'] = temperature!;
 
     // Getting dewpoint.
     dewpoint = dewInput.optionLogic();
     if (MenuLogic.repeatLoop(dewpoint)) {
       continue;
     } else if (dewpoint! > temperature) {
-      MenuLogic.error = 'Dewpoint must be less than or equal to temperature';
+      comm.error = 'Dewpoint must be less than or equal to temperature';
       dewpoint = null;
-      console.clearScreen();
+      comm.console.clearScreen();
       continue;
     }
 
@@ -174,13 +173,13 @@ String? manualScreen() {
         elevation: indicatedAlt
     );
 
-    // Sending calculated pressure altitude to the dataResult Map.
-    MenuLogic.dataResult['densityAlt'] = density;
+    // Sending calculated pressure altitude to comm dataResult Map.
+    comm.dataResult['densityAlt'] = density;
     resultPrinter(['Density Altitude: ${formatNumber(density)}ft']);
 
     // Asking user weather to make a new calculation or back to menu.
     if (!MenuLogic.backToMenu(text: 'Back to Pressure/Density Altitude Menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt2')) {
-      console.clearScreen();
+      comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       indicatedAlt = null;
       pressInHg = null;
@@ -191,7 +190,7 @@ String? manualScreen() {
     }
   }
 
-  return MenuLogic.selectedOption;
+  return comm.selectedOption;
 }
 
 bool _invalidAirportFormat(String id) {
@@ -201,8 +200,8 @@ bool _invalidAirportFormat(String id) {
   if (validAirport.hasMatch(id)) {
     return false;
   }
-  console.clearScreen();
-  MenuLogic.error = 'Enter ICAO/IATA Airport Code';
+  comm.console.clearScreen();
+  comm.error = 'Enter ICAO/IATA Airport Code';
 
   return true;
 }
@@ -210,8 +209,8 @@ bool _invalidAirportFormat(String id) {
 bool _airportNotFound(String? airportName) {
 
   if (airportName == null) {
-    console.clearScreen();
-    MenuLogic.error = 'Airport Not Found';
+    comm.console.clearScreen();
+    comm.error = 'Airport Not Found';
     return true;
   }
 

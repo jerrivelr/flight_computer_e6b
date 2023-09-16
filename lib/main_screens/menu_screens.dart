@@ -1,13 +1,10 @@
 import 'package:flight_e6b/aviation_math.dart';
-import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/menu_logic.dart';
 import 'package:flight_e6b/screen_options.dart';
 import 'package:flight_e6b/inter_screens/fuel_inter_screens.dart';
 import 'package:flight_e6b/inter_screens/pd_altitude_inter_screens.dart';
-
-// Used for creating the screens.
-final console = Console();
+import 'package:flight_e6b/communication_var.dart' as comm;
 
 String? mainMenu() {
   const options = {
@@ -21,13 +18,13 @@ String? mainMenu() {
   };
 
 
-  final optionList = MenuLogic.optionList.getRange(0, 7).toList();
+  final optionList = comm.optionList.getRange(0, 7).toList();
   final menuDisplay = OptionMenu(
       title: 'FLIGHT COMPUTER (E6B)',
       displayOptions: options,
       startRange: 1,
       endRange: 7,
-      optionList: optionList
+      listOfOptions: optionList
   );
   return menuDisplay.displayMenu();
 }
@@ -36,10 +33,10 @@ String? cloudBaseScreen() {
   double? temperature;
   double? dewpoint;
 
-  MenuLogic.selectedOption = null;
+  comm.selectedOption = null;
 
-  while (MenuLogic.selectedOption == null) {
-    // Sending calculated pressure altitude to the dataResult Map.
+  while (comm.selectedOption == null) {
+    // Sending calculated pressure altitucomm dataResult Map.
     final tempInput = MenuLogic.screenType(InputType.temperature, temperature);
     final dewInput = MenuLogic.screenType(InputType.dewpoint, dewpoint);
 
@@ -54,9 +51,9 @@ String? cloudBaseScreen() {
     if (MenuLogic.repeatLoop(dewpoint)) {
       continue;
     } else if (dewpoint! > temperature!) {
-      MenuLogic.error = 'Dewpoint must be less than or equal to temperature';
+      comm.error = 'Dewpoint must be less than or equal to temperature';
       dewpoint = null;
-      console.clearScreen();
+      comm.console.clearScreen();
       continue;
     }
 
@@ -66,7 +63,7 @@ String? cloudBaseScreen() {
 
     // Asking user weather to make a new calculation or back to menu.
     if (!MenuLogic.backToMenu()) {
-      console.clearScreen();
+      comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       temperature = null;
       dewpoint = null;
@@ -75,14 +72,14 @@ String? cloudBaseScreen() {
     }
   }
 
-  return MenuLogic.selectedOption;
+  return comm.selectedOption;
 }
 
 Future<String?> pressDensityScreen() async {
   String? selection;
 
   const densityPressOption = {
-  'Calculate Pressure/Density Altitude From...\n': '',
+  'Calculate Pressure/Density Altitude From...\n': 'noColor',
   '(1) —— ': 'Conditions at Airport\n',
   '(2) —— ': 'Manual Values\n'
   };
@@ -93,39 +90,39 @@ Future<String?> pressDensityScreen() async {
       displayOptions: densityPressOption,
       startRange: 1,
       endRange: 2,
-      optionList: ['airport', 'manual']
+      listOfOptions: ['airport', 'manual']
   );
 
-  MenuLogic.selectedOption = null;
+  comm.selectedOption = null;
 
-  while (MenuLogic.selectedOption == null) {
+  while (comm.selectedOption == null) {
     selection = menuDisplay.displayMenu();
 
     switch (selection) {
       case 'airport':
-        console.clearScreen();
+        comm.console.clearScreen();
         await conditionsAirportScreen();
         break;
       case 'manual':
-        console.clearScreen();
+        comm.console.clearScreen();
         manualScreen();
         break;
       default:
-        console.clearScreen();
+        comm.console.clearScreen();
         return selection;
     }
   }
 
-  return MenuLogic.selectedOption;
+  return comm.selectedOption;
 }
 
 String? groundSpeedScreen() {
   double? distanceNm;
   double? timeHr;
 
-  MenuLogic.selectedOption = null;
+  comm.selectedOption = null;
 
-  while (MenuLogic.selectedOption == null) {
+  while (comm.selectedOption == null) {
     // Creating input object for each input.
     final distanceInput = MenuLogic.screenType(InputType.distance, distanceNm);
     final timeInput = MenuLogic.screenType(InputType.time, timeHr);
@@ -141,13 +138,13 @@ String? groundSpeedScreen() {
     if (MenuLogic.repeatLoop(timeHr)) continue;
 
     final calGroundSpeed = groundSpeed(distanceNm!, timeHr!);
-    MenuLogic.dataResult['groundSpeed'] = calGroundSpeed; // Sending ground speed to the dataResult map.
+    comm.dataResult['groundSpeed'] = calGroundSpeed; // Sending ground specomm dataResult map.
 
     resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed)}kt']);
 
     // Asking user weather to make a new calculation or back to menu.
     if (!MenuLogic.backToMenu()) {
-      console.clearScreen();
+      comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       distanceNm = null;
       timeHr = null;
@@ -156,7 +153,7 @@ String? groundSpeedScreen() {
     }
   }
 
-  return MenuLogic.selectedOption;
+  return comm.selectedOption;
 }
 
 String? trueAirspeedScreen() {
@@ -165,12 +162,12 @@ String? trueAirspeedScreen() {
   double? temperature;
 
   // Checking pressure altitude was previously calculated or input.
-  bool pressExists = MenuLogic.dataResult.containsKey('pressureAlt');
-  bool tempExists = MenuLogic.dataResult.containsKey('temperature');
+  bool pressExists = comm.dataResult.containsKey('pressureAlt');
+  bool tempExists = comm.dataResult.containsKey('temperature');
 
-  MenuLogic.selectedOption = null;
+  comm.selectedOption = null;
 
-  while (MenuLogic.selectedOption == null) {
+  while (comm.selectedOption == null) {
     // Creating input object for each input.
     final calibratedInput = MenuLogic.screenType(InputType.calibratedAir, calibratedAir);
     final pressAltInput = MenuLogic.screenType(InputType.pressureAlt, pressAltitude);
@@ -180,16 +177,16 @@ String? trueAirspeedScreen() {
 
     // If pressure altitude or temperature was input from option 2, the user is asked weather or not they want to autofill.
     if (pressExists || tempExists) {
-      console.setTextStyle(italic: true);
-      console.writeLine('Autofill previously calculated/entered values: [Y] yes ——— [N] no (any key)?');
-      MenuLogic.userInput = input(': ')?.toLowerCase();
+      comm.console.setTextStyle(italic: true);
+      comm.console.writeLine('Autofill previously calculated/entered values: [Y] yes ——— [N] no (any key)?');
+      String? userInput = input(': ')?.toLowerCase();
 
-      if (MenuLogic.userInput == 'y' || MenuLogic.userInput == 'yes') {
-        pressAltitude = (pressExists) ? MenuLogic.dataResult['pressureAlt']?.toDouble() : null;
-        temperature = (tempExists) ? MenuLogic.dataResult['temperature']?.toDouble() : null;
+      if (userInput == 'y' || userInput == 'yes') {
+        pressAltitude = (pressExists) ? comm.dataResult['pressureAlt']?.toDouble() : null;
+        temperature = (tempExists) ? comm.dataResult['temperature']?.toDouble() : null;
       }
 
-      console.clearScreen();
+      comm.console.clearScreen();
       pressExists = false;
       tempExists = false;
 
@@ -204,14 +201,14 @@ String? trueAirspeedScreen() {
     pressAltitude = pressAltInput.optionLogic();
     if (MenuLogic.repeatLoop(pressAltitude)) continue;
 
-    MenuLogic.dataResult['pressureAlt'] = pressAltitude!;
+    comm.dataResult['pressureAlt'] = pressAltitude!;
 
     // Getting temperature.
     temperature = tempInput.optionLogic();
     if (MenuLogic.repeatLoop(temperature)) continue;
 
 
-    MenuLogic.dataResult['temperature'] = temperature!;
+    comm.dataResult['temperature'] = temperature!;
 
     final calTrueAirspeed = trueAirspeed(
         calibratedAirS: calibratedAir!,
@@ -220,11 +217,11 @@ String? trueAirspeedScreen() {
     );
 
     // Sending true airspeed result to dateResult map for reuse
-    MenuLogic.dataResult['trueAirspeed'] = calTrueAirspeed;
+    comm.dataResult['trueAirspeed'] = calTrueAirspeed;
     resultPrinter(['True Airspeed: ${formatNumber(calTrueAirspeed)}kt']);
 
     if (!MenuLogic.backToMenu()) {
-      console.clearScreen();
+      comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       calibratedAir = null;
       pressAltitude = null;
@@ -237,7 +234,7 @@ String? trueAirspeedScreen() {
     }
   }
 
-  return MenuLogic.selectedOption;
+  return comm.selectedOption;
 }
 
 String? windComponentScreen() {
@@ -245,9 +242,9 @@ String? windComponentScreen() {
   double? windSpeedKt;
   double? runwayNumber;
 
-  MenuLogic.selectedOption = null;
+  comm.selectedOption = null;
 
-  while (MenuLogic.selectedOption == null) {
+  while (comm.selectedOption == null) {
     // Creating input object for each input.
     final windDirInput = MenuLogic.screenType(InputType.windDirection, windDirection);
     final windSpeedInput = MenuLogic.screenType(InputType.windSpeed, windSpeedKt);
@@ -259,13 +256,13 @@ String? windComponentScreen() {
     windDirection = windDirInput.optionLogic();
     if (MenuLogic.repeatLoop(windDirection)) continue;
 
-    MenuLogic.dataResult['windDirection'] = windDirection!; // Sending the inputted wind direction to the dataResult map.
+    comm.dataResult['windDirection'] = windDirection!; // Sending the inputted wind directicomm dataResult map.
 
     // Getting wind speed
     windSpeedKt = windSpeedInput.optionLogic();
     if (MenuLogic.repeatLoop(windSpeedKt)) continue;
 
-    MenuLogic.dataResult['windSpeed'] = windSpeedKt!; // Sending the inputted wind speed to the dataResult map.
+    comm.dataResult['windSpeed'] = windSpeedKt!; // Sending the inputted wind specomm dataResult map.
 
     // Getting runway number.
     runwayNumber = runwayInput.optionLogic();
@@ -280,7 +277,7 @@ String? windComponentScreen() {
     resultPrinter(windComponentString(headTail: headTailComp, xCross: crossWindComp));
 
     if (!MenuLogic.backToMenu()) {
-      console.clearScreen();
+      comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       windDirection = null;
       windSpeedKt = null;
@@ -290,24 +287,23 @@ String? windComponentScreen() {
     }
   }
 
-  return MenuLogic.selectedOption;
+  return comm.selectedOption;
 }
 
 String? headingCorrectionScreen() {
-  // TODO find a way to reset manually entered values if one of the inputs was calculated in another option.
   double? trueCourse;
   double? windDirection;
   double? windSpeedKt;
   double? trueAirspeedTas;
 
   // Checking if wind direction, wind speed, and true airspeed was previously input or calculated.
-  bool windDirExists = MenuLogic.dataResult.containsKey('windDirection');
-  bool windSpeedExists = MenuLogic.dataResult.containsKey('windSpeed');
-  bool trueAirExists = MenuLogic.dataResult.containsKey('trueAirspeed');
+  bool windDirExists = comm.dataResult.containsKey('windDirection');
+  bool windSpeedExists = comm.dataResult.containsKey('windSpeed');
+  bool trueAirExists = comm.dataResult.containsKey('trueAirspeed');
 
-  MenuLogic.selectedOption = null;
+  comm.selectedOption = null;
 
-  while (MenuLogic.selectedOption == null) {
+  while (comm.selectedOption == null) {
     // Creating input object for each input.
     final trueCourseInput = MenuLogic.screenType(InputType.trueCourse, trueCourse);
     final windDirInput = MenuLogic.screenType(InputType.windDirection, windDirection);
@@ -318,21 +314,21 @@ String? headingCorrectionScreen() {
 
     // If the user decides to autofill the calculated or input values they will be autofilled.
     if ([windDirExists, windSpeedExists, trueAirExists].contains(true)) {
-      console.setTextStyle(italic: true);
-      console.writeLine('Autofill previously calculated/entered values: [Y] yes ——— [N] no (any key)?');
-      MenuLogic.userInput = input(': ')?.toLowerCase();
+      comm.console.setTextStyle(italic: true);
+      comm.console.writeLine('Autofill previously calculated/entered values: [Y] yes ——— [N] no (any key)?');
+      String? userInput = input(': ')?.toLowerCase();
 
-      if (MenuLogic.userInput == 'y' || MenuLogic.userInput == 'yes') {
-        windDirection = (windDirExists) ? MenuLogic.dataResult['windDirection']?.toDouble() : null;
-        windSpeedKt = (windSpeedExists) ? MenuLogic.dataResult['windSpeed']?.toDouble() : null;
-        trueAirspeedTas = (trueAirExists) ? MenuLogic.dataResult['trueAirspeed']?.toDouble() : null;
+      if (userInput == 'y' || userInput == 'yes') {
+        windDirection = (windDirExists) ? comm.dataResult['windDirection']?.toDouble() : null;
+        windSpeedKt = (windSpeedExists) ? comm.dataResult['windSpeed']?.toDouble() : null;
+        trueAirspeedTas = (trueAirExists) ? comm.dataResult['trueAirspeed']?.toDouble() : null;
       }
 
       windDirExists = false;
       windSpeedExists = false;
       trueAirExists = false;
 
-      console.clearScreen();
+      comm.console.clearScreen();
       continue;
     }
 
@@ -344,19 +340,19 @@ String? headingCorrectionScreen() {
     windDirection = windDirInput.optionLogic();
     if (MenuLogic.repeatLoop(windDirection)) continue;
 
-    MenuLogic.dataResult['windDirection'] = windDirection!; // saving wind direction input for reuse
+    comm.dataResult['windDirection'] = windDirection!; // saving wind direction input for reuse
 
     // Getting wind speed
     windSpeedKt = windSpeedInput.optionLogic();
     if (MenuLogic.repeatLoop(windSpeedKt)) continue;
 
-    MenuLogic.dataResult['windSpeed'] = windSpeedKt!; // saving wind speed input for reuse
+    comm.dataResult['windSpeed'] = windSpeedKt!; // saving wind speed input for reuse
 
     // Getting true airspeed.
     trueAirspeedTas = trueAirspeedInput.optionLogic();
     if (MenuLogic.repeatLoop(trueAirspeedTas)) continue;
 
-    MenuLogic.dataResult['trueAirspeed'] = trueAirspeedTas!; // saving true airspeed input for reuse
+    comm.dataResult['trueAirspeed'] = trueAirspeedTas!; // saving true airspeed input for reuse
 
     // Calculating wind correction angle.
     final windCorrectionAngle = correctionAngle(
@@ -372,7 +368,7 @@ String? headingCorrectionScreen() {
       trueHeading -= 360;
     }
 
-    MenuLogic.dataResult['heading'] = trueHeading; // saving calculated heading for reuse
+    comm.dataResult['heading'] = trueHeading; // saving calculated heading for reuse
 
     final headWind = windComponent(direction: trueCourse, windDirection: windDirection, windSpeed: windSpeedKt);
     final groundSpeedKt = trueAirspeedTas - (headWind['headWind']!);
@@ -385,7 +381,7 @@ String? headingCorrectionScreen() {
 
     // Asking the user weather to go back to the main menu or stay in this option for new calculations.
     if (!MenuLogic.backToMenu()) {
-      console.clearScreen();
+      comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       trueCourse = null;
       windDirection = null;
@@ -400,14 +396,14 @@ String? headingCorrectionScreen() {
     }
   }
 
-  return MenuLogic.selectedOption;
+  return comm.selectedOption;
 }
 
 String? fuelScreen() {
   String? selection;
 
   const fuelOptions = {
-  'Calculate Fuel...\n': '',
+  'Calculate Fuel...\n': 'noColor',
   '(1) —— ': 'Volume (US Gal)\n',
   '(2) —— ': 'Endurance (hr)\n',
   '(3) —— ': 'Rate (US GPH)\n'
@@ -419,33 +415,33 @@ String? fuelScreen() {
       displayOptions: fuelOptions,
       startRange: 1,
       endRange: 3,
-      optionList: ['vol', 'dur', 'rate']
+      listOfOptions: ['vol', 'dur', 'rate']
   );
 
-  MenuLogic.selectedOption = null;
+  comm.selectedOption = null;
 
-  while (MenuLogic.selectedOption == null) {
+  while (comm.selectedOption == null) {
     selection = menuDisplay.displayMenu();
 
     switch (selection) {
       case 'vol':
-        console.clearScreen();
+        comm.console.clearScreen();
         volumeScreen();
         break;
       case 'dur':
-        console.clearScreen();
+        comm.console.clearScreen();
         enduranceScreen();
         break;
       case 'rate':
-        console.clearScreen();
+        comm.console.clearScreen();
         fuelRateScreen();
         break;
       default:
-        console.clearScreen();
+        comm.console.clearScreen();
         return selection;
 
     }
   }
 
-  return MenuLogic.selectedOption;
+  return comm.selectedOption;
 }

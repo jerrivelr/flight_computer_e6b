@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:characters/characters.dart';
 import 'package:dart_console/dart_console.dart';
-import 'package:flight_e6b/main_screens/menu_screens.dart';
 import 'package:intl/intl.dart';
-
+import 'package:flight_e6b/communication_var.dart' as comm;
 
 String? input([String? printOut]) {
   if (printOut != null) {
     stdout.write(printOut);
   }
-  console.setForegroundExtendedColor(180);
+  comm.console.setForegroundExtendedColor(180);
 
   final String? userInput = stdin.readLineSync();
 
@@ -102,7 +101,7 @@ void resultPrinter(List<String> displayString) {
     table.insertRow([item]);
   }
 
-  console.write(table);
+  comm.console.write(table);
 }
 
 List<String> windComponentString({required double headTail, required double xCross}) {
@@ -125,10 +124,10 @@ List<String> windComponentString({required double headTail, required double xCro
 
 void printDownData(Map<String, String> data) {
   for (final item in data.entries) {
-    console.setForegroundExtendedColor(253);
-    console.write(item.key);
-    console.setForegroundExtendedColor(180);
-    console.write(item.value);
+    comm.console.setForegroundExtendedColor(253);
+    comm.console.write(item.key);
+    comm.console.setForegroundExtendedColor(180);
+    comm.console.write(item.value);
   }
 }
 

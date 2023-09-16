@@ -1,5 +1,6 @@
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/simple_io.dart';
+import 'package:flight_e6b/communication_var.dart' as comm;
 
 enum InputType {
   temperature('Temperature °C: '),
@@ -23,25 +24,8 @@ enum InputType {
 }
 
 class MenuLogic {
-  static final console = Console();
-  // List of possible options while inside a certain screen.
-  static const optionList = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5', 'opt6', 'opt7', 'menu', 'exit'];
-
-  static bool noInternet = false; // Checks when there is no internet.
-  static bool backOnline = false; // Checks when the internet comes back.
-
-  // Stores all user inputs
   static String? userInput;
-  // Stores values that are part of the optionList if userInput equals to one of the options
-  static String? selectedOption;
-  // Stores errors messages if any.
-  static var error = '';
-  // To check the screen has been clear
-  static var screenCleared = false;
-  // This Map will contain the calculated data for reuse in other options.
-  static Map<String, num> dataResult = {};
-  // The condition of the while loop inside optionLogic method
-  static var condition = optionList.contains(userInput?.toLowerCase());
+  static var condition = comm.optionList.contains(userInput?.toLowerCase());
 
   MenuLogic({
     required this.variable,
@@ -176,7 +160,7 @@ class MenuLogic {
             optionName: InputType.runway.title,
             inCaseInvalid: 'Invalid Runway',
             checkRunway: true,
-            autofillText: {'Runway ': '${formatNumber(variable ?? 0)}'}
+            autofillText: {'Runway ': formatNumber(variable ?? 0)}
         );
       case InputType.trueCourse:
         return MenuLogic(
@@ -228,17 +212,17 @@ class MenuLogic {
         userInput = _inputChecker(optionName, ifInvalid: inCaseInvalid, digitAmount: digitLimit, ifDigitLimit: ifDigitLimit);
 
         if (userInput == inCaseInvalid || userInput == ifDigitLimit) {
-          error = userInput!;
+          comm.error = userInput!;
           break;
 
-        } else if (optionList.contains(userInput!)) {
-          console.clearScreen();
-          selectedOption = userInput;
-          error = '';
+        } else if (comm.optionList.contains(userInput!)) {
+          comm.console.clearScreen();
+          comm.selectedOption = userInput;
+          comm.error = '';
           break;
 
         } else if (checkNegative && double.tryParse(userInput!)! <= 0) {
-          error = ifNegative;
+          comm.error = ifNegative;
           break;
 
         } else if (checkDir && _directionCheck(userInput!, invalidDir)) {
@@ -248,22 +232,22 @@ class MenuLogic {
           break;
         }
 
-        error = '';
-        selectedOption = null;
+        comm.error = '';
+        comm.selectedOption = null;
         // To indicate the screen will be refresh
-        screenCleared = true;
+        comm.screenCleared = true;
         variable = double.tryParse(userInput!);
 
         return variable;
 
       } else {
         for (final item in autofillText.entries) {
-          console.setForegroundExtendedColor(253);
-          console.write(item.key);
-          console.setForegroundExtendedColor(180);
-          console.writeLine(item.value);
+          comm.console.setForegroundExtendedColor(253);
+          comm.console.write(item.key);
+          comm.console.setForegroundExtendedColor(180);
+          comm.console.writeLine(item.value);
 
-          console.resetColorAttributes();
+          comm.console.resetColorAttributes();
         }
         return variable;
       }
@@ -274,13 +258,13 @@ class MenuLogic {
 
   static bool checkValueExits(List<bool> listOfConditions) {
     if (listOfConditions.contains(true)) {
-      console.setTextStyle(italic: true);
-      console.writeLine('Autofill previously calculated/input values: [Y] yes ——— [N] no (any key)?');
-      MenuLogic.userInput = input(': ')?.toLowerCase();
+      comm.console.setTextStyle(italic: true);
+      comm.console.writeLine('Autofill previously calculated/input values: [Y] yes ——— [N] no (any key)?');
+      userInput = input(': ')?.toLowerCase();
 
-      console.clearScreen();
-      if (MenuLogic.userInput == 'y' || MenuLogic.userInput == 'yes') {
-        MenuLogic.userInput = null;
+      comm.console.clearScreen();
+      if (userInput == 'y' || userInput == 'yes') {
+        userInput = null;
         return true;
       }
     }
@@ -289,25 +273,25 @@ class MenuLogic {
   }
 
   static bool backToMenu({String text = 'Back to main menu: [Y] yes (any key) ——— [N] no?', String backMenuSelection = 'menu'}) {
-    console.setTextStyle(italic: true);
-    console.writeLine(text);
+    comm.console.setTextStyle(italic: true);
+    comm.console.writeLine(text);
     userInput = input(': ')?.toLowerCase().trim();
 
     if (userInput == 'n' || userInput == 'no') {
-      error = '';
+      comm.error = '';
       return false;
     }
 
-    selectedOption = backMenuSelection;
-    console.clearScreen();
+    comm.selectedOption = backMenuSelection;
+    comm.console.clearScreen();
     return true;
   }
 
   static bool repeatLoop(Object? variable) {
     // Make sure the input value is not null and that the screen is refreshed.
-    if (MenuLogic.screenCleared || variable == null) {
-      MenuLogic.screenCleared = false;
-      console.clearScreen();
+    if (comm.screenCleared || variable == null) {
+      comm.screenCleared = false;
+      comm.console.clearScreen();
       return true;
     }
 
@@ -315,29 +299,27 @@ class MenuLogic {
   }
 
   static void screenHeader({required String title, int color = 22, bool errorWindow = true}) {
-    console.setBackgroundExtendedColor(color);
-    console.setForegroundExtendedColor(253);
-    console.setTextStyle(bold: true, italic: true);
+    comm.console.setBackgroundExtendedColor(color);
+    comm.console.setForegroundExtendedColor(253);
+    comm.console.setTextStyle(bold: true, italic: true);
 
-    console.writeLine(title, TextAlignment.center);
+    comm.console.writeLine(title, TextAlignment.center);
 
-    console.resetColorAttributes();
+    comm.console.resetColorAttributes();
     if (errorWindow) {
-      _errorMessage(error);
+      _errorMessage(comm.error);
     }
 
-    console.setForegroundColor(ConsoleColor.white);
-    console.setTextStyle(bold: true);
+    comm.console.setForegroundColor(ConsoleColor.white);
+    comm.console.setTextStyle(bold: true);
   }
 
   static void _errorMessage(String message) {
-    final console = Console();
+    comm.console.setForegroundColor(ConsoleColor.red);
+    comm.console.setTextStyle(bold: true, italic: true, blink: true);
+    comm.console.writeLine(message);
 
-    console.setForegroundColor(ConsoleColor.red);
-    console.setTextStyle(bold: true, italic: true, blink: true);
-    console.writeLine(message);
-
-    console.resetColorAttributes();
+    comm.console.resetColorAttributes();
   }
 
   String? _inputChecker(String printOut, {required int digitAmount, String ifDigitLimit = 'Invalid Digit', String ifInvalid = 'Invalid number', }) {
@@ -349,7 +331,7 @@ class MenuLogic {
     // Make sure the input lowercase.
     userInput = input(printOut)?.toLowerCase();
 
-    if (optionList.contains(userInput)) {
+    if (comm.optionList.contains(userInput)) {
       return userInput;
     } else if (double.tryParse(userInput ?? '') == null) {
       return ifInvalid;
@@ -364,13 +346,13 @@ class MenuLogic {
     final numberInt = int.tryParse(numberStr);
 
     if (numberInt == null) {
-      error = 'Runway number must be whole numbers (ex. 24, 36, 15)';
+      comm.error = 'Runway number must be whole numbers (ex. 24, 36, 15)';
       return true;
     } else if (numberInt > 36) {
-      error = 'Runway number must be between 0 — 36';
+      comm.error = 'Runway number must be between 0 — 36';
       return true;
     } else if (numberInt < 0) {
-      error = 'Runway number must be positive';
+      comm.error = 'Runway number must be positive';
       return true;
     }
 
@@ -380,7 +362,7 @@ class MenuLogic {
   bool _directionCheck(String numberStr, String errorMessage) {
     final numberDouble = double.tryParse(numberStr);
     if (numberDouble! < 0 || numberDouble > 360) {
-      error = errorMessage;
+      comm.error = errorMessage;
       return true;
     }
 
