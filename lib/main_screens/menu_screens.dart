@@ -62,7 +62,7 @@ String? cloudBaseScreen() {
 
     // temperature and dewpoint will never be null at this point.
     final result = cloudBase(temperature, dewpoint);
-    resultPrinter(['Cloud Base: ${MenuLogic.formatNumber(result)}ft']);
+    resultPrinter(['Cloud Base: ${formatNumber(result)}ft']);
 
     // Asking user weather to make a new calculation or back to menu.
     if (!MenuLogic.backToMenu()) {
@@ -143,7 +143,7 @@ String? groundSpeedScreen() {
     final calGroundSpeed = groundSpeed(distanceNm!, timeHr!);
     MenuLogic.dataResult['groundSpeed'] = calGroundSpeed; // Sending ground speed to the dataResult map.
 
-    resultPrinter(['Ground Speed: ${MenuLogic.formatNumber(calGroundSpeed)}kt']);
+    resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed)}kt']);
 
     // Asking user weather to make a new calculation or back to menu.
     if (!MenuLogic.backToMenu()) {
@@ -221,7 +221,7 @@ String? trueAirspeedScreen() {
 
     // Sending true airspeed result to dateResult map for reuse
     MenuLogic.dataResult['trueAirspeed'] = calTrueAirspeed;
-    resultPrinter(['True Airspeed: ${MenuLogic.formatNumber(calTrueAirspeed)}kt']);
+    resultPrinter(['True Airspeed: ${formatNumber(calTrueAirspeed)}kt']);
 
     if (!MenuLogic.backToMenu()) {
       console.clearScreen();
@@ -378,7 +378,7 @@ String? headingCorrectionScreen() {
     final groundSpeedKt = trueAirspeedTas - (headWind['headWind']!);
 
     resultPrinter([
-      'Heading: ${MenuLogic.formatNumber(trueHeading)}°',
+      'Heading: ${formatNumber(trueHeading)}°',
       'WCA: $windCorrectionAngle°',
       'Ground Speed: ${groundSpeedKt.round()}kt'
     ]);

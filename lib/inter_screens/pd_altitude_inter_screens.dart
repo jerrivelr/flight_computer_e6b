@@ -79,9 +79,9 @@ Future<String?> conditionsAirportScreen() async {
         'Airport: ': '$airpName ($airportId)\n',
         'METAR: ': '${metarData.rawMetar}\n',
         'Elevation: ': '${elevation?.round()}ft\n',
-        'Temperature: ': '${MenuLogic.formatNumber(temperature ?? 0)}°C\n',
-        'Dewpoint: ': '${MenuLogic.formatNumber(dewpoint ?? 0)}°C\n',
-        'Altimeter: ': '${MenuLogic.formatNumber(altimeter)} InHg\n'
+        'Temperature: ': '${formatNumber(temperature ?? 0)}°C\n',
+        'Dewpoint: ': '${formatNumber(dewpoint ?? 0)}°C\n',
+        'Altimeter: ': '${formatNumber(altimeter)} InHg\n'
     };
 
     printDownData(result); // Prints downloaded data with colors.
@@ -101,8 +101,8 @@ Future<String?> conditionsAirportScreen() async {
     // Sending calculated density altitude to the dataResult Map.
     MenuLogic.dataResult['densityAlt'] = density;
     resultPrinter([
-      'Pressure Altitude: ${MenuLogic.formatNumber(pressure)}ft',
-      'Density Altitude: ${MenuLogic.formatNumber(density)}ft']
+      'Pressure Altitude: ${formatNumber(pressure)}ft',
+      'Density Altitude: ${formatNumber(density)}ft']
     );
 
     if (!MenuLogic.backToMenu(text: 'Back to Pressure/Density Altitude Menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt2')) {
@@ -148,7 +148,7 @@ String? manualScreen() {
 
     // Sending calculated pressure altitude to the dataResult Map.
     MenuLogic.dataResult['pressureAlt'] = pressure.toDouble();
-    resultPrinter(['Pressure Altitude: ${MenuLogic.formatNumber(pressure)}ft']);
+    resultPrinter(['Pressure Altitude: ${formatNumber(pressure)}ft']);
 
     // Getting temperature.
     temperature = tempInput.optionLogic();
@@ -176,7 +176,7 @@ String? manualScreen() {
 
     // Sending calculated pressure altitude to the dataResult Map.
     MenuLogic.dataResult['densityAlt'] = density;
-    resultPrinter(['Density Altitude: ${MenuLogic.formatNumber(density)}ft']);
+    resultPrinter(['Density Altitude: ${formatNumber(density)}ft']);
 
     // Asking user weather to make a new calculation or back to menu.
     if (!MenuLogic.backToMenu(text: 'Back to Pressure/Density Altitude Menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt2')) {

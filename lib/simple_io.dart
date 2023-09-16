@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:characters/characters.dart';
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/main_screens/menu_screens.dart';
+import 'package:intl/intl.dart';
 
 
 String? input([String? printOut]) {
@@ -129,4 +130,15 @@ void printDownData(Map<String, String> data) {
     console.setForegroundExtendedColor(180);
     console.write(item.value);
   }
+}
+
+String formatNumber(num number) {
+  final myFormat = NumberFormat.decimalPattern('en_us');
+
+  if (number == number.toInt()) {
+    return myFormat.format(number); // Omit decimal point and trailing zeros for integers
+  }
+
+  return myFormat.format(number); // Keep decimal point for non-integer numbers
+
 }

@@ -25,8 +25,8 @@ String? volumeScreen() {
     final fuelVolume = fuelRate! * fuelTime!;
 
     resultPrinter([
-      'Fuel Volume: ${MenuLogic.formatNumber(fuelVolume)} Gal',
-      'Fuel Weight: ${MenuLogic.formatNumber(fuelVolume * 6)} Ibs'
+      'Fuel Volume: ${formatNumber(fuelVolume)} Gal',
+      'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
     if (!MenuLogic.backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
@@ -64,8 +64,8 @@ String? enduranceScreen() {
     final endurance = fuelVolume! / fuelRate!;
 
     resultPrinter([
-      'Fuel Endurance: ${MenuLogic.formatNumber(endurance)} hr',
-      'Fuel Weight: ${MenuLogic.formatNumber(fuelVolume * 6)} Ibs'
+      'Fuel Endurance: ${formatNumber(endurance)} hr',
+      'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
     if (!MenuLogic.backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
@@ -103,8 +103,8 @@ String? fuelRateScreen() {
     final fuelRate = fuelVolume! / fuelTime!;
 
     resultPrinter([
-      'Fuel Rate: ${MenuLogic.formatNumber(fuelRate)} Gal/hr',
-      'Fuel Weight: ${MenuLogic.formatNumber(fuelVolume * 6)} Ibs'
+      'Fuel Rate: ${formatNumber(fuelRate)} Gal/hr',
+      'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
     if (!MenuLogic.backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
