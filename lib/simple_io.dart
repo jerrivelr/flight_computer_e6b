@@ -138,6 +138,8 @@ String formatNumber(num number) {
     return myFormat.format(number); // Omit decimal point and trailing zeros for integers
   }
 
-  return myFormat.format(number); // Keep decimal point for non-integer numbers
+  final inDouble = number.toDouble().toStringAsFixed(2); // To return a double with only two decimals.
+
+  return myFormat.format(double.tryParse(inDouble)); // Keep decimal point for non-integer numbers
 
 }
