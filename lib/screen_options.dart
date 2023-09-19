@@ -23,8 +23,6 @@ class OptionMenu {
   });
 
   String? displayMenu() {
-    String error = '';
-
     while (true) {
       // Creating the title bar.
       MenuLogic.screenHeader(title: title, errorWindow: false);
@@ -46,7 +44,7 @@ class OptionMenu {
         comm.console.resetColorAttributes();
       }
       // Displaying error messages bellow the list of displayOptions
-      errorMessage(error);
+      errorMessage(comm.error);
       comm.console.setForegroundExtendedColor(250);
 
       // Getting input from user
@@ -57,13 +55,15 @@ class OptionMenu {
         return userInput;
       } else if (selectionNum == null) {
         comm.console.clearScreen();
-        error = 'Enter a valid option';
+        comm.error = 'Enter a valid option';
         continue;
       } else if (selectionNum < startRange || selectionNum > endRange) {
         comm.console.clearScreen();
-        error = 'Choose an option between ($startRange) — ($endRange)';
+        comm.error = 'Choose an option between ($startRange) — ($endRange)';
         continue;
       }
+
+      comm.error = '';
       _currentSelection = listOfOptions.elementAt(selectionNum - 1);
 
       return _currentSelection;
