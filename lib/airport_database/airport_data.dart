@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flight_e6b/communication_var.dart' as comm;
 import 'package:flight_e6b/simple_io.dart';
 
 class AirportData {
@@ -13,8 +14,15 @@ class AirportData {
 
   String get airportId => _airportId;
 
-  factory AirportData.inputCheck() {
+  static AirportData? retrieveAirport() {
     final idInput = input('Airport ID: ')?.toUpperCase();
+    // If user inputs something inside the optionList global variable, it will exit the option and jump to the selected
+    // option without creating any instance.
+    if (comm.optionList.contains(idInput?.toLowerCase())) {
+      comm.selectedOption = idInput?.toLowerCase();
+      return null;
+    }
+
     final iataInput = RegExp(r'"icao": "(\w{4})",\n\s{8}"iata": "' + (idInput ?? '') + r'",');
 
     if (iataInput.hasMatch(_content)) {
