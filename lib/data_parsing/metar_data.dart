@@ -5,9 +5,8 @@ class Metar {
     required this.windDirection,
     required this.windSpeed,
     required this.rawMetar,
-    required num? altimeter,
-  })
-      : _altimeter = (altimeter != null) ? altimeter / 33.864 : null;
+    required this.altimeterInHg,
+  });
 
   factory Metar.fromJson(List<dynamic> jsonMap) {
     if (jsonMap[0]['wdir'] == 'VRB') {
@@ -19,7 +18,7 @@ class Metar {
         dewpoint: jsonMap[0]['dewp'] as num?,
         windDirection: jsonMap[0]['wdir'] as num?,
         windSpeed: jsonMap[0]['wspd'] as num?,
-        altimeter: jsonMap[0]['altim'] as num?,
+        altimeterInHg: jsonMap[0]['altim'] as num?,
         rawMetar: jsonMap[0]['rawOb'] as String
     );
   }
@@ -28,12 +27,8 @@ class Metar {
   final num? dewpoint;
   final num? windDirection;
   final num? windSpeed;
+  final num? altimeterInHg;
   final String rawMetar;
-  num? _altimeter;
-
-  num get altimeterInHg => _altimeter ?? 0;
-
-
 
   @override
   String toString() {
