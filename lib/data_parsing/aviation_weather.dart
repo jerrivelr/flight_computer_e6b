@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'package:flight_e6b/communication_var.dart' as comm;
 
@@ -19,12 +20,27 @@ Future<List<dynamic>> metar(String airportId, {bool includeTaf = false}) async {
     comm.noInternet = false;
 
     return jsonMap;
+
   } on SocketException {
     comm.noInternet = true;
-    await Future.delayed(Duration(seconds: 2));
     return <dynamic>[];
+
   } on HandshakeException {
-    // TODO add an implentation
+    return <dynamic>[];
+
+  } on FormatException {
+    comm.error = 'Downloaded data is corrupt. Trying again.';
+    comm.formatError = true;
+    return <dynamic>[];
+
+  } on HttpException {
     return <dynamic>[];
   }
+}
+
+List<dynamic> testMetar() {
+  final jsonFile = File(r'C:\Users\jerri\IdeaProjects\flight_e6b\lib\test_response.json');
+  final decodedMetar = jsonDecode(jsonFile.readAsStringSync());
+
+  return decodedMetar;
 }
