@@ -12,13 +12,13 @@ String? volumeScreen() {
     final fuelRateInput = MenuLogic.screenType(InputType.fuelRate, fuelRate);
     final durationInput = MenuLogic.screenType(InputType.time, fuelTime);
 
-    MenuLogic.screenHeader(title: 'FUEL VOLUME (Gal)');
+    screenHeader(title: 'FUEL VOLUME (Gal)');
 
     fuelRate = fuelRateInput.optionLogic();
-    if (MenuLogic.repeatLoop(fuelRate)) continue;
+    if (repeatLoop(fuelRate)) continue;
 
     fuelTime = durationInput.optionLogic();
-    if (MenuLogic.repeatLoop(fuelTime)) continue;
+    if (repeatLoop(fuelTime)) continue;
 
     final fuelVolume = fuelRate! * fuelTime!;
 
@@ -27,7 +27,7 @@ String? volumeScreen() {
       'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
-    if (!MenuLogic.backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
+    if (!backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       fuelRate = null;
@@ -51,13 +51,13 @@ String? enduranceScreen() {
     final volumeInput = MenuLogic.screenType(InputType.fuelVolume, fuelVolume);
     final fuelRateInput = MenuLogic.screenType(InputType.fuelRate, fuelRate);
 
-    MenuLogic.screenHeader(title: 'FUEL ENDURANCE');
+    screenHeader(title: 'FUEL ENDURANCE');
 
     fuelVolume = volumeInput.optionLogic();
-    if (MenuLogic.repeatLoop(fuelVolume)) continue;
+    if (repeatLoop(fuelVolume)) continue;
 
     fuelRate = fuelRateInput.optionLogic();
-    if (MenuLogic.repeatLoop(fuelRate)) continue;
+    if (repeatLoop(fuelRate)) continue;
 
     final endurance = fuelVolume! / fuelRate!;
 
@@ -66,7 +66,7 @@ String? enduranceScreen() {
       'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
-    if (!MenuLogic.backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
+    if (!backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       fuelVolume = null;
@@ -90,13 +90,13 @@ String? fuelRateScreen() {
     final volumeInput = MenuLogic.screenType(InputType.fuelVolume, fuelVolume);
     final fuelTimeInput = MenuLogic.screenType(InputType.time, fuelTime);
 
-    MenuLogic.screenHeader(title: 'FUEL RATE');
+    screenHeader(title: 'FUEL RATE');
 
     fuelVolume = volumeInput.optionLogic();
-    if (MenuLogic.repeatLoop(fuelVolume)) continue;
+    if (repeatLoop(fuelVolume)) continue;
 
     fuelTime = fuelTimeInput.optionLogic();
-    if (MenuLogic.repeatLoop(fuelTime)) continue;
+    if (repeatLoop(fuelTime)) continue;
 
     final fuelRate = fuelVolume! / fuelTime!;
 
@@ -105,7 +105,7 @@ String? fuelRateScreen() {
       'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
-    if (!MenuLogic.backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
+    if (!backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       fuelVolume = null;
