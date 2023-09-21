@@ -255,48 +255,6 @@ class MenuLogic {
     return null;
   }
 
-  static bool checkValueExits(List<bool> listOfConditions) {
-    if (listOfConditions.contains(true)) {
-      comm.console.setTextStyle(italic: true);
-      comm.console.writeLine('Autofill previously calculated/input values: [Y] yes ——— [N] no (any key)?');
-      userInput = input(': ')?.toLowerCase();
-
-      comm.console.clearScreen();
-      if (userInput == 'y' || userInput == 'yes') {
-        userInput = null;
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  static bool backToMenu({String text = 'Back to main menu: [Y] yes (any key) ——— [N] no?', String backMenuSelection = 'menu'}) {
-    comm.console.setTextStyle(italic: true);
-    comm.console.writeLine(text);
-    userInput = input(': ')?.toLowerCase().trim();
-
-    if (userInput == 'n' || userInput == 'no') {
-      comm.error = '';
-      return false;
-    }
-
-    comm.selectedOption = backMenuSelection;
-    comm.console.clearScreen();
-    return true;
-  }
-
-  static bool repeatLoop(Object? variable) {
-    // Make sure the input value is not null and that the screen is refreshed.
-    if (comm.screenCleared || variable == null) {
-      comm.screenCleared = false;
-      comm.console.clearScreen();
-      return true;
-    }
-
-    return false;
-  }
-
   String? _inputChecker(String printOut, {required int digitAmount, String ifDigitLimit = 'Invalid Digit', String ifInvalid = 'Invalid number', }) {
     digitAmount++;
     final digitChecker = RegExp('^-?\\d{$digitAmount,}\$');
@@ -343,7 +301,46 @@ class MenuLogic {
 
     return false;
   }
+}
 
+bool checkValueExits(List<bool> listOfConditions) {
+  if (listOfConditions.contains(true)) {
+    comm.console.setTextStyle(italic: true);
+    comm.console.writeLine('Autofill previously calculated/input values: [Y] yes ——— [N] no (any key)?');
+    var userInput = input(': ')?.toLowerCase();
 
+    comm.console.clearScreen();
+    if (userInput == 'y' || userInput == 'yes') {
+      userInput = null;
+      return true;
+    }
+  }
 
+  return false;
+}
+
+bool backToMenu({String text = 'Back to main menu: [Y] yes (any key) ——— [N] no?', String backMenuSelection = 'menu'}) {
+  comm.console.setTextStyle(italic: true);
+  comm.console.writeLine(text);
+  final userInput = input(': ')?.toLowerCase().trim();
+
+  if (userInput == 'n' || userInput == 'no') {
+    comm.error = '';
+    return false;
+  }
+
+  comm.selectedOption = backMenuSelection;
+  comm.console.clearScreen();
+  return true;
+}
+
+bool repeatLoop(Object? variable) {
+  // Make sure the input value is not null and that the screen is refreshed.
+  if (comm.screenCleared || variable == null) {
+    comm.screenCleared = false;
+    comm.console.clearScreen();
+    return true;
+  }
+
+  return false;
 }
