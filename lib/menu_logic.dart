@@ -298,30 +298,6 @@ class MenuLogic {
     return false;
   }
 
-  static void screenHeader({required String title, int color = 22, bool errorWindow = true}) {
-    comm.console.setBackgroundExtendedColor(color);
-    comm.console.setForegroundExtendedColor(253);
-    comm.console.setTextStyle(bold: true, italic: true);
-
-    comm.console.writeLine(title, TextAlignment.center);
-
-    comm.console.resetColorAttributes();
-    if (errorWindow) {
-      _errorMessage(comm.error);
-    }
-
-    comm.console.setForegroundColor(ConsoleColor.white);
-    comm.console.setTextStyle(bold: true);
-  }
-
-  static void _errorMessage(String message) {
-    comm.console.setForegroundColor(ConsoleColor.red);
-    comm.console.setTextStyle(bold: true, italic: true, blink: true);
-    comm.console.writeLine(message);
-
-    comm.console.resetColorAttributes();
-  }
-
   String? _inputChecker(String printOut, {required int digitAmount, String ifDigitLimit = 'Invalid Digit', String ifInvalid = 'Invalid number', }) {
     digitAmount++;
     final digitChecker = RegExp('^-?\\d{$digitAmount,}\$');
