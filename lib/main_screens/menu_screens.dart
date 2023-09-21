@@ -1,7 +1,6 @@
 import 'package:flight_e6b/aviation_math.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/menu_logic.dart';
-import 'package:flight_e6b/screen_options.dart';
 import 'package:flight_e6b/inter_screens/fuel_inter_screens.dart';
 import 'package:flight_e6b/inter_screens/pd_altitude_inter_screens.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
@@ -19,14 +18,14 @@ String? mainMenu() {
 
 
   final optionList = comm.optionList.getRange(0, 7).toList();
-  final menuDisplay = OptionMenu(
+  final menuDisplay = menuBuilder(
       title: 'FLIGHT COMPUTER (E6B)',
       displayOptions: options,
       startRange: 1,
       endRange: 7,
       listOfOptions: optionList
   );
-  return menuDisplay.displayMenu();
+  return menuDisplay;
 }
 
 String? cloudBaseScreen() {
@@ -85,19 +84,16 @@ Future<String?> pressDensityScreen() async {
   '(3) —— ': 'Main Menu\n'
   };
 
-
-  final menuDisplay = OptionMenu(
-      title: 'PRESSURE/DENSITY ALTITUDE',
-      displayOptions: densityPressOption,
-      startRange: 1,
-      endRange: 3,
-      listOfOptions: ['airport', 'manual', 'menu']
-  );
-
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    selection = menuDisplay.displayMenu();
+    selection = menuBuilder(
+        title: 'PRESSURE/DENSITY ALTITUDE',
+        displayOptions: densityPressOption,
+        startRange: 1,
+        endRange: 3,
+        listOfOptions: ['airport', 'manual', 'menu']
+    );
 
     switch (selection) {
       case 'airport':
@@ -415,19 +411,16 @@ String? fuelScreen() {
   '(4) —— ': 'Main Menu\n'
   };
 
-
-  final menuDisplay = OptionMenu(
-      title: 'FUEL',
-      displayOptions: fuelOptions,
-      startRange: 1,
-      endRange: 4,
-      listOfOptions: ['vol', 'dur', 'rate', 'menu']
-  );
-
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    selection = menuDisplay.displayMenu();
+    selection = menuBuilder (
+        title: 'FUEL',
+        displayOptions: fuelOptions,
+        startRange: 1,
+        endRange: 4,
+        listOfOptions: ['vol', 'dur', 'rate', 'menu']
+    );;
 
     switch (selection) {
       case 'vol':
