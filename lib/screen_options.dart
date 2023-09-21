@@ -25,7 +25,7 @@ class OptionMenu {
   String? displayMenu() {
     while (true) {
       // Creating the title bar.
-      MenuLogic.screenHeader(title: title, errorWindow: false);
+      screenHeader(title: title, errorWindow: false);
 
       for (final items in displayOptions.entries) {
         if (items.value == 'noColor') {
