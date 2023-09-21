@@ -159,3 +159,56 @@ void screenHeader({required String title, int color = 22, bool errorWindow = tru
   comm.console.setForegroundColor(ConsoleColor.white);
   comm.console.setTextStyle(bold: true);
 }
+
+String? menuBuilder ({
+  required String title,
+  required Map<String, String> displayOptions,
+  required int startRange,
+  required int endRange,
+  required List<String> listOfOptions}) {
+
+  while (true) {
+    // Creating the title bar.
+    screenHeader(title: title, errorWindow: false);
+
+    for (final items in displayOptions.entries) {
+      if (items.value == 'noColor') {
+        comm.console.setForegroundColor(ConsoleColor.white);
+        comm.console.resetColorAttributes();
+        comm.console.write(items.key);
+        continue;
+      }
+      comm.console.setForegroundExtendedColor(180);
+      comm.console.write(items.key);
+
+      comm.console.setTextStyle(bold: true, italic: true);
+      comm.console.setForegroundExtendedColor(253);
+      comm.console.write(items.value);
+
+      comm.console.resetColorAttributes();
+    }
+    // Displaying error messages bellow the list of displayOptions
+    errorMessage(comm.error);
+    comm.console.setForegroundExtendedColor(250);
+
+    // Getting input from user
+    String? userInput = input(': ');
+    int? selectionNum = int.tryParse(userInput ?? '');
+
+    if (comm.optionList.contains(userInput?.toLowerCase())) {
+      return userInput;
+    } else if (selectionNum == null) {
+      comm.console.clearScreen();
+      comm.error = 'Enter a valid option';
+      continue;
+    } else if (selectionNum < startRange || selectionNum > endRange) {
+      comm.console.clearScreen();
+      comm.error = 'Choose an option between ($startRange) — ($endRange)';
+      continue;
+    }
+
+    comm.error = '';
+
+    return listOfOptions.elementAt(selectionNum - 1);
+  }
+}
