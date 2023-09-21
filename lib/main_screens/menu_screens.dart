@@ -40,15 +40,15 @@ String? cloudBaseScreen() {
     final tempInput = MenuLogic.screenType(InputType.temperature, temperature);
     final dewInput = MenuLogic.screenType(InputType.dewpoint, dewpoint);
 
-    MenuLogic.screenHeader(title: 'CLOUD BASE 🌧️');
+    screenHeader(title: 'CLOUD BASE 🌧️');
 
     // Getting temperature.
     temperature = tempInput.optionLogic();
-    if (MenuLogic.repeatLoop(temperature)) continue;
+    if (repeatLoop(temperature)) continue;
 
     // Getting dewpoint.
     dewpoint = dewInput.optionLogic();
-    if (MenuLogic.repeatLoop(dewpoint)) {
+    if (repeatLoop(dewpoint)) {
       continue;
     } else if (dewpoint! > temperature!) {
       comm.error = 'Dewpoint must be less than or equal to temperature';
@@ -62,7 +62,7 @@ String? cloudBaseScreen() {
     resultPrinter(['Cloud Base: ${formatNumber(result)}ft']);
 
     // Asking user weather to make a new calculation or back to menu.
-    if (!MenuLogic.backToMenu()) {
+    if (!backToMenu()) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       temperature = null;
@@ -81,7 +81,8 @@ Future<String?> pressDensityScreen() async {
   const densityPressOption = {
   'Calculate Pressure/Density Altitude From...\n': 'noColor',
   '(1) —— ': 'Conditions at Airport\n',
-  '(2) —— ': 'Manual Values\n'
+  '(2) —— ': 'Manual Values\n',
+  '(3) —— ': 'Main Menu\n'
   };
 
 
@@ -89,8 +90,8 @@ Future<String?> pressDensityScreen() async {
       title: 'PRESSURE/DENSITY ALTITUDE',
       displayOptions: densityPressOption,
       startRange: 1,
-      endRange: 2,
-      listOfOptions: ['airport', 'manual']
+      endRange: 3,
+      listOfOptions: ['airport', 'manual', 'menu']
   );
 
   comm.selectedOption = null;
@@ -106,6 +107,10 @@ Future<String?> pressDensityScreen() async {
       case 'manual':
         comm.console.clearScreen();
         manualScreen();
+        break;
+      case 'menu':
+        comm.console.clearScreen();
+        comm.selectedOption = selection;
         break;
       default:
         comm.console.clearScreen();
@@ -127,15 +132,15 @@ String? groundSpeedScreen() {
     final distanceInput = MenuLogic.screenType(InputType.distance, distanceNm);
     final timeInput = MenuLogic.screenType(InputType.time, timeHr);
 
-    MenuLogic.screenHeader(title: 'GROUND SPEED (kt)');
+    screenHeader(title: 'GROUND SPEED (kt)');
 
     // Getting distance
     distanceNm = distanceInput.optionLogic();
-    if (MenuLogic.repeatLoop(distanceNm)) continue;
+    if (repeatLoop(distanceNm)) continue;
 
     // Getting time in hours
     timeHr = timeInput.optionLogic();
-    if (MenuLogic.repeatLoop(timeHr)) continue;
+    if (repeatLoop(timeHr)) continue;
 
     final calGroundSpeed = groundSpeed(distanceNm!, timeHr!);
     comm.dataResult['groundSpeed'] = calGroundSpeed; // Sending ground specomm dataResult map.
@@ -143,7 +148,7 @@ String? groundSpeedScreen() {
     resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed)}kt']);
 
     // Asking user weather to make a new calculation or back to menu.
-    if (!MenuLogic.backToMenu()) {
+    if (!backToMenu()) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       distanceNm = null;
@@ -173,7 +178,7 @@ String? trueAirspeedScreen() {
     final pressAltInput = MenuLogic.screenType(InputType.pressureAlt, pressAltitude);
     final tempInput = MenuLogic.screenType(InputType.temperature, temperature);
 
-    MenuLogic.screenHeader(title: 'TRUE AIRSPEED (kt)');
+    screenHeader(title: 'TRUE AIRSPEED (kt)');
 
     // If pressure altitude or temperature was input from option 2, the user is asked weather or not they want to autofill.
     if (pressExists || tempExists) {
@@ -195,17 +200,17 @@ String? trueAirspeedScreen() {
 
     // Getting Calibrated airspeed.
     calibratedAir = calibratedInput.optionLogic();
-    if (MenuLogic.repeatLoop(calibratedAir)) continue;
+    if (repeatLoop(calibratedAir)) continue;
 
     // Getting pressure altitude.
     pressAltitude = pressAltInput.optionLogic();
-    if (MenuLogic.repeatLoop(pressAltitude)) continue;
+    if (repeatLoop(pressAltitude)) continue;
 
     comm.dataResult['pressureAlt'] = pressAltitude!;
 
     // Getting temperature.
     temperature = tempInput.optionLogic();
-    if (MenuLogic.repeatLoop(temperature)) continue;
+    if (repeatLoop(temperature)) continue;
 
 
     comm.dataResult['temperature'] = temperature!;
@@ -220,7 +225,7 @@ String? trueAirspeedScreen() {
     comm.dataResult['trueAirspeed'] = calTrueAirspeed;
     resultPrinter(['True Airspeed: ${formatNumber(calTrueAirspeed)}kt']);
 
-    if (!MenuLogic.backToMenu()) {
+    if (!backToMenu()) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       calibratedAir = null;
@@ -250,23 +255,23 @@ String? windComponentScreen() {
     final windSpeedInput = MenuLogic.screenType(InputType.windSpeed, windSpeedKt);
     final runwayInput = MenuLogic.screenType(InputType.runway, runwayNumber);
 
-    MenuLogic.screenHeader(title: 'WIND COMPONENT 💨');
+    screenHeader(title: 'WIND COMPONENT 💨');
 
     // Getting wind direction.
     windDirection = windDirInput.optionLogic();
-    if (MenuLogic.repeatLoop(windDirection)) continue;
+    if (repeatLoop(windDirection)) continue;
 
     comm.dataResult['windDirection'] = windDirection!; // Sending the inputted wind directicomm dataResult map.
 
     // Getting wind speed
     windSpeedKt = windSpeedInput.optionLogic();
-    if (MenuLogic.repeatLoop(windSpeedKt)) continue;
+    if (repeatLoop(windSpeedKt)) continue;
 
     comm.dataResult['windSpeed'] = windSpeedKt!; // Sending the inputted wind specomm dataResult map.
 
     // Getting runway number.
     runwayNumber = runwayInput.optionLogic();
-    if (MenuLogic.repeatLoop(runwayNumber)) continue;
+    if (repeatLoop(runwayNumber)) continue;
 
     // Map with calculated wind component.
     final result = windComponent(direction: runwayNumber!, windDirection: windDirection, windSpeed: windSpeedKt, runway: true);
@@ -276,7 +281,7 @@ String? windComponentScreen() {
 
     resultPrinter(windComponentString(headTail: headTailComp, xCross: crossWindComp));
 
-    if (!MenuLogic.backToMenu()) {
+    if (!backToMenu()) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       windDirection = null;
@@ -310,7 +315,7 @@ String? headingCorrectionScreen() {
     final windSpeedInput = MenuLogic.screenType(InputType.windSpeed, windSpeedKt);
     final trueAirspeedInput = MenuLogic.screenType(InputType.trueAirspeed, trueAirspeedTas);
 
-    MenuLogic.screenHeader(title: 'HEADING/WIND CORRECTION ANGLE (WCA)');
+    screenHeader(title: 'HEADING/WIND CORRECTION ANGLE (WCA)');
 
     // If the user decides to autofill the calculated or input values they will be autofilled.
     if ([windDirExists, windSpeedExists, trueAirExists].contains(true)) {
@@ -334,23 +339,23 @@ String? headingCorrectionScreen() {
 
     // Getting true course.
     trueCourse = trueCourseInput.optionLogic();
-    if (MenuLogic.repeatLoop(trueCourse)) continue;
+    if (repeatLoop(trueCourse)) continue;
 
     // Getting wind direction.
     windDirection = windDirInput.optionLogic();
-    if (MenuLogic.repeatLoop(windDirection)) continue;
+    if (repeatLoop(windDirection)) continue;
 
     comm.dataResult['windDirection'] = windDirection!; // saving wind direction input for reuse
 
     // Getting wind speed
     windSpeedKt = windSpeedInput.optionLogic();
-    if (MenuLogic.repeatLoop(windSpeedKt)) continue;
+    if (repeatLoop(windSpeedKt)) continue;
 
     comm.dataResult['windSpeed'] = windSpeedKt!; // saving wind speed input for reuse
 
     // Getting true airspeed.
     trueAirspeedTas = trueAirspeedInput.optionLogic();
-    if (MenuLogic.repeatLoop(trueAirspeedTas)) continue;
+    if (repeatLoop(trueAirspeedTas)) continue;
 
     comm.dataResult['trueAirspeed'] = trueAirspeedTas!; // saving true airspeed input for reuse
 
@@ -380,7 +385,7 @@ String? headingCorrectionScreen() {
     ]);
 
     // Asking the user weather to go back to the main menu or stay in this option for new calculations.
-    if (!MenuLogic.backToMenu()) {
+    if (!backToMenu()) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       trueCourse = null;
@@ -406,7 +411,8 @@ String? fuelScreen() {
   'Calculate Fuel...\n': 'noColor',
   '(1) —— ': 'Volume (US Gal)\n',
   '(2) —— ': 'Endurance (hr)\n',
-  '(3) —— ': 'Rate (US GPH)\n'
+  '(3) —— ': 'Rate (US GPH)\n',
+  '(4) —— ': 'Main Menu\n'
   };
 
 
@@ -414,8 +420,8 @@ String? fuelScreen() {
       title: 'FUEL',
       displayOptions: fuelOptions,
       startRange: 1,
-      endRange: 3,
-      listOfOptions: ['vol', 'dur', 'rate']
+      endRange: 4,
+      listOfOptions: ['vol', 'dur', 'rate', 'menu']
   );
 
   comm.selectedOption = null;
@@ -435,6 +441,10 @@ String? fuelScreen() {
       case 'rate':
         comm.console.clearScreen();
         fuelRateScreen();
+        break;
+      case 'menu':
+        comm.console.clearScreen();
+        comm.selectedOption = selection;
         break;
       default:
         comm.console.clearScreen();
