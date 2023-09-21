@@ -143,3 +143,19 @@ String formatNumber(num number) {
   return myFormat.format(double.tryParse(inDouble)); // Keep decimal point for non-integer numbers
 
 }
+
+void screenHeader({required String title, int color = 22, bool errorWindow = true}) {
+  comm.console.setBackgroundExtendedColor(color);
+  comm.console.setForegroundExtendedColor(253);
+  comm.console.setTextStyle(bold: true, italic: true);
+
+  comm.console.writeLine(title, TextAlignment.center);
+
+  comm.console.resetColorAttributes();
+  if (errorWindow) {
+    errorMessage(comm.error);
+  }
+
+  comm.console.setForegroundColor(ConsoleColor.white);
+  comm.console.setTextStyle(bold: true);
+}
