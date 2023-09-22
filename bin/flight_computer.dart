@@ -42,4 +42,6 @@ void main(List<String> arguments) async {
         break;
     }
   }
+  console.clearScreen();
+  console.resetColorAttributes();
 }
