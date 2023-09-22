@@ -420,7 +420,7 @@ String? fuelScreen() {
         startRange: 1,
         endRange: 4,
         listOfOptions: ['vol', 'dur', 'rate', 'menu']
-    );;
+    );
 
     switch (selection) {
       case 'vol':
