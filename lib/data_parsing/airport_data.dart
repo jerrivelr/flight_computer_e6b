@@ -68,19 +68,25 @@ Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async
     return jsonMap;
 
   } on SocketException {
+
     comm.noInternet = true;
-    return <dynamic>[];
+    return null;
 
   } on HandshakeException {
-    return <dynamic>[];
+    comm.handShakeError = true;
+    return null;
 
   } on FormatException {
-    comm.error = 'Downloaded data is corrupt. Trying again.';
     comm.formatError = true;
-    return <dynamic>[];
+    return null;
 
   } on HttpException {
-    return <dynamic>[];
+    comm.httpError = true;
+    return null;
+
+  } on TimeoutException {
+    comm.timeoutError = true;
+    return null;
   }
 }
 
