@@ -15,11 +15,6 @@ Future<String?> conditionsAirportScreen() async {
   comm.selectedOption = null;
   comm.screenCleared = true;
 
-  double? elevation;
-  double? temperature;
-  double? dewpoint;
-  double? altimeter;
-
   //               //                   //
   while(comm.selectedOption == null) {
     comm.console.showCursor();
@@ -127,10 +122,10 @@ Future<String?> conditionsAirportScreen() async {
     //               //             //            //                //
 
     // Data for calculation.
-    elevation = airpElevation?.toDouble();
-    temperature = metarData.temperature?.toDouble();
-    dewpoint = metarData.dewpoint?.toDouble();
-    altimeter = metarData.altimeterInHg?.toDouble();
+    final elevation = airpElevation?.toDouble();
+    final temperature = metarData.temperature?.toDouble();
+    final dewpoint = metarData.dewpoint?.toDouble();
+    final altimeter = metarData.altimeterInHg?.toDouble();
 
     final result = {
       'Airport: ': '$airpName ($airportId)\n',
