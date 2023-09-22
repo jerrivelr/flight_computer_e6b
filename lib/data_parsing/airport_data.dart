@@ -30,7 +30,7 @@ String? retrieveAirport() {
   return idInput;
 }
 
-int? airportElevation(String airportId) {
+int? airportElevation(String? airportId) {
   final elevation = contentDecoded?[airportId]?['elevation'] as int?;
 
   if (elevation != null) {
@@ -40,7 +40,7 @@ int? airportElevation(String airportId) {
   return null;
 }
 
-String? airportName(String airportId) {
+String? airportName(String? airportId) {
   final icao = contentDecoded?[airportId]?['name'] as String?;
 
   if (icao != null) {
@@ -50,10 +50,10 @@ String? airportName(String airportId) {
   return null;
 }
 
-Future<List<dynamic>> metar(String airportId, {bool includeTaf = false}) async {
+Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async {
   // returns the data downloaded from aviationweather.gov in List<dynamic>
   final queryParameters = {
-    'ids': airportId,
+    'ids': airportId ?? '',
     'format': 'json',
     'taf': includeTaf.toString()
   };
