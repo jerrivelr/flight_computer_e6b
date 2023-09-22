@@ -107,6 +107,12 @@ double correctionAngle({
   required double windSpeed,
   required double trueAirspeed}
     ) {
+  // TODO this function is inaccurate when certain values are input. Change it for accuracy. For example:
+  // TODO If you input the following the app will crash for some reason.
+  // TODO Course: 45
+  // TODO Wind Direction: 12
+  // TODO Wind Speed: 89
+  // TODO True Airspeed: 7
 
   // The angle between the wind direction and the desired course
   final windAngle = trueCourse - (180 + windDirection);
