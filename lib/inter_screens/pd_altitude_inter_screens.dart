@@ -50,8 +50,8 @@ Future<String?> conditionsAirportScreen() async {
     }
 
     // Downloads METAR information from the selected airport.
-    // downloadMetar ??= await metar(airportId);
-    downloadMetar ??= testMetar();
+    downloadMetar ??= await metar(airportId);
+    // downloadMetar ??= testMetar();
 
     // This is to display the downloading screen when downloading process.
     if (comm.screenCleared) {
@@ -171,6 +171,7 @@ Future<String?> conditionsAirportScreen() async {
     }
   }
 
+  airportId = null;
   return comm.selectedOption;
 }
 
