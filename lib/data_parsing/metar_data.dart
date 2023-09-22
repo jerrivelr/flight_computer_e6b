@@ -27,16 +27,16 @@ class Metar {
         windDirection: jsonMap[0]['wdir'] as num?,
         windSpeed: jsonMap[0]['wspd'] as num?,
         altimeterInHg: jsonMap[0]['altim'] as num?,
-        rawMetar: jsonMap[0]['rawOb'] as String
+        rawMetar: jsonMap[0]['rawOb'] as String?
     );
   }
 
-  final num? temperature;
-  final num? dewpoint;
-  final num? windDirection;
-  final num? windSpeed;
-  final num? altimeterInHg;
-  final String rawMetar;
+  num? temperature;
+  num? dewpoint;
+  num? windDirection;
+  num? windSpeed;
+  num? altimeterInHg;
+  String? rawMetar;
 
   @override
   String toString() {
