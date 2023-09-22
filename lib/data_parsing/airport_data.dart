@@ -116,5 +116,9 @@ List<dynamic>? testMetar() {
     final jsonFile = File(r'C:\Users\jerri\IdeaProjects\flight_e6b\lib\test_response.json');
     final decodedMetar = jsonDecode(jsonFile.readAsStringSync());
 
-  return decodedMetar;
+    return decodedMetar;
+  } on FormatException {
+    comm.formatError = true;
+    return null;
+  }
 }
