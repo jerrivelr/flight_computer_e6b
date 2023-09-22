@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 import 'package:http/http.dart' as http;
@@ -61,9 +63,16 @@ Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async
   final url = Uri.https('beta.aviationweather.gov', '/cgi-bin/data/metar.php', queryParameters);
 
   try {
+    _downloadingText();
+
     final response = await http.get(url);
     final jsonMap = jsonDecode(response.body);
+
     comm.noInternet = false;
+    comm.formatError = false;
+    comm.screenCleared = true;
+
+    comm.console.clearScreen();
 
     return jsonMap;
 
@@ -90,9 +99,22 @@ Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async
   }
 }
 
-List<dynamic> testMetar() {
-  final jsonFile = File(r'C:\Users\jerri\IdeaProjects\flight_e6b\lib\test_response.json');
-  final decodedMetar = jsonDecode(jsonFile.readAsStringSync());
+void _downloadingText() {
+  final row = (comm.console.windowHeight / 2).round() - 1;
+
+  comm.console.resetColorAttributes();
+  comm.console.cursorPosition = Coordinate(row - 2, 0);
+  comm.console.hideCursor();
+  comm.console.setTextStyle(bold: true, italic: true);
+  comm.console.writeLine('Downloading...', TextAlignment.center);
+  comm.console.setTextStyle();
+}
+
+
+List<dynamic>? testMetar() {
+  try {
+    final jsonFile = File(r'C:\Users\jerri\IdeaProjects\flight_e6b\lib\test_response.json');
+    final decodedMetar = jsonDecode(jsonFile.readAsStringSync());
 
   return decodedMetar;
 }
