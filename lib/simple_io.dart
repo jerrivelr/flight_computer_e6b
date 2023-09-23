@@ -7,11 +7,11 @@ import 'package:flight_e6b/communication_var.dart' as comm;
 
 String? input([String? printOut]) {
   if (printOut != null) {
-    stdout.write(printOut);
+    comm.console.write(printOut);
   }
   comm.console.setForegroundExtendedColor(180);
 
-  final String? userInput = stdin.readLineSync();
+  final String? userInput = comm.console.readLine();
 
   return userInput?.trim();
 }
