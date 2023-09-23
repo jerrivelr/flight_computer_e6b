@@ -7,24 +7,17 @@ import 'package:flight_e6b/communication_var.dart' as comm;
 
 String? mainMenu() {
   const options = {
-  '(1) —— ': 'Cloud Base (ft)\n',
-  '(2) —— ': 'Pressure/Density Altitude (ft)\n',
-  '(3) —— ': 'Ground Speed (GS)\n',
-  '(4) —— ': 'True Airspeed (TAS)\n',
-  '(5) —— ': 'Wind Component\n',
-  '(6) —— ': 'Heading/Wind Correction Angle (WCA)\n',
-  '(7) —— ': 'Fuel\n'
+  'Cloud Base (ft)': 'opt1',
+  'Pressure/Density Altitude (ft)': 'opt2',
+  'Ground Speed (GS)': 'opt3',
+  'True Airspeed (TAS)': 'opt4',
+  'Wind Component': 'opt5',
+  'Heading/Wind Correction Angle (WCA)': 'opt6',
+  'Fuel': 'opt7',
+  'Exit': 'exit'
   };
 
-
-  final optionList = comm.optionList.getRange(0, 7).toList();
-  final menuDisplay = menuBuilder(
-      title: 'FLIGHT COMPUTER (E6B)',
-      displayOptions: options,
-      startRange: 1,
-      endRange: 7,
-      listOfOptions: optionList
-  );
+  final menuDisplay = menuBuilder(title: 'FLIGHT COMPUTER (E6B)', menuOptions: options);
   return menuDisplay;
 }
 
@@ -78,22 +71,16 @@ Future<String?> pressDensityScreen() async {
   String? selection;
 
   const densityPressOption = {
-  'Calculate Pressure/Density Altitude From...\n': 'noColor',
-  '(1) —— ': 'Conditions at Airport\n',
-  '(2) —— ': 'Manual Values\n',
-  '(3) —— ': 'Main Menu\n'
+  'Calculate Pressure/Density Altitude From...': '',
+  'Conditions at Airport': 'airport',
+  'Manual Values': 'manual',
+  'Main Menu': 'menu'
   };
 
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    selection = menuBuilder(
-        title: 'PRESSURE/DENSITY ALTITUDE',
-        displayOptions: densityPressOption,
-        startRange: 1,
-        endRange: 3,
-        listOfOptions: ['airport', 'manual', 'menu']
-    );
+    selection = menuBuilder(title: 'PRESSURE/DENSITY ALTITUDE', menuOptions: densityPressOption);
 
     switch (selection) {
       case 'airport':
@@ -404,23 +391,17 @@ String? fuelScreen() {
   String? selection;
 
   const fuelOptions = {
-  'Calculate Fuel...\n': 'noColor',
-  '(1) —— ': 'Volume (US Gal)\n',
-  '(2) —— ': 'Endurance (hr)\n',
-  '(3) —— ': 'Rate (US GPH)\n',
-  '(4) —— ': 'Main Menu\n'
+  'Calculate Fuel...': '',
+  'Volume (US Gal)': 'vol',
+  'Endurance (hr)': 'dur',
+  'Rate (US GPH)': 'rate',
+  'Main Menu': 'menu'
   };
 
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    selection = menuBuilder (
-        title: 'FUEL',
-        displayOptions: fuelOptions,
-        startRange: 1,
-        endRange: 4,
-        listOfOptions: ['vol', 'dur', 'rate', 'menu']
-    );
+    selection = menuBuilder (title: 'FUEL', menuOptions: fuelOptions);
 
     switch (selection) {
       case 'vol':
