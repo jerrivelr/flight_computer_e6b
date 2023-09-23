@@ -244,7 +244,7 @@ class MenuLogic {
           comm.console.setForegroundExtendedColor(253);
           comm.console.write(item.key);
           comm.console.setForegroundExtendedColor(180);
-          comm.console.writeLine(item.value);
+          comm.console.write('${item.value}\n');
 
           comm.console.resetColorAttributes();
         }
