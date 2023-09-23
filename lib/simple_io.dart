@@ -188,13 +188,11 @@ void beautifulPrint(Object input, {String symbol = '='}) {
 }
 
 void errorMessage(String message) {
-  final console = Console();
+  comm.console.setForegroundColor(ConsoleColor.red);
+  comm.console.setTextStyle(bold: true, italic: true, blink: true);
+  comm.console.writeLine(message);
 
-  console.setForegroundColor(ConsoleColor.red);
-  console.setTextStyle(bold: true, italic: true, blink: true);
-  console.writeLine(message);
-
-  console.resetColorAttributes();
+  comm.console.resetColorAttributes();
 }
 
 void resultPrinter(List<String> displayString) {
