@@ -142,73 +142,81 @@ String formatNumber(num number) {
 
 }
 
-void screenHeader({required String title, int color = 22, bool errorWindow = true}) {
-  comm.console.setBackgroundExtendedColor(color);
-  comm.console.setForegroundExtendedColor(253);
-  comm.console.setTextStyle(bold: true, italic: true);
+String? menuBuilder ({required String title, required Map<String, String> menuOptions, highlightColor = 94}) {
+  final optionKeys = menuOptions.keys.toList();
+  comm.console.hideCursor();
 
-  comm.console.writeLine(title, TextAlignment.center);
-
-  comm.console.resetColorAttributes();
-  if (errorWindow) {
-    errorMessage(comm.error);
+  int firstOption;
+  if (menuOptions[optionKeys[0]] == '') {
+    firstOption = 1;
+  } else {
+    firstOption = 0;
   }
 
-  comm.console.setForegroundColor(ConsoleColor.white);
-  comm.console.setTextStyle(bold: true);
-}
+  int currentHighlight = firstOption;
+  Key? key;
+  String? selection;
 
-String? menuBuilder ({
-  required String title,
-  required Map<String, String> displayOptions,
-  required int startRange,
-  required int endRange,
-  required List<String> listOfOptions}) {
-
-  while (true) {
+  while (selection == null) {
     // Creating the title bar.
     screenHeader(title: title, errorWindow: false);
 
-    for (final items in displayOptions.entries) {
-      if (items.value == 'noColor') {
-        comm.console.setForegroundColor(ConsoleColor.white);
+    if (currentHighlight < firstOption) {
+      currentHighlight = optionKeys.length - 1;
+    } else if (currentHighlight > optionKeys.length - 1) {
+      currentHighlight = firstOption;
+    }
+
+    for (var item in menuOptions.entries) {
+      if (menuOptions[item.key] == '') {
+        comm.console.setForegroundExtendedColor(180);
+        comm.console.setTextStyle(bold: true, italic: true);
+        comm.console.writeLine(item.key);
         comm.console.resetColorAttributes();
-        comm.console.write(items.key);
         continue;
+      } else if (menuOptions[item.key] == 'exit') {
+        comm.console.setForegroundColor(ConsoleColor.red);
       }
-      comm.console.setForegroundExtendedColor(180);
-      comm.console.write(items.key);
 
-      comm.console.setTextStyle(bold: true, italic: true);
-      comm.console.setForegroundExtendedColor(253);
-      comm.console.write(items.value);
+      if (item.key == optionKeys[currentHighlight]) {
+        // console.setForegroundColor(ConsoleColor.brightGreen);
+        comm.console.setBackgroundExtendedColor(highlightColor);
+      }
 
+      final optionLength = item.key.length;
+
+      comm.console.setTextStyle(bold: true);
+      comm.console.write(item.key.padLeft(optionLength + 2).padRight(optionLength + 4));
+      comm.console.writeLine();
       comm.console.resetColorAttributes();
     }
-    // Displaying error messages bellow the list of displayOptions
-    errorMessage(comm.error);
-    comm.console.setForegroundExtendedColor(250);
 
-    // Getting input from user
-    String? userInput = input(': ');
-    int? selectionNum = int.tryParse(userInput ?? '');
-
-    if (comm.optionList.contains(userInput?.toLowerCase())) {
-      return userInput;
-    } else if (selectionNum == null) {
-      comm.console.clearScreen();
-      comm.error = 'Enter a valid option';
-      continue;
-    } else if (selectionNum < startRange || selectionNum > endRange) {
-      comm.console.clearScreen();
-      comm.error = 'Choose an option between ($startRange) — ($endRange)';
-      continue;
+    key = comm.console.readKey();
+    switch (key.controlChar) {
+      case ControlCharacter.arrowDown:
+        currentHighlight++;
+        comm.console.clearScreen();
+        break;
+      case ControlCharacter.arrowUp:
+        currentHighlight--;
+        comm.console.clearScreen();
+        break;
+      case ControlCharacter.enter:
+        selection = menuOptions[optionKeys[currentHighlight]];
+        comm.console.clearScreen();
+        break;
+      case ControlCharacter.ctrlQ:
+        selection = 'exit';
+        comm.console.clearScreen();
+      default:
+        comm.console.clearScreen();
+        break;
     }
-
-    comm.error = '';
-
-    return listOfOptions.elementAt(selectionNum - 1);
   }
+
+  comm.console.showCursor();
+
+  return selection;
 }
 
 /// Used for printing the results of something
