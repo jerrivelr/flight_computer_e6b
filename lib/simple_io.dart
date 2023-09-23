@@ -212,3 +212,92 @@ String? menuBuilder ({
     return listOfOptions.elementAt(selectionNum - 1);
   }
 }
+
+/// Used for printing the results of something
+void beautifulPrint(Object input, {String symbol = '='}) {
+  final inputString = input.toString();
+
+  if (!inputString.contains('\n')) {
+    final linesOfSymbols = symbol * (inputString.length + 4);
+    final result =
+        '$linesOfSymbols\n'
+        '$symbol $input $symbol\n'
+        '$linesOfSymbols';
+    print(result);
+
+  } else {
+
+    // To construct the final string.
+    final totalString = StringBuffer();
+
+    final splitString = inputString.split('\n');
+    // Used to store the lengths of the strings in splitString variable.
+    final stringLength = <int>[];
+
+    for (final sentence in splitString) {
+      stringLength.add(sentence.characters.length);
+    }
+
+    // List sorted to find the length of the longest string, which is the last item.
+    stringLength.sort();
+    final longestString = stringLength.last;
+
+    totalString.write('${symbol * (longestString + 4)}\n');
+    for (final sentence in splitString) {
+      var whitespaceToAdd = (longestString - 1) - (sentence.characters.length - 2);
+      totalString.write('$symbol $sentence${' ' * whitespaceToAdd}$symbol\n');
+    }
+    totalString.write(symbol * (longestString + 4));
+
+    print(totalString);
+
+  }
+}
+
+void errorMessage(String message) {
+  final console = Console();
+
+  console.setForegroundColor(ConsoleColor.red);
+  console.setTextStyle(bold: true, italic: true, blink: true);
+  console.writeLine(message);
+
+  console.resetColorAttributes();
+}
+
+void resultPrinter(List<String> displayString) {
+  final table = Table()
+    ..borderColor = ConsoleColor.green
+    ..borderStyle = BorderStyle.rounded
+    ..borderType = BorderType.horizontal;
+
+  for (final item in displayString) {
+    table.insertRow([item]);
+  }
+
+  comm.console.write(table);
+}
+
+void printDownData(Map<String, String> data) {
+  for (final item in data.entries) {
+    comm.console.setForegroundExtendedColor(253);
+    comm.console.write(item.key);
+    comm.console.setForegroundExtendedColor(180);
+    comm.console.write(item.value);
+  }
+}
+
+void screenHeader({required String title, int color = 22, bool errorWindow = true}) {
+  comm.console.setBackgroundExtendedColor(color);
+  comm.console.setForegroundExtendedColor(253);
+  comm.console.setTextStyle(bold: true, italic: true);
+
+  comm.console.writeLine(title, TextAlignment.center);
+
+  comm.console.resetColorAttributes();
+  if (errorWindow) {
+    errorMessage(comm.error);
+  }
+
+  comm.console.setForegroundColor(ConsoleColor.white);
+  comm.console.setTextStyle(bold: true);
+}
