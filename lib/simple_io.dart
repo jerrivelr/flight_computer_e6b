@@ -69,7 +69,7 @@ String formatNumber(num number) {
 
 }
 
-String? menuBuilder ({required String title, required Map<String, String> menuOptions, highlightColor = 94}) {
+String? menuBuilder ({required Map<String, String> menuOptions, String title = '', highlightColor = 94, bool noTitle = false}) {
   final optionKeys = menuOptions.keys.toList();
   comm.console.hideCursor();
 
@@ -85,8 +85,10 @@ String? menuBuilder ({required String title, required Map<String, String> menuOp
   String? selection;
 
   while (selection == null) {
-    // Creating the title bar.
-    screenHeader(title: title, errorWindow: false);
+    if (!noTitle) {
+      // Creating the title bar.
+      screenHeader(title: title, errorWindow: false);
+    }
 
     if (currentHighlight < firstOption) {
       currentHighlight = optionKeys.length - 1;
