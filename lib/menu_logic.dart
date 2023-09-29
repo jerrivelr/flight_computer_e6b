@@ -22,7 +22,7 @@ enum InputTitle {
   final String title;
 }
 
-enum OptionIdentifier {
+enum OptionIdent {
   menu('menu', 'menu'),
   exit('exit', 'exit'),
   cloudBase('cloud base', 'op1'),
@@ -38,7 +38,7 @@ enum OptionIdentifier {
   fuelDur('fuel duration', 'op7.2'),
   fuelRate('fuel rate', 'op7.3');
 
-  const OptionIdentifier(this.title, this.typedOption);
+  const OptionIdent(this.title, this.typedOption);
 
   final String title;
   final String typedOption;
