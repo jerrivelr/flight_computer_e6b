@@ -22,6 +22,22 @@ enum InputType {
   final String title;
 }
 
+enum OptionIdentifier {
+  menu,
+  cloudBase,
+  pressDenAlt,
+  trueAirspeed,
+  windComp,
+  windCorrection,
+  fuel,
+  airport,
+  manual,
+  fuelVol,
+  fuelDur,
+  fuelRate,
+  exit,
+}
+
 class MenuLogic {
   static String? userInput;
   static var condition = comm.optionList.contains(userInput?.toLowerCase());
