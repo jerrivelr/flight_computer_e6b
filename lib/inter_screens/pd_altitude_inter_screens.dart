@@ -8,7 +8,7 @@ import 'package:flight_e6b/communication_var.dart' as comm;
 String? airportId;
 bool missingValue = true;
 
-Future<String?> conditionsAirportScreen() async {
+Future<OptionIdent?> conditionsAirportScreen() async {
   List<dynamic>? downloadMetar;
   Metar? metarData;
 
@@ -157,7 +157,7 @@ Future<String?> conditionsAirportScreen() async {
       'Density Altitude: ${formatNumber(density)}ft']
     );
 
-    if (!backToMenu(text: 'Back to Pressure/Density Altitude Menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt2')) {
+    if (!backToMenu(text: 'Back to Pressure/Density Altitude Menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: OptionIdent.pressDenAlt)) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       airportId = null;
@@ -175,7 +175,7 @@ Future<String?> conditionsAirportScreen() async {
   return comm.selectedOption;
 }
 
-String? manualScreen() {
+OptionIdent? manualScreen() {
   double? indicatedAlt;
   double? pressInHg;
   double? temperature;
@@ -235,7 +235,7 @@ String? manualScreen() {
     resultPrinter(['Density Altitude: ${formatNumber(density)}ft']);
 
     // Asking user weather to make a new calculation or back to menu.
-    if (!backToMenu(text: 'Back to Pressure/Density Altitude Menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt2')) {
+    if (!backToMenu(text: 'Back to Pressure/Density Altitude Menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: OptionIdent.pressDenAlt)) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       indicatedAlt = null;

@@ -5,30 +5,29 @@ import 'package:flight_e6b/inter_screens/fuel_inter_screens.dart';
 import 'package:flight_e6b/inter_screens/pd_altitude_inter_screens.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
-String? mainMenu() {
+OptionIdent? mainMenu() {
   const options = {
-  'Cloud Base (ft)': 'opt1',
-  'Pressure/Density Altitude (ft)': 'opt2',
-  'Ground Speed (GS)': 'opt3',
-  'True Airspeed (TAS)': 'opt4',
-  'Wind Component': 'opt5',
-  'Heading/Wind Correction Angle (WCA)': 'opt6',
-  'Fuel': 'opt7',
-  'Exit': 'exit'
+  'Cloud Base (ft)': OptionIdent.cloudBase,
+  'Pressure/Density Altitude (ft)': OptionIdent.pressDenAlt,
+  'Ground Speed (GS)': OptionIdent.groundSpeed,
+  'True Airspeed (TAS)': OptionIdent.trueAirspeed,
+  'Wind Component': OptionIdent.windComp,
+  'Heading/Wind Correction Angle (WCA)': OptionIdent.windCorrection,
+  'Fuel': OptionIdent.fuel,
+  'Exit': OptionIdent.exit
   };
 
   final menuDisplay = menuBuilder(title: 'FLIGHT COMPUTER (E6B)', menuOptions: options);
   return menuDisplay;
 }
 
-String? cloudBaseScreen() {
+OptionIdent? cloudBaseScreen() {
   double? temperature;
   double? dewpoint;
 
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    // Sending calculated pressure altitucomm dataResult Map.
     final tempInput = MenuLogic.screenType(InputTitle.temperature, temperature);
     final dewInput = MenuLogic.screenType(InputTitle.dewpoint, dewpoint);
 
@@ -49,7 +48,6 @@ String? cloudBaseScreen() {
       continue;
     }
 
-    // temperature and dewpoint will never be null at this point.
     final result = cloudBase(temperature, dewpoint);
     resultPrinter(['Cloud Base: ${formatNumber(result)}ft']);
 
@@ -67,14 +65,14 @@ String? cloudBaseScreen() {
   return comm.selectedOption;
 }
 
-Future<String?> pressDensityScreen() async {
-  String? selection;
+Future<OptionIdent?> pressDensityScreen() async {
+  OptionIdent? selection;
 
   const densityPressOption = {
-  'Calculate Pressure/Density Altitude From...': '',
-  'Conditions at Airport': 'airport',
-  'Manual Values': 'manual',
-  'Main Menu': 'menu'
+  'Calculate Pressure/Density Altitude From...': null,
+  'Conditions at Airport': OptionIdent.airport,
+  'Manual Values': OptionIdent.manual,
+  'Main Menu': OptionIdent.menu
   };
 
   comm.selectedOption = null;
@@ -83,15 +81,15 @@ Future<String?> pressDensityScreen() async {
     selection = menuBuilder(title: 'PRESSURE/DENSITY ALTITUDE', menuOptions: densityPressOption);
 
     switch (selection) {
-      case 'airport':
+      case OptionIdent.airport:
         comm.console.clearScreen();
         await conditionsAirportScreen();
         break;
-      case 'manual':
+      case OptionIdent.manual:
         comm.console.clearScreen();
         manualScreen();
         break;
-      case 'menu':
+      case OptionIdent.menu:
         comm.console.clearScreen();
         comm.selectedOption = selection;
         break;
@@ -104,7 +102,7 @@ Future<String?> pressDensityScreen() async {
   return comm.selectedOption;
 }
 
-String? groundSpeedScreen() {
+OptionIdent? groundSpeedScreen() {
   double? distanceNm;
   double? timeHr;
 
@@ -144,7 +142,7 @@ String? groundSpeedScreen() {
   return comm.selectedOption;
 }
 
-String? trueAirspeedScreen() {
+OptionIdent? trueAirspeedScreen() {
   double? calibratedAir;
   double? pressAltitude;
   double? temperature;
@@ -225,7 +223,7 @@ String? trueAirspeedScreen() {
   return comm.selectedOption;
 }
 
-String? windComponentScreen() {
+OptionIdent? windComponentScreen() {
   double? windDirection;
   double? windSpeedKt;
   double? runwayNumber;
@@ -278,7 +276,7 @@ String? windComponentScreen() {
   return comm.selectedOption;
 }
 
-String? headingCorrectionScreen() {
+OptionIdent? headingCorrectionScreen() {
   double? trueCourse;
   double? windDirection;
   double? windSpeedKt;
@@ -387,15 +385,15 @@ String? headingCorrectionScreen() {
   return comm.selectedOption;
 }
 
-String? fuelScreen() {
-  String? selection;
+OptionIdent? fuelScreen() {
+  OptionIdent? selection;
 
   const fuelOptions = {
-  'Calculate Fuel...': '',
-  'Volume (US Gal)': 'vol',
-  'Endurance (hr)': 'dur',
-  'Rate (US GPH)': 'rate',
-  'Main Menu': 'menu'
+  'Calculate Fuel...': null,
+  'Volume (US Gal)': OptionIdent.fuelVol,
+  'Endurance (hr)': OptionIdent.fuelDur,
+  'Rate (US GPH)': OptionIdent.fuelRate,
+  'Main Menu': OptionIdent.menu
   };
 
   comm.selectedOption = null;
@@ -404,19 +402,19 @@ String? fuelScreen() {
     selection = menuBuilder (title: 'FUEL', menuOptions: fuelOptions);
 
     switch (selection) {
-      case 'vol':
+      case OptionIdent.fuelVol:
         comm.console.clearScreen();
         volumeScreen();
         break;
-      case 'dur':
+      case OptionIdent.fuelDur:
         comm.console.clearScreen();
         enduranceScreen();
         break;
-      case 'rate':
+      case OptionIdent.fuelRate:
         comm.console.clearScreen();
         fuelRateScreen();
         break;
-      case 'menu':
+      case OptionIdent.menu:
         comm.console.clearScreen();
         comm.selectedOption = selection;
         break;

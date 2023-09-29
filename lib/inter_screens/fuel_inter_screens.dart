@@ -2,7 +2,7 @@ import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/menu_logic.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
-String? volumeScreen() {
+OptionIdent? volumeScreen() {
   double? fuelRate;
   double? fuelTime;
 
@@ -27,7 +27,7 @@ String? volumeScreen() {
       'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
-    if (!backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
+    if (!backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: OptionIdent.fuel)) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       fuelRate = null;
@@ -41,7 +41,7 @@ String? volumeScreen() {
   return comm.selectedOption;
 }
 
-String? enduranceScreen() {
+OptionIdent? enduranceScreen() {
   double? fuelVolume;
   double? fuelRate;
 
@@ -66,7 +66,7 @@ String? enduranceScreen() {
       'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
-    if (!backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
+    if (!backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: OptionIdent.fuel)) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       fuelVolume = null;
@@ -80,7 +80,7 @@ String? enduranceScreen() {
   return comm.selectedOption;
 }
 
-String? fuelRateScreen() {
+OptionIdent? fuelRateScreen() {
   double? fuelVolume;
   double? fuelTime;
 
@@ -105,7 +105,7 @@ String? fuelRateScreen() {
       'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
-    if (!backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: 'opt7')) {
+    if (!backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: OptionIdent.fuel)) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       fuelVolume = null;

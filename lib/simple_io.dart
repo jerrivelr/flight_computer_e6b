@@ -1,5 +1,6 @@
 import 'package:characters/characters.dart';
 import 'package:dart_console/dart_console.dart';
+import 'package:flight_e6b/menu_logic.dart';
 import 'package:intl/intl.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
@@ -69,20 +70,20 @@ String formatNumber(num number) {
 
 }
 
-String? menuBuilder ({required Map<String, String> menuOptions, String title = '', highlightColor = 94, bool noTitle = false}) {
+OptionIdent? menuBuilder ({required Map<String, OptionIdent?> menuOptions, String title = '', highlightColor = 94, bool noTitle = false}) {
   final optionKeys = menuOptions.keys.toList();
   comm.console.hideCursor();
 
   int firstOption;
-  if (menuOptions[optionKeys[0]] == '') {
+  if (menuOptions[optionKeys[0]] == null) {
     firstOption = 1;
   } else {
     firstOption = 0;
   }
 
-  int currentHighlight = firstOption;
+  int currentHighlight = firstOption; // to know where to put the highlight bar
   Key? key;
-  String? selection;
+  OptionIdent? selection;
 
   while (selection == null) {
     if (!noTitle) {
@@ -97,18 +98,17 @@ String? menuBuilder ({required Map<String, String> menuOptions, String title = '
     }
 
     for (var item in menuOptions.entries) {
-      if (menuOptions[item.key] == '') {
+      if (menuOptions[item.key] == null) {
         comm.console.setForegroundExtendedColor(180);
         comm.console.setTextStyle(bold: true, italic: true);
         comm.console.writeLine(item.key);
         comm.console.resetColorAttributes();
         continue;
-      } else if (menuOptions[item.key] == 'exit') {
+      } else if (menuOptions[item.key] == OptionIdent.exit) {
         comm.console.setForegroundColor(ConsoleColor.red);
       }
 
       if (item.key == optionKeys[currentHighlight]) {
-        // console.setForegroundColor(ConsoleColor.brightGreen);
         comm.console.setBackgroundExtendedColor(highlightColor);
       }
 
@@ -135,8 +135,9 @@ String? menuBuilder ({required Map<String, String> menuOptions, String title = '
         comm.console.clearScreen();
         break;
       case ControlCharacter.ctrlQ:
-        selection = 'exit';
+        selection = OptionIdent.exit;
         comm.console.clearScreen();
+        break;
       default:
         comm.console.clearScreen();
         break;

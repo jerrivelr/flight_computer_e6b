@@ -1,44 +1,47 @@
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/main_screens/menu_screens.dart';
+import 'package:flight_e6b/menu_logic.dart';
 
 final console = Console();
 
 void main(List<String> arguments) async {
   console.clearScreen();
-  String? userSelection = 'menu';
+  OptionIdent? userSelection = OptionIdent.menu;
 
-  while (userSelection != 'exit') {
+  while (userSelection != OptionIdent.exit) {
     switch (userSelection) {
-      case 'menu':
+      case OptionIdent.menu:
         userSelection = mainMenu();
         break;
-      case 'opt1':
+      case OptionIdent.cloudBase:
         console.clearScreen();
         userSelection = cloudBaseScreen();
         break;
-      case 'opt2':
+      case OptionIdent.pressDenAlt:
         console.clearScreen();
         userSelection = await pressDensityScreen();
         break;
-      case 'opt3':
+      case OptionIdent.groundSpeed:
         console.clearScreen();
         userSelection = groundSpeedScreen();
         break;
-      case 'opt4':
+      case OptionIdent.trueAirspeed:
         console.clearScreen();
         userSelection = trueAirspeedScreen();
         break;
-      case 'opt5':
+      case OptionIdent.windComp:
         console.clearScreen();
         userSelection = windComponentScreen();
         break;
-      case 'opt6':
+      case OptionIdent.windCorrection:
         console.clearScreen();
         userSelection = headingCorrectionScreen();
         break;
-      case 'opt7':
+      case OptionIdent.fuel:
         console.clearScreen();
         userSelection = fuelScreen();
+        break;
+      default:
         break;
     }
   }

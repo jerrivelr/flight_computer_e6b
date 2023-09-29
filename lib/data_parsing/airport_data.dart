@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/simple_io.dart';
+import 'package:flight_e6b/menu_logic.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 import 'package:http/http.dart' as http;
 
@@ -16,8 +17,8 @@ String? retrieveAirport() {
 
   // If user inputs something inside the optionList global variable, it will exit the option and jump to the selected
   // option without creating any instance.
-  if (comm.optionList.contains(idInput?.toLowerCase())) {
-    comm.selectedOption = idInput?.toLowerCase();
+  if (titles.contains(idInput?.toLowerCase()) || typed.contains(idInput?.toLowerCase())) {
+    comm.selectedOption = checkIdent(idInput?.toLowerCase());
     return null;
   }
 
