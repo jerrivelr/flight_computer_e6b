@@ -261,9 +261,9 @@ class MenuLogic {
           comm.error = userInput!;
           break;
 
-        } else if (comm.optionList.contains(userInput!)) {
+        } else if (titles.contains(userInput) || typed.contains(userInput)) {
           comm.console.clearScreen();
-          comm.selectedOption = userInput;
+          comm.selectedOption = checkIdent(userInput);
           comm.error = '';
           break;
 
@@ -308,10 +308,9 @@ class MenuLogic {
 
     String? userInput;
 
-    // Make sure the input lowercase.
     userInput = input(printOut)?.toLowerCase();
 
-    if (comm.optionList.contains(userInput)) {
+    if (titles.contains(userInput) || typed.contains(userInput)) {
       return userInput;
     } else if (double.tryParse(userInput ?? '') == null) {
       return ifInvalid;
@@ -366,7 +365,7 @@ bool checkValueExits(List<bool> listOfConditions) {
   return false;
 }
 
-bool backToMenu({String text = 'Back to main menu: [Y] yes (any key) ——— [N] no?', String backMenuSelection = 'menu'}) {
+bool backToMenu({String text = 'Back to main menu: [Y] yes (any key) ——— [N] no?', OptionIdent backMenuSelection = OptionIdent.menu}) {
   comm.console.setTextStyle(italic: true);
   comm.console.writeLine(text);
   final userInput = input(': ')?.toLowerCase().trim();
