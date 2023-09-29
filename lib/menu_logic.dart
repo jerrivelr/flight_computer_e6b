@@ -27,22 +27,46 @@ enum OptionIdent {
   exit('exit', 'exit'),
   cloudBase('cloud base', 'op1'),
   pressDenAlt('altitude', 'op2'),
-  airport('airport', 'op2.1'),
-  manual('manual', 'op2.2'),
+  airport('airport', 'op2'),
+  manual('manual', 'op2'),
   groundSpeed('ground speed', 'op3'),
   trueAirspeed('true airspeed', 'op4'),
   windComp('wind component', 'op5'),
   windCorrection('wind correction', 'op6'),
   fuel('fuel', 'op7'),
-  fuelVol('fuel volume', 'op7.1'),
-  fuelDur('fuel duration', 'op7.2'),
-  fuelRate('fuel rate', 'op7.3');
+  fuelVol('fuel volume', 'op7'),
+  fuelDur('fuel duration', 'op7'),
+  fuelRate('fuel rate', 'op7');
 
   const OptionIdent(this.title, this.typedOption);
 
   final String title;
   final String typedOption;
 
+}
+
+final titles = <String>[for (final item in OptionIdent.values) item.title];
+final typed = <String>[for (final item in OptionIdent.values) item.typedOption];
+
+OptionIdent? checkIdent(String? inputString) {
+  if (titles.contains(inputString)) {
+
+    for (final item in OptionIdent.values) {
+      if (item.title == inputString) {
+        return item;
+      }
+    }
+
+  } else if (typed.contains(inputString)) {
+
+    for (final item in OptionIdent.values) {
+      if (item.typedOption == inputString) {
+        return item;
+      }
+    }
+  }
+
+  return null;
 }
 
 class MenuLogic {
