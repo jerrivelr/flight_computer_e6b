@@ -23,19 +23,26 @@ enum InputTitle {
 }
 
 enum OptionIdentifier {
-  menu,
-  cloudBase,
-  pressDenAlt,
-  trueAirspeed,
-  windComp,
-  windCorrection,
-  fuel,
-  airport,
-  manual,
-  fuelVol,
-  fuelDur,
-  fuelRate,
-  exit,
+  menu('menu', 'menu'),
+  exit('exit', 'exit'),
+  cloudBase('cloud base', 'op1'),
+  pressDenAlt('altitude', 'op2'),
+  airport('airport', 'op2.1'),
+  manual('manual', 'op2.2'),
+  groundSpeed('ground speed', 'op3'),
+  trueAirspeed('true airspeed', 'op4'),
+  windComp('wind component', 'op5'),
+  windCorrection('wind correction', 'op6'),
+  fuel('fuel', 'op7'),
+  fuelVol('fuel volume', 'op7.1'),
+  fuelDur('fuel duration', 'op7.2'),
+  fuelRate('fuel rate', 'op7.3');
+
+  const OptionIdentifier(this.title, this.typedOption);
+
+  final String title;
+  final String typedOption;
+
 }
 
 class MenuLogic {
