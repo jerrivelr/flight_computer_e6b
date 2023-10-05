@@ -157,7 +157,10 @@ Future<OptionIdent?> conditionsAirportScreen() async {
       'Density Altitude: ${formatNumber(density)}ft']
     );
 
-    if (!backToMenu(text: 'Back to Pressure/Density Altitude Menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: OptionIdent.pressDenAlt)) {
+    final backOrNot = backToMenu(goBack: 'Back to Pressure/Density Altitude Menu', backMenuSelection: OptionIdent.pressDenAlt);
+    if (backOrNot == null) continue;
+
+    if (backOrNot) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       airportId = null;
@@ -234,8 +237,10 @@ OptionIdent? manualScreen() {
     comm.dataResult['densityAlt'] = density;
     resultPrinter(['Density Altitude: ${formatNumber(density)}ft']);
 
-    // Asking user weather to make a new calculation or back to menu.
-    if (!backToMenu(text: 'Back to Pressure/Density Altitude Menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: OptionIdent.pressDenAlt)) {
+    final backOrNot = backToMenu(goBack: 'Back to Pressure/Density Altitude Menu', backMenuSelection: OptionIdent.pressDenAlt);
+    if (backOrNot == null) continue;
+
+    if (backOrNot) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       indicatedAlt = null;
