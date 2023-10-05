@@ -20,6 +20,8 @@ String? retrieveAirport() {
   if (titles.contains(idInput?.toLowerCase()) || typed.contains(idInput?.toLowerCase())) {
     comm.selectedOption = checkIdent(idInput?.toLowerCase());
     return null;
+  } else if (idInput?.isEmpty ?? true) {
+    return idInput ?? '';
   }
 
   // This is for when user inputs the airport ID in IATA so the output is in ICAO because the weather API only accepts
