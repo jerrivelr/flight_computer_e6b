@@ -352,22 +352,6 @@ class MenuLogic {
   }
 }
 
-bool checkValueExits(List<bool> listOfConditions) {
-  if (listOfConditions.contains(true)) {
-    comm.console.setTextStyle(italic: true);
-    comm.console.writeLine('Autofill previously calculated/input values: [Y] yes ——— [N] no (any key)?');
-    var userInput = input(': ')?.toLowerCase();
-
-    comm.console.clearScreen();
-    if (userInput == 'y' || userInput == 'yes') {
-      userInput = null;
-      return true;
-    }
-  }
-
-  return false;
-}
-
 var currentHighlight = 1;
 
 bool? insideMenus({
