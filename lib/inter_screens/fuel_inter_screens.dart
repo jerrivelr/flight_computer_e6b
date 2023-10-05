@@ -27,7 +27,10 @@ OptionIdent? volumeScreen() {
       'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
-    if (!backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: OptionIdent.fuel)) {
+    final backOrNot = backToMenu(goBack: 'Back to Fuel Menu', backMenuSelection: OptionIdent.fuel);
+    if (backOrNot == null) continue;
+
+    if (backOrNot) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       fuelRate = null;
@@ -66,7 +69,10 @@ OptionIdent? enduranceScreen() {
       'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
-    if (!backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: OptionIdent.fuel)) {
+    final backOrNot = backToMenu(goBack: 'Back to Fuel Menu', backMenuSelection: OptionIdent.fuel);
+    if (backOrNot == null) continue;
+
+    if (backOrNot) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       fuelVolume = null;
@@ -105,7 +111,10 @@ OptionIdent? fuelRateScreen() {
       'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
-    if (!backToMenu(text: 'Back to fuel menu: [Y] yes (any key) ——— [N] no?', backMenuSelection: OptionIdent.fuel)) {
+    final backOrNot = backToMenu(goBack: 'Back to Fuel Menu', backMenuSelection: OptionIdent.fuel);
+    if (backOrNot == null) continue;
+
+    if (backOrNot) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       fuelVolume = null;
