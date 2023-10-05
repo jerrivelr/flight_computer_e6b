@@ -1,3 +1,4 @@
+import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
@@ -367,19 +368,110 @@ bool checkValueExits(List<bool> listOfConditions) {
   return false;
 }
 
-bool backToMenu({String text = 'Back to main menu: [Y] yes (any key) ——— [N] no?', OptionIdent backMenuSelection = OptionIdent.menu}) {
-  comm.console.setTextStyle(italic: true);
-  comm.console.writeLine(text);
-  final userInput = input(': ')?.toLowerCase().trim();
+var currentHighlight = 1;
 
-  if (userInput == 'n' || userInput == 'no') {
-    comm.error = '';
+bool? backToMenu({
+  String text = 'Reenter values?',
+  String goBack = 'Back to Main Menu',
+  OptionIdent backMenuSelection = OptionIdent.menu,
+  bool autofill = false
+
+}) {
+  OptionIdent? selection;
+  comm.console.hideCursor();
+
+  Map<String, OptionIdent?> options;
+
+  if (autofill) {
+    options = {
+      'Autofill previously calculated/entered values?': null,
+      'Yes': OptionIdent.yes,
+      'No': OptionIdent.no,
+      goBack: backMenuSelection
+    };
+  } else if (backMenuSelection != OptionIdent.menu) {
+    options = {
+      text: null,
+      'Yes': OptionIdent.yes,
+      goBack: backMenuSelection,
+      'Main Menu': OptionIdent.menu
+    };
+  } else {
+    options = {
+      text: null,
+      'Yes': OptionIdent.yes,
+      goBack: backMenuSelection
+    };
+  }
+
+  final optionKeys = options.keys.toList();
+
+  if (currentHighlight < 1) {
+    currentHighlight = options.length - 1;
+  } else if (currentHighlight > options.length - 1) {
+    currentHighlight = 1;
+  }
+
+  for (var item in options.entries) {
+    if (options[item.key] == null) {
+      comm.console.setForegroundExtendedColor(180);
+      comm.console.setTextStyle(bold: true, italic: true);
+      comm.console.writeLine(item.key);
+      comm.console.resetColorAttributes();
+      continue;
+    }
+
+    if (item.key == optionKeys[currentHighlight]) {
+      comm.console.setBackgroundExtendedColor(94);
+    }
+
+    final optionLength = item.key.length;
+
+    comm.console.setTextStyle(bold: true);
+    comm.console.write(item.key.padLeft(optionLength + 2).padRight(optionLength + 4));
+    comm.console.writeLine();
+    comm.console.resetColorAttributes();
+  }
+
+  var key = comm.console.readKey();
+  switch (key.controlChar) {
+    case ControlCharacter.arrowDown:
+      currentHighlight++;
+      comm.console.clearScreen();
+      break;
+    case ControlCharacter.arrowUp:
+      currentHighlight--;
+      comm.console.clearScreen();
+      break;
+    case ControlCharacter.enter:
+      comm.console.clearScreen();
+      comm.console.showCursor();
+      selection = options[optionKeys[currentHighlight]];
+      currentHighlight = 0;
+      break;
+    case ControlCharacter.ctrlQ:
+      selection = OptionIdent.exit;
+      comm.console.clearScreen();
+      break;
+    default:
+      comm.console.clearScreen();
+      break;
+  }
+
+  comm.console.showCursor();
+
+  if (selection == null) return null;
+
+  currentHighlight = 1;
+  if (selection == OptionIdent.yes) {
+    return true;
+  } else if (selection == OptionIdent.no) {
     return false;
   }
 
-  comm.selectedOption = backMenuSelection;
-  comm.console.clearScreen();
-  return true;
+  comm.selectedOption = selection;
+
+  return false;
 }
 
 bool repeatLoop(Object? variable) {
