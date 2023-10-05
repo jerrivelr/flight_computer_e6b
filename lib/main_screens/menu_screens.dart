@@ -51,8 +51,10 @@ OptionIdent? cloudBaseScreen() {
     final result = cloudBase(temperature, dewpoint);
     resultPrinter(['Cloud Base: ${formatNumber(result)}ft']);
 
-    // Asking user weather to make a new calculation or back to menu.
-    if (!backToMenu()) {
+    final backOrNot = backToMenu();
+    if (backOrNot == null) continue;
+
+    if (backOrNot) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       temperature = null;
@@ -128,8 +130,10 @@ OptionIdent? groundSpeedScreen() {
 
     resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed)}kt']);
 
-    // Asking user weather to make a new calculation or back to menu.
-    if (!backToMenu()) {
+    final backOrNot = backToMenu();
+    if (backOrNot == null) continue;
+
+    if (backOrNot) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       distanceNm = null;
@@ -163,11 +167,10 @@ OptionIdent? trueAirspeedScreen() {
 
     // If pressure altitude or temperature was input from option 2, the user is asked weather or not they want to autofill.
     if (pressExists || tempExists) {
-      comm.console.setTextStyle(italic: true);
-      comm.console.writeLine('Autofill previously calculated/entered values: [Y] yes ——— [N] no (any key)?');
-      String? userInput = input(': ')?.toLowerCase();
+      bool? yesSelected = backToMenu(autofill: true);
+      if (yesSelected == null) continue;
 
-      if (userInput == 'y' || userInput == 'yes') {
+      if (yesSelected) {
         pressAltitude = (pressExists) ? comm.dataResult['pressureAlt']?.toDouble() : null;
         temperature = (tempExists) ? comm.dataResult['temperature']?.toDouble() : null;
       }
@@ -206,7 +209,10 @@ OptionIdent? trueAirspeedScreen() {
     comm.dataResult['trueAirspeed'] = calTrueAirspeed;
     resultPrinter(['True Airspeed: ${formatNumber(calTrueAirspeed)}kt']);
 
-    if (!backToMenu()) {
+    final backOrNot = backToMenu();
+    if (backOrNot == null) continue;
+
+    if (backOrNot) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       calibratedAir = null;
@@ -262,7 +268,10 @@ OptionIdent? windComponentScreen() {
 
     resultPrinter(windComponentString(headTail: headTailComp, xCross: crossWindComp));
 
-    if (!backToMenu()) {
+    final backOrNot = backToMenu();
+    if (backOrNot == null) continue;
+
+    if (backOrNot) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       windDirection = null;
@@ -300,11 +309,10 @@ OptionIdent? headingCorrectionScreen() {
 
     // If the user decides to autofill the calculated or input values they will be autofilled.
     if ([windDirExists, windSpeedExists, trueAirExists].contains(true)) {
-      comm.console.setTextStyle(italic: true);
-      comm.console.writeLine('Autofill previously calculated/entered values: [Y] yes ——— [N] no (any key)?');
-      String? userInput = input(': ')?.toLowerCase();
+      bool? yesSelected = backToMenu(autofill: true);
+      if (yesSelected == null) continue;
 
-      if (userInput == 'y' || userInput == 'yes') {
+      if (yesSelected) {
         windDirection = (windDirExists) ? comm.dataResult['windDirection']?.toDouble() : null;
         windSpeedKt = (windSpeedExists) ? comm.dataResult['windSpeed']?.toDouble() : null;
         trueAirspeedTas = (trueAirExists) ? comm.dataResult['trueAirspeed']?.toDouble() : null;
@@ -365,8 +373,11 @@ OptionIdent? headingCorrectionScreen() {
       'Ground Speed: ${groundSpeedKt.round()}kt'
     ]);
 
+    final backOrNot = backToMenu();
+    if (backOrNot == null) continue;
+
     // Asking the user weather to go back to the main menu or stay in this option for new calculations.
-    if (!backToMenu()) {
+    if (backOrNot) {
       comm.console.clearScreen();
       // Resetting all the variables for new calculations.
       trueCourse = null;
