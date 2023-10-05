@@ -157,7 +157,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
       'Density Altitude: ${formatNumber(density)}ft']
     );
 
-    final backOrNot = backToMenu(goBack: 'Back to Pressure/Density Altitude Menu', backMenuSelection: OptionIdent.pressDenAlt);
+    final backOrNot = insideMenus(goBack: 'Back to Pressure/Density Altitude Menu', backMenuSelection: OptionIdent.pressDenAlt);
     if (backOrNot == null) continue;
 
     if (backOrNot) {
@@ -237,7 +237,7 @@ OptionIdent? manualScreen() {
     comm.dataResult['densityAlt'] = density;
     resultPrinter(['Density Altitude: ${formatNumber(density)}ft']);
 
-    final backOrNot = backToMenu(goBack: 'Back to Pressure/Density Altitude Menu', backMenuSelection: OptionIdent.pressDenAlt);
+    final backOrNot = insideMenus(goBack: 'Back to Pressure/Density Altitude Menu', backMenuSelection: OptionIdent.pressDenAlt);
     if (backOrNot == null) continue;
 
     if (backOrNot) {

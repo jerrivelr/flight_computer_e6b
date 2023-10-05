@@ -370,7 +370,7 @@ bool checkValueExits(List<bool> listOfConditions) {
 
 var currentHighlight = 1;
 
-bool? backToMenu({
+bool? insideMenus({
   String text = 'Reenter values?',
   String goBack = 'Back to Main Menu',
   OptionIdent backMenuSelection = OptionIdent.menu,

@@ -27,7 +27,7 @@ OptionIdent? volumeScreen() {
       'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
-    final backOrNot = backToMenu(goBack: 'Back to Fuel Menu', backMenuSelection: OptionIdent.fuel);
+    final backOrNot = insideMenus(goBack: 'Back to Fuel Menu', backMenuSelection: OptionIdent.fuel);
     if (backOrNot == null) continue;
 
     if (backOrNot) {
@@ -69,7 +69,7 @@ OptionIdent? enduranceScreen() {
       'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
-    final backOrNot = backToMenu(goBack: 'Back to Fuel Menu', backMenuSelection: OptionIdent.fuel);
+    final backOrNot = insideMenus(goBack: 'Back to Fuel Menu', backMenuSelection: OptionIdent.fuel);
     if (backOrNot == null) continue;
 
     if (backOrNot) {
@@ -111,7 +111,7 @@ OptionIdent? fuelRateScreen() {
       'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
     ]);
 
-    final backOrNot = backToMenu(goBack: 'Back to Fuel Menu', backMenuSelection: OptionIdent.fuel);
+    final backOrNot = insideMenus(goBack: 'Back to Fuel Menu', backMenuSelection: OptionIdent.fuel);
     if (backOrNot == null) continue;
 
     if (backOrNot) {

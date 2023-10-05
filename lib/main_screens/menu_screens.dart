@@ -51,7 +51,7 @@ OptionIdent? cloudBaseScreen() {
     final result = cloudBase(temperature, dewpoint);
     resultPrinter(['Cloud Base: ${formatNumber(result)}ft']);
 
-    final backOrNot = backToMenu();
+    final backOrNot = insideMenus();
     if (backOrNot == null) continue;
 
     if (backOrNot) {
@@ -130,7 +130,7 @@ OptionIdent? groundSpeedScreen() {
 
     resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed)}kt']);
 
-    final backOrNot = backToMenu();
+    final backOrNot = insideMenus();
     if (backOrNot == null) continue;
 
     if (backOrNot) {
@@ -167,7 +167,7 @@ OptionIdent? trueAirspeedScreen() {
 
     // If pressure altitude or temperature was input from option 2, the user is asked weather or not they want to autofill.
     if (pressExists || tempExists) {
-      bool? yesSelected = backToMenu(autofill: true);
+      bool? yesSelected = insideMenus(autofill: true);
       if (yesSelected == null) continue;
 
       if (yesSelected) {
@@ -209,7 +209,7 @@ OptionIdent? trueAirspeedScreen() {
     comm.dataResult['trueAirspeed'] = calTrueAirspeed;
     resultPrinter(['True Airspeed: ${formatNumber(calTrueAirspeed)}kt']);
 
-    final backOrNot = backToMenu();
+    final backOrNot = insideMenus();
     if (backOrNot == null) continue;
 
     if (backOrNot) {
@@ -268,7 +268,7 @@ OptionIdent? windComponentScreen() {
 
     resultPrinter(windComponentString(headTail: headTailComp, xCross: crossWindComp));
 
-    final backOrNot = backToMenu();
+    final backOrNot = insideMenus();
     if (backOrNot == null) continue;
 
     if (backOrNot) {
@@ -309,7 +309,7 @@ OptionIdent? headingCorrectionScreen() {
 
     // If the user decides to autofill the calculated or input values they will be autofilled.
     if ([windDirExists, windSpeedExists, trueAirExists].contains(true)) {
-      bool? yesSelected = backToMenu(autofill: true);
+      bool? yesSelected = insideMenus(autofill: true);
       if (yesSelected == null) continue;
 
       if (yesSelected) {
@@ -373,7 +373,7 @@ OptionIdent? headingCorrectionScreen() {
       'Ground Speed: ${groundSpeedKt.round()}kt'
     ]);
 
-    final backOrNot = backToMenu();
+    final backOrNot = insideMenus();
     if (backOrNot == null) continue;
 
     // Asking the user weather to go back to the main menu or stay in this option for new calculations.
