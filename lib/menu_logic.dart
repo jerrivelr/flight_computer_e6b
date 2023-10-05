@@ -36,7 +36,9 @@ enum OptionIdent {
   fuel('fuel', 'op7'),
   fuelVol('fuel volume', 'op7'),
   fuelDur('fuel duration', 'op7'),
-  fuelRate('fuel rate', 'op7');
+  fuelRate('fuel rate', 'op7'),
+  yes('yes', 'yes'),
+  no('no', 'no');
 
   const OptionIdent(this.title, this.typedOption);
 
