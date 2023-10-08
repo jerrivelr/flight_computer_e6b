@@ -194,6 +194,7 @@ void beautifulPrint(Object input, {String symbol = '='}) {
   }
 }
 
+var currentHighlight = 1;
 bool? insideMenus({
   String text = 'Reenter values?',
   String goBack = 'Back to Main Menu',
