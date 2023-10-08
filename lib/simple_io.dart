@@ -10,7 +10,7 @@ String? input([String? printOut]) {
   }
   comm.console.setForegroundExtendedColor(180);
 
-  final String? userInput = comm.console.readLine();
+  final userInput = comm.console.readLine();
 
   return userInput?.trim();
 }
