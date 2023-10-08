@@ -105,11 +105,15 @@ OptionIdent? menuBuilder ({required Map<String, OptionIdent?> menuOptions, Strin
         comm.console.resetColorAttributes();
         continue;
       } else if (menuOptions[item.key] == OptionIdent.exit) {
-        comm.console.setForegroundColor(ConsoleColor.red);
+        comm.console.setForegroundColor(ConsoleColor.red); // Exit button text red when not selected
       }
 
-      if (item.key == optionKeys[currentHighlight]) {
-        comm.console.setBackgroundExtendedColor(highlightColor);
+      // Sets exit button with a red highlight when selected
+      if (menuOptions[item.key] == OptionIdent.exit && item.key == optionKeys[currentHighlight]) {
+        comm.console.setForegroundColor(ConsoleColor.white);
+        comm.console.setBackgroundColor(ConsoleColor.red);
+      } else if (item.key == optionKeys[currentHighlight]) {
+        comm.console.setBackgroundExtendedColor(highlightColor); // Sets selected highlight color when exit button no selected.
       }
 
       final optionLength = item.key.length;
