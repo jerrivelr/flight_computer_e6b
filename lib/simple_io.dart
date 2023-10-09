@@ -194,7 +194,7 @@ void beautifulPrint(Object input, {String symbol = '='}) {
   }
 }
 
-var currentHighlight = 1;
+var _currentHighlight = 1;
 bool? insideMenus({
   String text = 'Reenter values?',
   String goBack = 'Back to Main Menu',
@@ -231,10 +231,10 @@ bool? insideMenus({
 
   final optionKeys = options.keys.toList();
 
-  if (currentHighlight < 1) {
-    currentHighlight = options.length - 1;
-  } else if (currentHighlight > options.length - 1) {
-    currentHighlight = 1;
+  if (_currentHighlight < 1) {
+    _currentHighlight = options.length - 1;
+  } else if (_currentHighlight > options.length - 1) {
+    _currentHighlight = 1;
   }
 
   for (var item in options.entries) {
@@ -246,7 +246,7 @@ bool? insideMenus({
       continue;
     }
 
-    if (item.key == optionKeys[currentHighlight]) {
+    if (item.key == optionKeys[_currentHighlight]) {
       comm.console.setBackgroundExtendedColor(94);
     }
 
@@ -261,18 +261,18 @@ bool? insideMenus({
   var key = comm.console.readKey();
   switch (key.controlChar) {
     case ControlCharacter.arrowDown:
-      currentHighlight++;
+      _currentHighlight++;
       comm.console.clearScreen();
       break;
     case ControlCharacter.arrowUp:
-      currentHighlight--;
+      _currentHighlight--;
       comm.console.clearScreen();
       break;
     case ControlCharacter.enter:
       comm.console.clearScreen();
       comm.console.showCursor();
-      selection = options[optionKeys[currentHighlight]];
-      currentHighlight = 0;
+      selection = options[optionKeys[_currentHighlight]];
+      _currentHighlight = 0;
       break;
     case ControlCharacter.ctrlQ:
       selection = OptionIdent.exit;
@@ -287,7 +287,7 @@ bool? insideMenus({
 
   if (selection == null) return null;
 
-  currentHighlight = 1;
+  _currentHighlight = 1;
   if (selection == OptionIdent.yes) {
     return true;
   } else if (selection == OptionIdent.no) {
