@@ -72,9 +72,6 @@ OptionIdent? checkIdent(String? inputString) {
 }
 
 class MenuLogic {
-  static String? userInput;
-  static var condition = comm.optionList.contains(userInput?.toLowerCase());
-
   MenuLogic({
     required this.variable,
     required this.optionName,
@@ -255,7 +252,8 @@ class MenuLogic {
   }
 
   double? optionLogic() {
-    while (!condition) {
+    String? userInput;
+    while (true) {
       if (variable == null) {
         userInput = _inputChecker(optionName, ifInvalid: inCaseInvalid, digitAmount: digitLimit, ifDigitLimit: ifDigitLimit);
 

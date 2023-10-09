@@ -1,10 +1,7 @@
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/menu_logic.dart';
 
-final console = Console();
-
-// List of possible options while inside a certain screen.
-const optionList = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5', 'opt6', 'opt7', 'menu', 'exit'];
+final console = Console.scrolling();
 
 var error = ''; // Stores errors messages if any.
 OptionIdent? selectedOption; // Stores values that are part of the optionList if userInput equals to one of the options.
