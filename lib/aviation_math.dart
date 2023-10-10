@@ -66,9 +66,17 @@ int densityAlt({required double tempC, required double stationInches, required d
   return calDensityFt.round();
 }
 
-int groundSpeed(double distanceNM, double timeHr) {
-  // Ground Speed knots
-  return (distanceNM / timeHr).round();
+int groundSpeed({required double trueAirspeed, required double windDirection, required double windSpeed, required double course, required double corrAngle}) {
+  final courseRadians = course * (pi / 180);
+  final corrAngleRadians = corrAngle * (pi / 180);
+  final windDirectionRadians = windDirection * (pi / 180);
+
+  final calCos = cos(courseRadians - windDirectionRadians + corrAngleRadians); // in degrees
+
+  final formulaPart1 = pow(trueAirspeed, 2) + pow(windSpeed, 2);
+  final formulaPart2 = (2 * trueAirspeed * windSpeed * calCos);
+
+  return sqrt(formulaPart1 - formulaPart2).round();
 }
 
 int trueAirspeed({required double calibratedAirS, required double pressAltitude, required double tempC}) {
@@ -89,7 +97,7 @@ Map<String, double> windComponent({required double direction, required double wi
   if (runway) {
     angularDiff = windDirection - (direction * 10);
   } else {
-    angularDiff = windDirection - direction;
+    angularDiff = direction - (180 + windDirection);
   }
 
   final radians = angularDiff * (pi / 180);
