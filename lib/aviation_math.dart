@@ -123,6 +123,10 @@ double correctionAngle({
   // The result is in radians
   final calWindCorrAngle = asin(forTheInverseSin);
 
+  if (calWindCorrAngle.isNaN) {
+    return null;
+  }
+
   // Returning wind correction angle in degrees
   return calWindCorrAngle * (180 / pi);
 }
