@@ -280,9 +280,9 @@ void optionSix() {
       windDirection: windDirection.toDouble(),
       windSpeed: windSpeed,
       trueAirspeed: trueAirspeedTAS.toDouble()
-  ).round();
+  )?.round();
 
-  var trueHeading = trueCourse + windCorrectionAngle;
+  var trueHeading = trueCourse + windCorrectionAngle!;
   if (trueHeading > 360) {
     trueHeading -= 360;
   }
