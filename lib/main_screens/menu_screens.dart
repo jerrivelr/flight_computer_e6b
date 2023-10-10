@@ -125,7 +125,7 @@ OptionIdent? groundSpeedScreen() {
     timeHr = timeInput.optionLogic();
     if (repeatLoop(timeHr)) continue;
 
-    final calGroundSpeed = groundSpeed(distanceNm!, timeHr!);
+    final calGroundSpeed = (distanceNm! / timeHr!).round();
     comm.dataResult['groundSpeed'] = calGroundSpeed; // Sending ground specomm dataResult map.
 
     resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed)}kt']);
@@ -354,7 +354,7 @@ OptionIdent? headingCorrectionScreen() {
         windDirection: windDirection,
         windSpeed: windSpeedKt,
         trueAirspeed: trueAirspeedTas
-    )?.round();
+    );
 
     if (windCorrectionAngle == null) {
       comm.console.clearScreen();
@@ -372,19 +372,24 @@ OptionIdent? headingCorrectionScreen() {
     }
 
     // To make sure true heading is not equal to more than 360.
-    var trueHeading = trueCourse + windCorrectionAngle;
+    var trueHeading = trueCourse + windCorrectionAngle.round();
     if (trueHeading > 360) {
       trueHeading -= 360;
     }
 
     comm.dataResult['heading'] = trueHeading; // saving calculated heading for reuse
 
-    final headWind = windComponent(direction: trueCourse, windDirection: windDirection, windSpeed: windSpeedKt);
-    final groundSpeedKt = trueAirspeedTas - (headWind['headWind']!);
+    final groundSpeedKt = groundSpeed(
+        trueAirspeed: trueAirspeedTas,
+        windDirection: windDirection,
+        windSpeed: windSpeedKt,
+        course: trueCourse,
+        corrAngle: windCorrectionAngle
+    );
 
     resultPrinter([
       'Heading: ${formatNumber(trueHeading)}°',
-      'WCA: $windCorrectionAngle°',
+      'WCA: ${windCorrectionAngle.round()}°',
       'Ground Speed: ${groundSpeedKt.round()}kt'
     ]);
 
