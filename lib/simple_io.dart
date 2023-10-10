@@ -1,6 +1,7 @@
 import 'package:characters/characters.dart';
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/menu_logic.dart';
+import 'package:flight_e6b/read_line_custom.dart';
 import 'package:intl/intl.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
@@ -10,7 +11,7 @@ String? input([String? printOut]) {
   }
   comm.console.setForegroundExtendedColor(180);
 
-  final userInput = comm.console.readLine();
+  final userInput = comm.console.readLineCustom();
 
   return userInput?.trim();
 }
