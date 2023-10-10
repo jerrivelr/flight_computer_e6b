@@ -354,7 +354,22 @@ OptionIdent? headingCorrectionScreen() {
         windDirection: windDirection,
         windSpeed: windSpeedKt,
         trueAirspeed: trueAirspeedTas
-    ).round();
+    )?.round();
+
+    if (windCorrectionAngle == null) {
+      comm.console.clearScreen();
+      comm.error = 'Invalid Values';
+
+      trueCourse = null;
+      windDirection = null;
+      windSpeedKt = null;
+      trueAirspeedTas = null;
+
+      windDirExists = false;
+      windSpeedExists = false;
+      trueAirExists = false;
+      continue;
+    }
 
     // To make sure true heading is not equal to more than 360.
     var trueHeading = trueCourse + windCorrectionAngle;
