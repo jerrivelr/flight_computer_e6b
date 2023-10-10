@@ -1,6 +1,7 @@
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/main_screens/menu_screens.dart';
 import 'package:flight_e6b/menu_logic.dart';
+import 'package:flight_e6b/communication_var.dart' as comm;
 
 final console = Console();
 
@@ -9,6 +10,8 @@ void main(List<String> arguments) async {
   OptionIdent? userSelection = OptionIdent.menu;
 
   while (userSelection != OptionIdent.exit) {
+    comm.error = '';
+
     switch (userSelection) {
       case OptionIdent.menu:
         userSelection = mainMenu();
