@@ -162,7 +162,7 @@ void optionThree() {
 
   var timeHr = doubleParse('Time (HR): ', ifInvalid: 'Invalid Time. Ex. 1.5.\n');
 
-  final calGroundSpeed = groundSpeed(distanceNM, timeHr);
+  final calGroundSpeed = (distanceNM / timeHr).round();
   dataResult['groundSpeed'] = calGroundSpeed;
 
   beautifulPrint('Ground Speed: ${calGroundSpeed}KT');
