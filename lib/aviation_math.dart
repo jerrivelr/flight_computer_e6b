@@ -101,7 +101,7 @@ Map<String, double> windComponent({required double direction, required double wi
   return result;
 }
 
-double correctionAngle({
+double? correctionAngle({
   required double trueCourse,
   required double windDirection,
   required double windSpeed,
@@ -119,7 +119,7 @@ double correctionAngle({
   // Wind angle in radians
   final windAngleRadians = windAngle * (pi / 180);
 
-  final forTheInverseSin = windSpeed / trueAirspeed * (sin(windAngleRadians));
+  final forTheInverseSin = (sin(windAngleRadians) * windSpeed) / trueAirspeed;
   // The result is in radians
   final calWindCorrAngle = asin(forTheInverseSin);
 
