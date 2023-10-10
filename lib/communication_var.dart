@@ -1,11 +1,12 @@
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/menu_logic.dart';
 
-final console = Console.scrolling();
+final console = Console();
 
 var error = ''; // Stores errors messages if any.
 OptionIdent? selectedOption; // Stores values that are part of the optionList if userInput equals to one of the options.
 Map<String, num> dataResult = {}; // This Map will contain the calculated data for reuse in other options.
+
 bool noInternet = false; // Checks when there is no internet.
 bool screenCleared = false; // To check the screen has been clear.
 bool formatError = false; // Checks if there is a format error with the downloaded json.
