@@ -139,8 +139,40 @@ OptionIdent? menuBuilder ({required Map<String, OptionIdent?> menuOptions, Strin
         selection = menuOptions[optionKeys[currentHighlight]];
         comm.console.clearScreen();
         break;
-      case ControlCharacter.ctrlQ:
+      case ControlCharacter.ctrlF:
         selection = OptionIdent.exit;
+        comm.console.clearScreen();
+        break;
+      case ControlCharacter.ctrlN:
+        selection = OptionIdent.menu;
+        comm.console.clearScreen();
+        break;
+      case ControlCharacter.ctrlQ:
+        selection = OptionIdent.cloudBase;
+        comm.console.clearScreen();
+        break;
+      case ControlCharacter.ctrlW:
+        selection = OptionIdent.pressDenAlt;
+        comm.console.clearScreen();
+        break;
+      case ControlCharacter.ctrlE:
+        selection = OptionIdent.groundSpeed;
+        comm.console.clearScreen();
+        break;
+      case ControlCharacter.ctrlR:
+        selection = OptionIdent.trueAirspeed;
+        comm.console.clearScreen();
+        break;
+      case ControlCharacter.ctrlT:
+        selection = OptionIdent.windComp;
+        comm.console.clearScreen();
+        break;
+      case ControlCharacter.ctrlY:
+        selection = OptionIdent.windCorrection;
+        comm.console.clearScreen();
+        break;
+      case ControlCharacter.ctrlU:
+        selection = OptionIdent.fuel;
         comm.console.clearScreen();
         break;
       default:
