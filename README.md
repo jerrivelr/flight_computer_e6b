@@ -17,7 +17,7 @@ This is a command-line application that performs common E6B calculations
 - **\lib\inter_screens:** contains files for the menus inside other options
 - **\lib\main_screens:** contains the file for all functions for each screen
 - **\lib\ _aviation_math.dart_:** contains all the functions used to make E6B calculations
-- **\lib\ _communication_var.dart:** contains all the global variable shared between menu options for communication
+- **\lib\ _communication_var.dart_:** contains all the global variables shared between menu options for communication
 - **\lib\ _menu_logic.dart_:** contains a class and enums that are used for the logic on each option
 - **\lib\ _read_line_custom.dart_:** contains a custom implementation of the readLine function inside the Console class
 - **\lib\ _shortcuts.dart_:** contains all shortcuts used in the application
