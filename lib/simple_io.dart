@@ -6,13 +6,13 @@ import 'package:intl/intl.dart';
 import 'package:flight_e6b/shortcuts.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
-String? input([String? printOut]) {
+String? input(String? printOut, {bool onlyNumbers = true}) {
   if (printOut != null) {
     comm.console.write(printOut);
   }
-  comm.console.setForegroundExtendedColor(180);
 
-  final userInput = comm.console.readLineCustom();
+  comm.console.setForegroundExtendedColor(180);
+  final userInput = comm.console.readLineCustom(onlyNumbers: onlyNumbers);
 
   return userInput?.trim();
 }
