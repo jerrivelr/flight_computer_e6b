@@ -2,7 +2,7 @@ import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/menu_logic.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
-OptionIdent? commands(Key key) {
+OptionIdent? shortcuts(Key key) {
 
   switch (key.controlChar) {
     case ControlCharacter.ctrlF:
