@@ -3,6 +3,7 @@ import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/menu_logic.dart';
 import 'package:flight_e6b/read_line_custom.dart';
 import 'package:intl/intl.dart';
+import 'package:flight_e6b/shortcuts.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
 String? input([String? printOut]) {
@@ -126,6 +127,9 @@ OptionIdent? menuBuilder ({required Map<String, OptionIdent?> menuOptions, Strin
     }
 
     key = comm.console.readKey();
+    // Checking for control combination
+    selection = shortcuts(key);
+
     switch (key.controlChar) {
       case ControlCharacter.arrowDown:
         currentHighlight++;
@@ -137,42 +141,6 @@ OptionIdent? menuBuilder ({required Map<String, OptionIdent?> menuOptions, Strin
         break;
       case ControlCharacter.enter:
         selection = menuOptions[optionKeys[currentHighlight]];
-        comm.console.clearScreen();
-        break;
-      case ControlCharacter.ctrlF:
-        selection = OptionIdent.exit;
-        comm.console.clearScreen();
-        break;
-      case ControlCharacter.ctrlN:
-        selection = OptionIdent.menu;
-        comm.console.clearScreen();
-        break;
-      case ControlCharacter.ctrlQ:
-        selection = OptionIdent.cloudBase;
-        comm.console.clearScreen();
-        break;
-      case ControlCharacter.ctrlW:
-        selection = OptionIdent.pressDenAlt;
-        comm.console.clearScreen();
-        break;
-      case ControlCharacter.ctrlE:
-        selection = OptionIdent.groundSpeed;
-        comm.console.clearScreen();
-        break;
-      case ControlCharacter.ctrlR:
-        selection = OptionIdent.trueAirspeed;
-        comm.console.clearScreen();
-        break;
-      case ControlCharacter.ctrlT:
-        selection = OptionIdent.windComp;
-        comm.console.clearScreen();
-        break;
-      case ControlCharacter.ctrlY:
-        selection = OptionIdent.windCorrection;
-        comm.console.clearScreen();
-        break;
-      case ControlCharacter.ctrlU:
-        selection = OptionIdent.fuel;
         comm.console.clearScreen();
         break;
       default:
@@ -292,6 +260,9 @@ bool? insideMenus({
   }
 
   var key = comm.console.readKey();
+
+  selection = shortcuts(key);
+
   switch (key.controlChar) {
     case ControlCharacter.arrowDown:
       _currentHighlight++;
@@ -306,10 +277,6 @@ bool? insideMenus({
       comm.console.showCursor();
       selection = options[optionKeys[_currentHighlight]];
       _currentHighlight = 0;
-      break;
-    case ControlCharacter.ctrlQ:
-      selection = OptionIdent.exit;
-      comm.console.clearScreen();
       break;
     default:
       comm.console.clearScreen();
