@@ -11,6 +11,7 @@ extension CustomConsole on Console {
         bool onlyNumbers = true,
         void Function(String text, Key lastPressed)? callback}) {
     var buffer = '';
+    final allowedChars = ['.', '-'];
     var index = 0; // cursor position relative to buffer, not screen
 
     final screenRow = cursorPosition!.row;
@@ -32,7 +33,10 @@ extension CustomConsole on Console {
             if (scrollbackBuffer != null) {
               scrollbackBuffer!.add(buffer);
             }
-            writeLine();
+
+            if (buffer.isEmpty) {
+              break;
+            }
             return buffer;
           case ControlCharacter.ctrlC:
             if (cancelOnBreak) return null;
@@ -112,7 +116,7 @@ extension CustomConsole on Console {
         }
       } else {
         if (buffer.length < bufferMaxLength) {
-          if (int.tryParse(key.char) == null && onlyNumbers) {
+          if (int.tryParse(key.char) == null && onlyNumbers && !allowedChars.contains(key.char)) {
             key.char = '';
           } else if (index == buffer.length) {
             buffer += key.char;
