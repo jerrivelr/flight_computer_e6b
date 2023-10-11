@@ -8,6 +8,7 @@ extension CustomConsole on Console {
       {bool cancelOnBreak = false,
         bool cancelOnEscape = false,
         bool cancelOnEOF = false,
+        bool onlyNumbers = true,
         void Function(String text, Key lastPressed)? callback}) {
     var buffer = '';
     var index = 0; // cursor position relative to buffer, not screen
@@ -111,7 +112,9 @@ extension CustomConsole on Console {
         }
       } else {
         if (buffer.length < bufferMaxLength) {
-          if (index == buffer.length) {
+          if (int.tryParse(key.char) == null && onlyNumbers) {
+            key.char = '';
+          } else if (index == buffer.length) {
             buffer += key.char;
             index++;
           } else {

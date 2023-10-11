@@ -13,7 +13,7 @@ final content = airportJson.readAsStringSync();
 final contentDecoded = jsonDecode(content);
 
 String? retrieveAirport() {
-  final idInput = input('Airport ID: ')?.toUpperCase();
+  final idInput = input('Airport ID: ', onlyNumbers: false)?.toUpperCase();
 
   // If user inputs something inside the optionList global variable, it will exit the option and jump to the selected
   // option without creating any instance.
