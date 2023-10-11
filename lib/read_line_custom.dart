@@ -1,8 +1,7 @@
 import 'dart:math';
 
 import 'package:dart_console/dart_console.dart';
-import 'package:flight_e6b/menu_logic.dart';
-import 'package:flight_e6b/communication_var.dart' as comm;
+import 'package:flight_e6b/shortcuts.dart';
 
 extension CustomConsole on Console {
   String? readLineCustom(
@@ -22,6 +21,11 @@ extension CustomConsole on Console {
       final key = readKey();
 
       if (key.isControl) {
+        final selection = shortcuts(key);
+        if (selection != null) {
+          return null;
+        }
+
         switch (key.controlChar) {
           case ControlCharacter.enter:
             if (scrollbackBuffer != null) {
@@ -29,33 +33,6 @@ extension CustomConsole on Console {
             }
             writeLine();
             return buffer;
-          case ControlCharacter.ctrlF:
-            comm.selectedOption = OptionIdent.exit;
-            return null;
-          case ControlCharacter.ctrlN:
-            comm.selectedOption = OptionIdent.menu;
-            return null;
-          case ControlCharacter.ctrlQ:
-            comm.selectedOption = OptionIdent.cloudBase;
-            return null;
-          case ControlCharacter.ctrlW:
-            comm.selectedOption = OptionIdent.pressDenAlt;
-            return null;
-          case ControlCharacter.ctrlE:
-            comm.selectedOption = OptionIdent.groundSpeed;
-            return null;
-          case ControlCharacter.ctrlR:
-            comm.selectedOption = OptionIdent.trueAirspeed;
-            return null;
-          case ControlCharacter.ctrlT:
-            comm.selectedOption = OptionIdent.windComp;
-            return null;
-          case ControlCharacter.ctrlY:
-            comm.selectedOption = OptionIdent.windCorrection;
-            return null;
-          case ControlCharacter.ctrlU:
-            comm.selectedOption = OptionIdent.fuel;
-            return null;
           case ControlCharacter.ctrlC:
             if (cancelOnBreak) return null;
             break;
