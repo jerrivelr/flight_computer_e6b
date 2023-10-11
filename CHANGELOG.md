@@ -1,9 +1,18 @@
-## 1.0.0
+# Version v0.5.0
+- You can change between options using keyboard shortcuts
+- Input, only accepts numbers
+- Console app no longer crashes when a certain combination of wind and TAS are input
 
-- Initial version.
+# Version v0.4.0
+- This version changes the way you select options
+- Now you can select menus using the arrow key instead of typing them.
 
-- hello this file had been changed
+# Version v0.3.0
+- This version permits the calculation of the pressure and density altitude using the current METAR from a selected airport.
 
-- a new modification
+# Version v0.2.0
+This version completes all the functionality in all the options including the fuel option. Later, more functionality will be added.
 
-another modification. common on
+# Version v0.1.0
+This version of the Flight Computer is more advanced than the previous version where everything was placed together as the app was running. Now, the app uses a new console package to look more like a desktop app.
+As of right now the fuel option is incomplete and a future update will complete it.
