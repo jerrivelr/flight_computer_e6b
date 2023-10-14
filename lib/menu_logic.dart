@@ -23,6 +23,9 @@ enum InputTitle {
 }
 
 enum OptionIdent {
+  helpConfig('helpConfig', 'helpConfig'),
+  help('help', 'help'),
+  config('config', 'config'),
   menu('menu', 'menu'),
   exit('exit', 'exit'),
   cloudBase('cloud base', 'op1'),
