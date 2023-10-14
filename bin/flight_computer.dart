@@ -16,6 +16,9 @@ void main(List<String> arguments) async {
       case OptionIdent.menu:
         userSelection = mainMenu();
         break;
+      case OptionIdent.helpConfig:
+        userSelection = helpConfig();
+        break;
       case OptionIdent.cloudBase:
         console.clearScreen();
         userSelection = cloudBaseScreen();
