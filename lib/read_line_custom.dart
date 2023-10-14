@@ -9,6 +9,7 @@ extension CustomConsole on Console {
         bool cancelOnEscape = false,
         bool cancelOnEOF = false,
         bool onlyNumbers = true,
+        int charLimit = 10,
         void Function(String text, Key lastPressed)? callback}) {
     var buffer = '';
     final allowedChars = ['.', '-'];
@@ -114,9 +115,10 @@ extension CustomConsole on Console {
           default:
             break;
         }
-      } else {
-        if (buffer.length < bufferMaxLength) {
+      } else if (buffer.length < bufferMaxLength) {
           if (int.tryParse(key.char) == null && onlyNumbers && !allowedChars.contains(key.char)) {
+            key.char = '';
+          } else if (buffer.length > charLimit - 1) {
             key.char = '';
           } else if (index == buffer.length) {
             buffer += key.char;
@@ -126,7 +128,6 @@ extension CustomConsole on Console {
             index++;
           }
         }
-      }
 
       cursorPosition = Coordinate(screenRow, screenColOffset);
       eraseCursorToEnd();
