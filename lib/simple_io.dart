@@ -6,13 +6,13 @@ import 'package:intl/intl.dart';
 import 'package:flight_e6b/shortcuts.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
-String? input(String? printOut, {bool onlyNumbers = true}) {
+String? input(String? printOut, {bool onlyNumbers = true, int charLimit = 10}) {
   if (printOut != null) {
     comm.console.write(printOut);
   }
 
   comm.console.setForegroundExtendedColor(180);
-  final userInput = comm.console.readLineCustom(onlyNumbers: onlyNumbers);
+  final userInput = comm.console.readLineCustom(onlyNumbers: onlyNumbers, charLimit: charLimit);
 
   return userInput?.trim();
 }
@@ -303,7 +303,6 @@ bool? insideMenus({
   return false;
 }
 
-
 void errorMessage(String message) {
   comm.console.setForegroundColor(ConsoleColor.red);
   comm.console.setTextStyle(bold: true, italic: true, blink: true);
@@ -314,8 +313,8 @@ void errorMessage(String message) {
 
 void resultPrinter(List<String> displayString) {
   final table = Table()
-    ..borderColor = ConsoleColor.green
-    ..borderStyle = BorderStyle.rounded
+    ..borderColor = ConsoleColor.brightGreen
+    ..borderStyle = BorderStyle.bold
     ..borderType = BorderType.horizontal;
 
   for (final item in displayString) {
