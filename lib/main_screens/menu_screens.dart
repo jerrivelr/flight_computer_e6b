@@ -229,20 +229,32 @@ OptionIdent? trueAirspeedScreen() {
     pressAltitude = pressAltInput.optionLogic();
     if (repeatLoop(pressAltitude)) continue;
 
-    comm.dataResult['pressureAlt'] = pressAltitude!;
-
     // Getting temperature.
     temperature = tempInput.optionLogic();
     if (repeatLoop(temperature)) continue;
 
-
-    comm.dataResult['temperature'] = temperature!;
-
     final calTrueAirspeed = trueAirspeed(
         calibratedAirS: calibratedAir!,
-        pressAltitude: pressAltitude,
-        tempC: temperature
+        pressAltitude: pressAltitude!,
+        tempC: temperature!
     );
+
+    if (calTrueAirspeed == null) {
+      comm.console.clearScreen();
+      comm.error = 'Invalid Result. Try different values';
+
+      calibratedAir = null;
+      pressAltitude = null;
+      temperature = null;
+
+      pressExists = false;
+      tempExists = false;
+
+      continue;
+    }
+
+    comm.dataResult['pressureAlt'] = pressAltitude;
+    comm.dataResult['temperature'] = temperature;
 
     // Sending true airspeed result to dateResult map for reuse
     comm.dataResult['trueAirspeed'] = calTrueAirspeed;

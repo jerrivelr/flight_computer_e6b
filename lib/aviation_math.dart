@@ -51,7 +51,7 @@ int pressureAlt(double indicatedAlt, double stationInch) {
   return calPressAlt.round();
 }
 
-int densityAlt({required double tempC, required double stationInches, required double dewC, required double elevation}) {
+int? densityAlt({required double tempC, required double stationInches, required double dewC, required double elevation}) {
   final vaporPress = _saturationVapor(tempC: dewC); // Converting Celsius to Kelvin
   final humidity = vaporPress / _saturationVapor(tempC: tempC) * 100; // Relative humidity
   final pressInMb = _mbPressure(altimeterIn: stationInches, stationElevation: elevation); // Pressure in millibars at a certain altitude.
@@ -59,6 +59,9 @@ int densityAlt({required double tempC, required double stationInches, required d
 
   // Density Altitude in kilometers and the altitude is geo potential.
   final calDensityKm = 44.3308 - (42.2665 * (pow(density, 0.234969))); // In km
+  if (calDensityKm.isNaN) {
+    return null;
+  }
 
   // Converting altitude in feet and into geo metric altitude
   final calDensityFt = _geometricAlt(calDensityKm) * 3280.84; // In ft
@@ -79,13 +82,17 @@ int groundSpeed({required double trueAirspeed, required double windDirection, re
   return sqrt(formulaPart1 - formulaPart2).round();
 }
 
-int trueAirspeed({required double calibratedAirS, required double pressAltitude, required double tempC}) {
+int? trueAirspeed({required double calibratedAirS, required double pressAltitude, required double tempC}) {
   final mbPressAtAlt = _pressAtAltitude(pressAltitude, tempC);
 
   final seaLevelDensity = _airDensity(pressMb: 1013.25, tempC: 15); // Air density at sea level in kg/m^3.
   final altitudeDensity = _airDensity(pressMb: mbPressAtAlt, tempC: tempC); // Air density at a certain altitude in kg/m^3.
 
   final tas = calibratedAirS * (sqrt(seaLevelDensity / altitudeDensity));
+
+  if (tas.isNaN) {
+    return null;
+  }
 
   return tas.round();
 }

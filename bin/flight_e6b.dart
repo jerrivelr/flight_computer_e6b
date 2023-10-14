@@ -146,7 +146,7 @@ void optionTwo() {
       elevation: indicatedAlt
   );
   // Sending calculated density altitude to the calData Map.
-  dataResult['densityAlt'] = density;
+  dataResult['densityAlt'] = density ?? 0;
   beautifulPrint('Density Altitude: ${density}ft');
 }
 
@@ -206,7 +206,7 @@ void optionFour() {
       tempC: tempC
   );
   // Sending calculated true airspeed to dataResult Map.
-  dataResult['trueAirspeed'] = calTrueAirspeed;
+  dataResult['trueAirspeed'] = calTrueAirspeed ?? 0;
 
   beautifulPrint('True Airspeed: ${calTrueAirspeed}kt');
 

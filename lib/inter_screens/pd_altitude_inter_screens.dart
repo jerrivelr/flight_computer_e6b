@@ -149,6 +149,20 @@ Future<OptionIdent?> conditionsAirportScreen() async {
         dewC: dewpoint ?? 0,
         elevation: elevation
     );
+
+    if (density == null) {
+      comm.console.clearScreen();
+      comm.error = 'Invalid Result';
+
+      airportId = null;
+      downloadMetar = null;
+      metarData = null;
+
+      comm.screenCleared = true;
+      missingValue = true;
+
+      continue;
+    }
     // Sending calculated density altitude to comm dataResult Map.
     comm.dataResult['densityAlt'] = density;
 
@@ -232,6 +246,18 @@ OptionIdent? manualScreen() {
         dewC: dewpoint,
         elevation: indicatedAlt
     );
+
+    if (density == null) {
+      comm.console.clearScreen();
+      comm.error = 'Invalid Result. Try different values';
+
+      temperature = null;
+      pressInHg = null;
+      dewpoint = null;
+      indicatedAlt = null;
+
+      continue;
+    }
 
     // Sending calculated pressure altitude to comm dataResult Map.
     comm.dataResult['densityAlt'] = density;
