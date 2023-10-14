@@ -200,7 +200,9 @@ bool? insideMenus({
   String text = 'Reenter values?',
   String goBack = 'Back to Main Menu',
   OptionIdent backMenuSelection = OptionIdent.menu,
-  bool autofill = false
+  Map<String, OptionIdent?> customOptions = const {},
+  bool autofill = false,
+  bool custom = false,
 
 }) {
   OptionIdent? selection;
@@ -215,6 +217,8 @@ bool? insideMenus({
       'No': OptionIdent.no,
       goBack: backMenuSelection
     };
+  } else if (custom) {
+    options = customOptions;
   } else if (backMenuSelection != OptionIdent.menu) {
     options = {
       text: null,
