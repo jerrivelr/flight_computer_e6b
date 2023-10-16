@@ -63,7 +63,7 @@ Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async
     'taf': includeTaf.toString()
   };
 
-  final url = Uri.https('beta.aviationweather.gov', '/cgi-bin/data/metar.php', queryParameters);
+  final url = Uri.https('aviationweather.gov', '/api/data/metar.php', queryParameters);
 
   try {
     _downloadingText();
