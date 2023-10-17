@@ -335,7 +335,11 @@ class MenuLogic {
       _inputContent = '';
       return null;
 
-    } else if (checkNegative && double.tryParse(userInput!)! <= 0) {
+    } else if (userInput == null) {
+      _inputContent = '';
+      comm.inputValues[inputType] = _inputContent;
+      return null;
+    } else if (checkNegative && double.tryParse(userInput)! <= 0) {
       if (comm.error.isEmpty) {
         comm.currentPosition--;
       }
@@ -395,6 +399,7 @@ class MenuLogic {
     if (titles.contains(userInput) || typed.contains(userInput)) {
       return userInput;
     } else if (userInput?.isEmpty ?? false) {
+      userInput = null;
       return userInput;
     } else if (double.tryParse(userInput ?? '') == null) {
       return ifInvalid;
