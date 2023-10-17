@@ -394,9 +394,11 @@ class MenuLogic {
 
     String? userInput;
 
-    userInput = input(printOut)?.toLowerCase();
+    userInput = input(printOut, unit: unit, inputContent: _inputContent)?.toLowerCase();
 
     if (titles.contains(userInput) || typed.contains(userInput)) {
+      return userInput;
+    } else if (userInput?.isEmpty ?? false) {
       return userInput;
     } else if (double.tryParse(userInput ?? '') == null) {
       return ifInvalid;
