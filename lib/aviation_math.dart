@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flight_e6b/simple_io.dart';
+import 'package:flight_e6b/communication_var.dart' as comm;
 
 String windsInterpolation({
   required int altOne,
@@ -46,7 +47,11 @@ int? cloudBase(double? temp, double? dew) {
   return base.round();
 }
 
-int pressureAlt(double indicatedAlt, double stationInch) {
+int? pressureAlt(double? indicatedAlt, double? stationInch) {
+  if (indicatedAlt == null || stationInch == null) {
+    return null;
+  }
+
   // Pressure in Millibars
   final stationMill = stationInch * 33.8639;
   final pressDiff = (1 - pow(stationMill / 1013.25, 0.190284)) * 145366.45;
@@ -55,7 +60,10 @@ int pressureAlt(double indicatedAlt, double stationInch) {
   return calPressAlt.round();
 }
 
-int? densityAlt({required double tempC, required double stationInches, required double dewC, required double elevation}) {
+int? densityAlt({required double? tempC, required double? stationInches, required double? dewC, required double? elevation}) {
+  if (tempC == null || stationInches == null || dewC == null || elevation == null) {
+    return null;
+  }
   final vaporPress = _saturationVapor(tempC: dewC); // Converting Celsius to Kelvin
   final humidity = vaporPress / _saturationVapor(tempC: tempC) * 100; // Relative humidity
   final pressInMb = _mbPressure(altimeterIn: stationInches, stationElevation: elevation); // Pressure in millibars at a certain altitude.
@@ -64,6 +72,7 @@ int? densityAlt({required double tempC, required double stationInches, required 
   // Density Altitude in kilometers and the altitude is geo potential.
   final calDensityKm = 44.3308 - (42.2665 * (pow(density, 0.234969))); // In km
   if (calDensityKm.isNaN) {
+    comm.error = 'Invalid Result. Try different values';
     return null;
   }
 
