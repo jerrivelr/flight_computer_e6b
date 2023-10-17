@@ -14,14 +14,19 @@ extension CustomConsole on Console {
         String inputContent = '',
         String unit = '',
         void Function(String text, Key lastPressed)? callback}) {
-    var buffer = '';
-    final allowedChars = ['.', '-'];
-    var index = 0; // cursor position relative to buffer, not screen
 
-    final screenRow = cursorPosition!.row;
-    final screenColOffset = cursorPosition!.col;
+    const allowedChars = ['.', '-'];
+    var buffer = inputContent + unit;
+    var index = buffer.length - unit.length; // cursor position relative to buffer, not screen
+
+    final screenRow = cursorPosition?.row ?? 0;
+    final screenColOffset = cursorPosition?.col ?? 0;
 
     final bufferMaxLength = windowWidth - screenColOffset - 3;
+
+    write(buffer);
+    final currentCol = cursorPosition!.col;
+    cursorPosition = Coordinate(screenRow, currentCol - unit.length);
 
     while (true) {
       final key = readKey();
