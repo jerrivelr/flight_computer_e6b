@@ -3,6 +3,9 @@ import 'package:flight_e6b/data_parsing/airport_data.dart';
 import 'package:flight_e6b/data_parsing/metar_data.dart';
 import 'package:flight_e6b/menu_logic.dart';
 import 'package:flight_e6b/simple_io.dart';
+import 'package:dart_console/dart_console.dart';
+import 'package:flight_e6b/input_type.dart' as ty;
+import 'package:flight_e6b/cursor_position.dart' as pos;
 import 'package:flight_e6b/communication_var.dart' as comm;
 
 String? airportId;
