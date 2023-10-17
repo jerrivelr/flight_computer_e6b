@@ -133,10 +133,10 @@ Future<OptionIdent?> conditionsAirportScreen() async {
     final result = {
       'Airport: ': '$airpName ($airportId)\n',
       'METAR: ': '${metarData.rawMetar}\n',
-      'Elevation: ': '${elevation?.round()}ft\n',
-      'Temperature: ': '${formatNumber(temperature ?? 0)}°C\n',
-      'Dewpoint: ': '${formatNumber(dewpoint ?? 0)}°C\n',
-      'Altimeter: ': '${formatNumber(altimeter ?? 0)} InHg\n'
+      'Elevation: ': '${elevation?.round()} FT\n',
+      'Temperature: ': '${formatNumber(temperature)} °C\n',
+      'Dewpoint: ': '${formatNumber(dewpoint)} °C\n',
+      'Altimeter: ': '${formatNumber(altimeter)} InHg\n'
     };
 
     printDownData(result); // Prints downloaded data with colors.
