@@ -77,7 +77,6 @@ OptionIdent? checkIdent(String? inputString) {
 
 class MenuLogic {
   MenuLogic({
-    required this.variable,
     required this.optionName,
     required this.inCaseInvalid,
     this.unit = '',
