@@ -38,7 +38,7 @@ OptionIdent? helpConfig() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    selection = menuBuilder (title: r'HELP\CONFIG', menuOptions: options);
+    selection = menuBuilder (title: 'HELP/CONFIG', menuOptions: options);
 
     switch (selection) {
       case OptionIdent.help:
