@@ -132,7 +132,7 @@ extension CustomConsole on Console {
             index = 0;
             break;
           case ControlCharacter.end:
-            index = buffer.length;
+            index = buffer.length - unit.length;
             break;
           default:
             break;
