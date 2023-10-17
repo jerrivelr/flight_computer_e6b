@@ -116,7 +116,7 @@ class MenuLogic {
   int? get row => _row;
   int? get colum => _colum;
 
-  factory MenuLogic.screenType(InputInfo type, {double? variable, bool firstOption = false}) {
+  factory MenuLogic.screenType(InputInfo type, {double? variable}) {
     switch (type) {
       case InputInfo.temperature:
         return MenuLogic(
