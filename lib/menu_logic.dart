@@ -80,7 +80,9 @@ class MenuLogic {
     required this.variable,
     required this.optionName,
     required this.inCaseInvalid,
-    required this.autofillText,
+    this.unit = '',
+    this.autofillText = const {},
+    this.variable,
     this.digitLimit = 5,
     this.ifDigitLimit = 'Invalid number',
     this.ifNegative = '',
@@ -88,10 +90,13 @@ class MenuLogic {
     this.checkNegative = false,
     this.checkDir = false,
     this.checkRunway = false,
+    this.firstOption = false,
+    this.inputType
   });
 
   double? variable;
   int digitLimit;
+  String unit;
   String optionName;
   String inCaseInvalid;
   String ifNegative;
@@ -101,10 +106,18 @@ class MenuLogic {
   bool checkNegative;
   bool checkDir;
   bool checkRunway;
+  bool firstOption;
+  InputInfo? inputType;
+
+  var _inputContent = '';
 
   factory MenuLogic.screenType(InputTitle t, double? variable) {
     switch (t) {
       case InputTitle.temperature:
+  int? _row = 0;
+  int? _colum = 0;
+  int? get row => _row;
+  int? get colum => _colum;
         return MenuLogic(
             variable: variable,
             optionName: InputTitle.temperature.title,
