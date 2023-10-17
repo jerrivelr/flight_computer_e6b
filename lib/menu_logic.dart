@@ -1,25 +1,26 @@
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
-enum InputTitle {
-  temperature('Temperature °C: '),
-  dewpoint('Dewpoint °C: '),
-  indicatedAlt('Indicated Altitude (ft): '),
-  baro('Baro (In Hg): '),
-  distance('Distance (nm): '),
-  time('Time (hr): '),
-  calibratedAir('Calibrated Airspeed (kt): '),
-  pressureAlt('Pressure Altitude (ft): '),
-  windDirection('Wind Direction°: '),
-  windSpeed('Wind Speed (kt): '),
-  runway('Runway°: '),
-  trueCourse('Course°: '),
-  trueAirspeed('True Airspeed (kt): '),
-  fuelVolume('Fuel Volume (Gal): '),
-  fuelRate('Fuel Rate (Gal/hr): ');
+enum InputInfo {
+  temperature('Temperature: ', ' °C'),
+  dewpoint('Dewpoint: ', ' °C'),
+  indicatedAlt('Indicated Altitude: ', 'ft'),
+  baro('Baro: ', 'In Hg'),
+  distance('Distance: ', 'nm'),
+  time('Time: ', 'hr'),
+  calibratedAir('Calibrated Airspeed: ', 'kt'),
+  pressureAlt('Pressure Altitude: ', 'ft'),
+  windDirection('Wind Direction: ', '°'),
+  windSpeed('Wind Speed: ', 'kt'),
+  runway('Runway: ', '°'),
+  trueCourse('Course: ', '°'),
+  trueAirspeed('True Airspeed: ', 'kt'),
+  fuelVolume('Fuel Volume: ', 'Gal'),
+  fuelRate('Fuel Rate: ', 'Gal/hr');
 
   const InputInfo(this.title, this.unit);
   final String title;
+  final String unit;
 }
 
 enum OptionIdent {
