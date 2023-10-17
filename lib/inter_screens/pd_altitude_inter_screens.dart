@@ -79,7 +79,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
 
     // This is in the rare case temperature, dewpoint, or altimeter are missing from the download.
     if (metarData.temperature == null) {
-      final tempInput = MenuLogic.screenType(InputTitle.temperature, metarData.temperature?.toDouble());
+      final tempInput = MenuLogic.screenType(InputInfo.temperature, variable: metarData.temperature?.toDouble());
       comm.error = 'Temperature is missing from download. Type it out.';
 
       if (_repeatIfMissingValue()) continue;
@@ -91,7 +91,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
 
     } else if (metarData.dewpoint == null || metarData.dewpoint! > metarData.temperature!) {
 
-      final dewInput = MenuLogic.screenType(InputTitle.dewpoint, metarData.dewpoint?.toDouble());
+      final dewInput = MenuLogic.screenType(InputInfo.dewpoint, variable: metarData.dewpoint?.toDouble());
       comm.error = 'Dewpoint is missing from download. Make sure dewpoint is less than or equal to temperature (${metarData.temperature}°C).';
 
       if (_repeatIfMissingValue()) continue;
@@ -109,7 +109,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
 
       continue;
     } else if (metarData.altimeterInHg == null) {
-      final altimeterInput = MenuLogic.screenType(InputTitle.baro, metarData.altimeterInHg?.toDouble());
+      final altimeterInput = MenuLogic.screenType(InputInfo.baro, variable: metarData.altimeterInHg?.toDouble());
       comm.error = 'The altimeter setting is missing from download. Type it out.';
 
       if (_repeatIfMissingValue()) continue;
@@ -201,10 +201,10 @@ OptionIdent? manualScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    final indicatedAltInput = MenuLogic.screenType(InputTitle.indicatedAlt, indicatedAlt);
-    final pressInHgInput = MenuLogic.screenType(InputTitle.baro, pressInHg);
-    final tempInput = MenuLogic.screenType(InputTitle.temperature, temperature);
-    final dewInput = MenuLogic.screenType(InputTitle.dewpoint, dewpoint);
+    final indicatedAltInput = MenuLogic.screenType(InputInfo.indicatedAlt, variable: indicatedAlt);
+    final pressInHgInput = MenuLogic.screenType(InputInfo.baro, variable: pressInHg);
+    final tempInput = MenuLogic.screenType(InputInfo.temperature, variable: temperature);
+    final dewInput = MenuLogic.screenType(InputInfo.dewpoint, variable: dewpoint);
 
     screenHeader(title: 'PRESSURE/DENSITY ALTITUDE');
 

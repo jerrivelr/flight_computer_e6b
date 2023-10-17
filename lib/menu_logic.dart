@@ -18,7 +18,7 @@ enum InputTitle {
   fuelVolume('Fuel Volume (Gal): '),
   fuelRate('Fuel Rate (Gal/hr): ');
 
-  const InputTitle(this.title);
+  const InputInfo(this.title, this.unit);
   final String title;
 }
 

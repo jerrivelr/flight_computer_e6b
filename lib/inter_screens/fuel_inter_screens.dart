@@ -9,8 +9,8 @@ OptionIdent? volumeScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    final fuelRateInput = MenuLogic.screenType(InputTitle.fuelRate, fuelRate);
-    final durationInput = MenuLogic.screenType(InputTitle.time, fuelTime);
+    final fuelRateInput = MenuLogic.screenType(InputInfo.fuelRate, variable: fuelRate);
+    final durationInput = MenuLogic.screenType(InputInfo.time, variable: fuelTime);
 
     screenHeader(title: 'FUEL VOLUME (Gal)');
 
@@ -51,8 +51,8 @@ OptionIdent? enduranceScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    final volumeInput = MenuLogic.screenType(InputTitle.fuelVolume, fuelVolume);
-    final fuelRateInput = MenuLogic.screenType(InputTitle.fuelRate, fuelRate);
+    final volumeInput = MenuLogic.screenType(InputInfo.fuelVolume, variable: fuelVolume);
+    final fuelRateInput = MenuLogic.screenType(InputInfo.fuelRate, variable: fuelRate);
 
     screenHeader(title: 'FUEL ENDURANCE');
 
@@ -93,8 +93,8 @@ OptionIdent? fuelRateScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    final volumeInput = MenuLogic.screenType(InputTitle.fuelVolume, fuelVolume);
-    final fuelTimeInput = MenuLogic.screenType(InputTitle.time, fuelTime);
+    final volumeInput = MenuLogic.screenType(InputInfo.fuelVolume, variable: fuelVolume);
+    final fuelTimeInput = MenuLogic.screenType(InputInfo.time, variable: fuelTime);
 
     screenHeader(title: 'FUEL RATE');
 

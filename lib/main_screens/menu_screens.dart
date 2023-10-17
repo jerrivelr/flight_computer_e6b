@@ -151,8 +151,8 @@ OptionIdent? groundSpeedScreen() {
 
   while (comm.selectedOption == null) {
     // Creating input object for each input.
-    final distanceInput = MenuLogic.screenType(InputTitle.distance, distanceNm);
-    final timeInput = MenuLogic.screenType(InputTitle.time, timeHr);
+    final distanceInput = MenuLogic.screenType(InputInfo.distance, variable: distanceNm);
+    final timeInput = MenuLogic.screenType(InputInfo.time, variable: timeHr);
 
     screenHeader(title: 'GROUND SPEED (kt)');
 
@@ -198,9 +198,9 @@ OptionIdent? trueAirspeedScreen() {
 
   while (comm.selectedOption == null) {
     // Creating input object for each input.
-    final calibratedInput = MenuLogic.screenType(InputTitle.calibratedAir, calibratedAir);
-    final pressAltInput = MenuLogic.screenType(InputTitle.pressureAlt, pressAltitude);
-    final tempInput = MenuLogic.screenType(InputTitle.temperature, temperature);
+    final calibratedInput = MenuLogic.screenType(InputInfo.calibratedAir, variable: calibratedAir);
+    final pressAltInput = MenuLogic.screenType(InputInfo.pressureAlt, variable: pressAltitude);
+    final tempInput = MenuLogic.screenType(InputInfo.temperature, variable: temperature);
 
     screenHeader(title: 'TRUE AIRSPEED (kt)');
 
@@ -289,9 +289,9 @@ OptionIdent? windComponentScreen() {
 
   while (comm.selectedOption == null) {
     // Creating input object for each input.
-    final windDirInput = MenuLogic.screenType(InputTitle.windDirection, windDirection);
-    final windSpeedInput = MenuLogic.screenType(InputTitle.windSpeed, windSpeedKt);
-    final runwayInput = MenuLogic.screenType(InputTitle.runway, runwayNumber);
+    final windDirInput = MenuLogic.screenType(InputInfo.windDirection, variable: windDirection);
+    final windSpeedInput = MenuLogic.screenType(InputInfo.windSpeed, variable: windSpeedKt);
+    final runwayInput = MenuLogic.screenType(InputInfo.runway, variable: runwayNumber);
 
     screenHeader(title: 'WIND COMPONENT 💨');
 
@@ -351,10 +351,10 @@ OptionIdent? headingCorrectionScreen() {
 
   while (comm.selectedOption == null) {
     // Creating input object for each input.
-    final trueCourseInput = MenuLogic.screenType(InputTitle.trueCourse, trueCourse);
-    final windDirInput = MenuLogic.screenType(InputTitle.windDirection, windDirection);
-    final windSpeedInput = MenuLogic.screenType(InputTitle.windSpeed, windSpeedKt);
-    final trueAirspeedInput = MenuLogic.screenType(InputTitle.trueAirspeed, trueAirspeedTas);
+    final trueCourseInput = MenuLogic.screenType(InputInfo.trueCourse, variable: trueCourse);
+    final windDirInput = MenuLogic.screenType(InputInfo.windDirection, variable: windDirection);
+    final windSpeedInput = MenuLogic.screenType(InputInfo.windSpeed, variable: windSpeedKt);
+    final trueAirspeedInput = MenuLogic.screenType(InputInfo.trueAirspeed, variable: trueAirspeedTas);
 
     screenHeader(title: 'HEADING/WIND CORRECTION ANGLE (WCA)');
 
