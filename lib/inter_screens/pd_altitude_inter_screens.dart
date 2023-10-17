@@ -191,94 +191,82 @@ Future<OptionIdent?> conditionsAirportScreen() async {
     }
   }
 
-  airportId = null;
+  // airportId = null;
   return comm.selectedOption;
 }
 
 OptionIdent? manualScreen() {
-  double? indicatedAlt;
-  double? pressInHg;
-  double? temperature;
-  double? dewpoint;
+  ty.indiAltInput.firstOption = true;
 
+  double? indicatedAlt = double.tryParse(comm.inputValues[ty.indiAltInput.inputType] ?? '');
+  double? pressInHg = double.tryParse(comm.inputValues[ty.altimeterInput.inputType] ?? '');
+  double? temperature = double.tryParse(comm.inputValues[ty.tempInput.inputType] ?? '');
+  double? dewpoint = double.tryParse(comm.inputValues[ty.dewInput.inputType] ?? '');
+
+  int? pressure;
+  int? density;
+  comm.currentPosition = 0;
   comm.selectedOption = null;
 
-  while (comm.selectedOption == null) {
-    final indicatedAltInput = MenuLogic.screenType(InputInfo.indicatedAlt, variable: indicatedAlt);
-    final pressInHgInput = MenuLogic.screenType(InputInfo.baro, variable: pressInHg);
-    final tempInput = MenuLogic.screenType(InputInfo.temperature, variable: temperature);
-    final dewInput = MenuLogic.screenType(InputInfo.dewpoint, variable: dewpoint);
+  const options = {
+    'Return to:': null,
+    'Pressure/Density Altitude Menu': OptionIdent.pressDenAlt,
+    'Main Menu': OptionIdent.menu
+  };
 
+  while (comm.selectedOption == null) {
     screenHeader(title: 'PRESSURE/DENSITY ALTITUDE');
 
-    // Getting indicated altitude
-    indicatedAlt = indicatedAltInput.optionLogic();
-    if (repeatLoop(indicatedAlt)) continue;
-
-    // Getting altimeter setting
-    pressInHg = pressInHgInput.optionLogic();
-    if (repeatLoop(pressInHg)) continue;
+    ty.indiAltInput.printInput();
+    ty.altimeterInput.printInput();
+    ty.tempInput.printInput();
+    ty.dewInput.printInput();
 
     // Calculated pressure altitude.
-    final pressure = pressureAlt(indicatedAlt!, pressInHg!);
-
-    // Sending calculated pressure altitude to comm dataResult Map.
-    comm.dataResult['pressureAlt'] = pressure.toDouble();
-    resultPrinter(['Pressure Altitude: ${formatNumber(pressure)}ft']);
-
-    // Getting temperature.
-    temperature = tempInput.optionLogic();
-    if (repeatLoop(temperature)) continue;
-
-    comm.dataResult['temperature'] = temperature!;
-
-    // Getting dewpoint.
-    dewpoint = dewInput.optionLogic();
-    if (repeatLoop(dewpoint)) {
-      continue;
-    } else if (dewpoint! > temperature) {
-      comm.error = 'Dewpoint must be less than or equal to temperature';
-      dewpoint = null;
-      comm.console.clearScreen();
-      continue;
-    }
-
-    final density = densityAlt(
+    pressure = pressureAlt(indicatedAlt, pressInHg);
+    density = densityAlt(
         tempC: temperature,
         stationInches: pressInHg,
         dewC: dewpoint,
         elevation: indicatedAlt
     );
 
-    if (density == null) {
-      comm.console.clearScreen();
-      comm.error = 'Invalid Result. Try different values';
+    resultPrinter([
+      'Pressure Altitude: ${formatNumber(pressure)} FT',
+      'Density Altitude: ${formatNumber(density)} FT'
+    ]);
 
-      temperature = null;
-      pressInHg = null;
-      dewpoint = null;
-      indicatedAlt = null;
+    final menu = interMenu(comm.currentPosition > 3, options);
+    if (menu) continue;
 
-      continue;
+    final positions = [
+      Coordinate(ty.indiAltInput.row!, ty.indiAltInput.colum!),
+      Coordinate(ty.altimeterInput.row!, ty.altimeterInput.colum!),
+      Coordinate(ty.tempInput.row!, ty.tempInput.colum!),
+      Coordinate(ty.dewInput.row!, ty.dewInput.colum!),
+    ];
+
+    pos.changePosition(positions);
+
+    switch (comm.currentPosition) {
+      case 0:
+        indicatedAlt = ty.indiAltInput.testLogic();
+        break;
+      case 1:
+        pressInHg = ty.altimeterInput.testLogic();
+        break;
+      case 2:
+        temperature = ty.tempInput.testLogic();
+        break;
+      case 3:
+        dewpoint = ty.dewInput.testLogic();
+        break;
     }
 
-    // Sending calculated pressure altitude to comm dataResult Map.
-    comm.dataResult['densityAlt'] = density;
-    resultPrinter(['Density Altitude: ${formatNumber(density)}ft']);
+    if (pos.positionCheck(positions)) continue;
+    pos.changePosition(positions);
 
-    final backOrNot = insideMenus(goBack: 'Back to Pressure/Density Altitude Menu', backMenuSelection: OptionIdent.pressDenAlt);
-    if (backOrNot == null) continue;
-
-    if (backOrNot) {
-      comm.console.clearScreen();
-      // Resetting all the variables for new calculations.
-      indicatedAlt = null;
-      pressInHg = null;
-      temperature = null;
-      dewpoint = null;
-
-      continue;
-    }
+    comm.console.clearScreen();
   }
 
   return comm.selectedOption;
