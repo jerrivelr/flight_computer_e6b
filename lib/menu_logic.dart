@@ -345,12 +345,13 @@ class MenuLogic {
       }
       comm.error = ifNegative;
       _inputContent = '';
+      comm.inputValues[inputType] = _inputContent; // Saves the input value for reuse when the option is re access.
       return null;
 
-    } else if (checkDir && _directionCheck(userInput!, invalidDir)) {
+    } else if (checkDir && _directionCheck(userInput, invalidDir)) {
       return null;
 
-    } else if (checkRunway && _runwayCheck(userInput!)) {
+    } else if (checkRunway && _runwayCheck(userInput)) {
       return null;
     }
 
@@ -358,7 +359,7 @@ class MenuLogic {
     comm.selectedOption = null;
     // To indicate the screen will be refresh
     comm.screenCleared = true;
-    _inputContent = userInput!;
+    _inputContent = userInput;
     comm.inputValues[inputType] = _inputContent; // Saves the input value for reuse when the option is re access.
     variable = double.tryParse(userInput);
 
