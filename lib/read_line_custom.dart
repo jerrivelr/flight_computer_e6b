@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/shortcuts.dart';
+import 'package:flight_e6b/communication_var.dart' as comm;
 
 extension CustomConsole on Console {
   String? readLineCustom(
