@@ -5,19 +5,19 @@ import 'package:flight_e6b/communication_var.dart' as comm;
 enum InputInfo {
   temperature('Temperature: ', ' °C'),
   dewpoint('Dewpoint: ', ' °C'),
-  indicatedAlt('Indicated Altitude: ', 'ft'),
-  baro('Baro: ', 'In Hg'),
-  distance('Distance: ', 'nm'),
-  time('Time: ', 'hr'),
-  calibratedAir('Calibrated Airspeed: ', 'kt'),
-  pressureAlt('Pressure Altitude: ', 'ft'),
+  indicatedAlt('Indicated Altitude: ', ' FT'),
+  baro('Baro: ', ' In Hg'),
+  distance('Distance: ', ' NM'),
+  time('Time: ', ' HR'),
+  calibratedAir('Calibrated Airspeed: ', ' KT'),
+  pressureAlt('Pressure Altitude: ', ' FT'),
   windDirection('Wind Direction: ', '°'),
-  windSpeed('Wind Speed: ', 'kt'),
+  windSpeed('Wind Speed: ', ' KT'),
   runway('Runway: ', '°'),
   trueCourse('Course: ', '°'),
-  trueAirspeed('True Airspeed: ', 'kt'),
-  fuelVolume('Fuel Volume: ', 'Gal'),
-  fuelRate('Fuel Rate: ', 'Gal/hr');
+  trueAirspeed('True Airspeed: ', ' KT'),
+  fuelVolume('Fuel Volume: ', ' GAL'),
+  fuelRate('Fuel Rate: ', ' GAL/HR');
 
   const InputInfo(this.title, this.unit);
   final String title;
