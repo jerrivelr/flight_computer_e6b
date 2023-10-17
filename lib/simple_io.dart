@@ -67,6 +67,9 @@ List<String> windComponentString({required double headTail, required double xCro
 String formatNumber(num number) {
   final myFormat = NumberFormat.decimalPattern('en_us');
 
+  if (number == null) {
+    return '--';
+  }
   if (number == number.toInt()) {
     return myFormat.format(number); // Omit decimal point and trailing zeros for integers
   }
