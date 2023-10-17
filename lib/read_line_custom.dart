@@ -101,7 +101,10 @@ extension CustomConsole on Console {
 
             return buffer.substring(0, buffer.length - unit.length);
           case ControlCharacter.arrowRight:
-            index = index < buffer.length ? index + 1 : index;
+            if (index < buffer.length &&  index + 1 <= buffer.length - unit.length) {
+              index++;
+            }
+
             break;
           case ControlCharacter.wordLeft:
             if (index > 0) {
