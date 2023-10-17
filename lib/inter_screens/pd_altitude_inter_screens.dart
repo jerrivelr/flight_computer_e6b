@@ -142,14 +142,14 @@ Future<OptionIdent?> conditionsAirportScreen() async {
     printDownData(result); // Prints downloaded data with colors.
 
     // Calculated pressure altitude.
-    final pressure = pressureAlt(elevation!, altimeter!);
-    comm.dataResult['pressureAlt'] = pressure.toDouble();
+    final pressure = pressureAlt(elevation, altimeter);
+    // comm.dataResult['pressureAlt'] = pressure.toDouble();
 
     // Calculated density altitude
     final density = densityAlt(
-        tempC: temperature ?? 0,
+        tempC: temperature,
         stationInches: altimeter,
-        dewC: dewpoint ?? 0,
+        dewC: dewpoint,
         elevation: elevation
     );
 
