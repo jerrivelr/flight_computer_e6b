@@ -63,46 +63,57 @@ OptionIdent? helpConfig() {
 }
 
 OptionIdent? cloudBaseScreen() {
-  double? temperature;
-  double? dewpoint;
+  ty.tempInput.firstOption = true;
 
+  double? temperature = double.tryParse(comm.inputValues[ty.tempInput.inputType] ?? '');
+  double? dewpoint = double.tryParse(comm.inputValues[ty.dewInput.inputType] ?? '');
+
+  int? result;
+  comm.currentPosition = 0;
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    final tempInput = MenuLogic.screenType(InputTitle.temperature, temperature);
-    final dewInput = MenuLogic.screenType(InputTitle.dewpoint, dewpoint);
-
     screenHeader(title: 'CLOUD BASE 🌧️');
 
-    // Getting temperature.
-    temperature = tempInput.optionLogic();
-    if (repeatLoop(temperature)) continue;
+    ty.tempInput.printInput();
+    ty.dewInput.printInput();
 
-    // Getting dewpoint.
-    dewpoint = dewInput.optionLogic();
-    if (repeatLoop(dewpoint)) {
-      continue;
-    } else if (dewpoint! > temperature!) {
-      comm.error = 'Dewpoint must be less than or equal to temperature';
-      dewpoint = null;
-      comm.console.clearScreen();
-      continue;
+    result = cloudBase(temperature, dewpoint);
+
+    resultPrinter(['Cloud Base: ${formatNumber(result)} FT']);
+
+    final menu = interMenu(comm.currentPosition > 1);
+    if (menu) continue;
+
+    final positions = [
+      Coordinate(ty.tempInput.row!, ty.tempInput.colum!),
+      Coordinate(ty.dewInput.row!, ty.dewInput.colum!),
+    ];
+
+    comm.console.cursorPosition = positions[comm.currentPosition];
+    comm.currentCursorPos = comm.console.cursorPosition;
+
+    switch (comm.currentPosition) {
+      case 0:
+        temperature = ty.tempInput.testLogic();
+        break;
+      case 1:
+        dewpoint = ty.dewInput.testLogic();
+        break;
     }
 
-    final result = cloudBase(temperature, dewpoint);
-    resultPrinter(['Cloud Base: ${formatNumber(result)}ft']);
-
-    final backOrNot = insideMenus();
-    if (backOrNot == null) continue;
-
-    if (backOrNot) {
+    if (comm.currentPosition > 1) {
       comm.console.clearScreen();
-      // Resetting all the variables for new calculations.
-      temperature = null;
-      dewpoint = null;
-
+      comm.currentCursorPos = Coordinate(comm.currentCursorPos!.row + 1, comm.console.cursorPosition!.col);
       continue;
+    } else if (comm.currentPosition < 0) {
+      comm.currentPosition = 0;
     }
+
+    comm.console.cursorPosition = positions[comm.currentPosition];
+    comm.currentCursorPos = comm.console.cursorPosition;
+
+    comm.console.clearScreen();
   }
 
   return comm.selectedOption;
