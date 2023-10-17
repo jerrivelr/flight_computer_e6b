@@ -46,7 +46,9 @@ extension CustomConsole on Console {
             if (buffer.isEmpty) {
               break;
             }
-            return buffer;
+            comm.currentPosition++;
+
+            return buffer.substring(0, buffer.length - unit.length);
           case ControlCharacter.ctrlC:
             if (cancelOnBreak) return null;
             break;
@@ -84,7 +86,9 @@ extension CustomConsole on Console {
               buffer = scrollbackBuffer!.up(buffer);
               index = buffer.length;
             }
-            break;
+            comm.currentPosition--;
+
+            return buffer.substring(0, buffer.length - unit.length);
           case ControlCharacter.arrowDown:
             if (scrollbackBuffer != null) {
               final temp = scrollbackBuffer!.down();
@@ -93,7 +97,9 @@ extension CustomConsole on Console {
                 index = buffer.length;
               }
             }
-            break;
+            comm.currentPosition++;
+
+            return buffer.substring(0, buffer.length - unit.length);
           case ControlCharacter.arrowRight:
             index = index < buffer.length ? index + 1 : index;
             break;
