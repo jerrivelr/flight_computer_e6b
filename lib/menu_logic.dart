@@ -124,9 +124,7 @@ class MenuLogic {
             optionName: InputInfo.temperature.title,
             inCaseInvalid: 'Invalid Temperature',
             digitLimit: 3,
-            ifDigitLimit: 'Temperature must be between (-999°C) — (999°C)',
             unit: InputInfo.temperature.unit,
-            firstOption: firstOption,
             inputType: type
         );
       case InputInfo.dewpoint:
@@ -135,7 +133,6 @@ class MenuLogic {
             optionName: InputInfo.dewpoint.title,
             inCaseInvalid: 'Invalid Dewpoint',
             digitLimit: 3,
-            ifDigitLimit: 'Dewpoint must be between (-999°C) — (999°C)',
             unit: InputInfo.dewpoint.unit,
             inputType: type
         );
