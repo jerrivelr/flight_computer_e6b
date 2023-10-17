@@ -1,12 +1,9 @@
-import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/main_screens/menu_screens.dart';
 import 'package:flight_e6b/menu_logic.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
-final console = Console();
-
 void main(List<String> arguments) async {
-  console.clearScreen();
+  comm.console.clearScreen();
   OptionIdent? userSelection = OptionIdent.menu;
 
   while (userSelection != OptionIdent.exit) {
@@ -20,37 +17,37 @@ void main(List<String> arguments) async {
         userSelection = helpConfig();
         break;
       case OptionIdent.cloudBase:
-        console.clearScreen();
+        comm.console.clearScreen();
         userSelection = cloudBaseScreen();
         break;
       case OptionIdent.pressDenAlt:
-        console.clearScreen();
+        comm.console.clearScreen();
         userSelection = await pressDensityScreen();
         break;
       case OptionIdent.groundSpeed:
-        console.clearScreen();
+        comm.console.clearScreen();
         userSelection = groundSpeedScreen();
         break;
       case OptionIdent.trueAirspeed:
-        console.clearScreen();
+        comm.console.clearScreen();
         userSelection = trueAirspeedScreen();
         break;
       case OptionIdent.windComp:
-        console.clearScreen();
+        comm.console.clearScreen();
         userSelection = windComponentScreen();
         break;
       case OptionIdent.windCorrection:
-        console.clearScreen();
+        comm.console.clearScreen();
         userSelection = headingCorrectionScreen();
         break;
       case OptionIdent.fuel:
-        console.clearScreen();
+        comm.console.clearScreen();
         userSelection = fuelScreen();
         break;
       default:
         break;
     }
   }
-  console.clearScreen();
-  console.resetColorAttributes();
+  comm.console.clearScreen();
+  comm.console.resetColorAttributes();
 }
