@@ -11,6 +11,8 @@ extension CustomConsole on Console {
         bool cancelOnEOF = false,
         bool onlyNumbers = true,
         int charLimit = 10,
+        String inputContent = '',
+        String unit = '',
         void Function(String text, Key lastPressed)? callback}) {
     var buffer = '';
     final allowedChars = ['.', '-'];
