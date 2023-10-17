@@ -144,17 +144,19 @@ class MenuLogic {
             checkNegative: true,
             ifNegative: 'Indicated Altitude must be greater than 0ft',
             ifDigitLimit: 'Indicated Altitude must less than 100,000ft',
-            autofillText: {'Indicated Altitude: ': '${formatNumber(variable ?? 0)}ft'}
+            unit: InputInfo.indicatedAlt.unit,
+            inputType: type
         );
       case InputInfo.baro:
         return MenuLogic(
             variable: variable,
             optionName: InputInfo.baro.title,
             inCaseInvalid: 'Invalid Altimeter',
+            digitLimit: 4,
             checkNegative: true,
-            digitLimit: 2,
             ifNegative: 'Altimeter setting must be greater than 0 InHg',
-            autofillText: {'Baro: ': '${formatNumber(variable ?? 0)} InHg'}
+            unit: InputInfo.baro.unit,
+            inputType: type
         );
       case InputInfo.distance:
         return MenuLogic(
