@@ -18,6 +18,9 @@ extension CustomConsole on Console {
     const allowedChars = ['.', '-'];
     var buffer = inputContent + unit;
     var index = buffer.length - unit.length; // cursor position relative to buffer, not screen
+    final symbolLookup = RegExp(r'[-.]');
+
+    var charAmount = index - symbolLookup.allMatches(buffer).length;
 
     final screenRow = cursorPosition?.row ?? 0;
     final screenColOffset = cursorPosition?.col ?? 0;
@@ -61,6 +64,8 @@ extension CustomConsole on Console {
               buffer = buffer.substring(0, index - 1) + buffer.substring(index);
               index--;
             }
+
+            if (charAmount > 0) charAmount--;
             break;
           case ControlCharacter.ctrlS:
             buffer = buffer.substring(index, buffer.length);
@@ -133,18 +138,27 @@ extension CustomConsole on Console {
             break;
         }
       } else if (buffer.length < bufferMaxLength) {
-          if (int.tryParse(key.char) == null && onlyNumbers && !allowedChars.contains(key.char)) {
-            key.char = '';
-          } else if (buffer.length > charLimit - 1) {
-            key.char = '';
-          } else if (index == buffer.length) {
-            buffer += key.char;
-            index++;
-          } else {
-            buffer = buffer.substring(0, index) + key.char + buffer.substring(index);
-            index++;
-          }
+
+        if (symbolLookup.hasMatch(key.char)) {
+
+        } else {
+          charAmount++;
         }
+
+        if (int.tryParse(key.char) == null && onlyNumbers && !allowedChars.contains(key.char)) {
+          key.char = '';
+          charAmount--;
+        } else if (charAmount > charLimit) {
+          key.char = '';
+          charAmount--;
+        } else if (index == buffer.length) {
+          buffer += key.char;
+          index++;
+        } else {
+          buffer = buffer.substring(0, index) + key.char + buffer.substring(index);
+          index++;
+        }
+      }
 
       cursorPosition = Coordinate(screenRow, screenColOffset);
       eraseCursorToEnd();
