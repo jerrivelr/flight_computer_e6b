@@ -324,7 +324,71 @@ class MenuLogic {
     return null;
   }
 
-  String? _inputChecker(String printOut, {required int digitAmount, String ifDigitLimit = 'Invalid Digit', String ifInvalid = 'Invalid number', }) {
+  double? testLogic() {
+    String? userInput;
+    userInput = _inputChecker(null, ifInvalid: inCaseInvalid, digitAmount: digitLimit, ifDigitLimit: ifDigitLimit);
+
+    if (userInput == inCaseInvalid || userInput == ifDigitLimit) {
+      if (comm.error.isEmpty) {
+        comm.currentPosition--;
+      }
+      comm.error = userInput!;
+      _inputContent = '';
+      return null;
+
+    } else if (checkNegative && double.tryParse(userInput!)! <= 0) {
+      if (comm.error.isEmpty) {
+        comm.currentPosition--;
+      }
+      comm.error = ifNegative;
+      _inputContent = '';
+      return null;
+
+    } else if (checkDir && _directionCheck(userInput!, invalidDir)) {
+      return null;
+
+    } else if (checkRunway && _runwayCheck(userInput!)) {
+      return null;
+    }
+
+    comm.error = '';
+    comm.selectedOption = null;
+    // To indicate the screen will be refresh
+    comm.screenCleared = true;
+    _inputContent = userInput!;
+    comm.inputValues[inputType] = _inputContent; // Saves the input value for reuse when the option is re access.
+    variable = double.tryParse(userInput);
+
+    return variable;
+  }
+
+  void printInput() {
+    _inputContent = comm.inputValues[inputType] ?? '';
+    _row = comm.console.cursorPosition?.row;
+
+    comm.console.setForegroundColor(ConsoleColor.brightWhite);
+    if (comm.currentCursorPos?.row == _row || firstOption) {
+      firstOption = false;
+      comm.console.write(optionName);
+      comm.currentCursorPos = Coordinate(_row ?? 0, 0);
+    } else {
+      comm.console.write(optionName);
+      comm.console.setForegroundExtendedColor(180);
+
+      if (_inputContent.isEmpty) {
+        comm.console.write('--$unit');
+      } else {
+        comm.console.write('$_inputContent$unit');
+      }
+
+      comm.console.resetColorAttributes();
+    }
+
+    _colum = comm.console.cursorPosition?.col;
+    comm.console.writeLine();
+  }
+
+  String? _inputChecker(String? printOut, {required int digitAmount, String ifDigitLimit = 'Invalid Digit', String ifInvalid = 'Invalid number', }) {
     digitAmount++;
     final digitChecker = RegExp('^-?\\d{$digitAmount,}\$');
 
