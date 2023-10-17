@@ -64,7 +64,7 @@ List<String> windComponentString({required double headTail, required double xCro
   return finalString;
 }
 
-String formatNumber(num number) {
+String formatNumber(num? number) {
   final myFormat = NumberFormat.decimalPattern('en_us');
 
   if (number == null) {
