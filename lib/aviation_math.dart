@@ -36,7 +36,11 @@ String windsInterpolation({
   return '${interAlt}Ft: ${windDir.toStringAsFixed(1)} at ${windSpeed.toStringAsFixed(1)}KT';
 }
 
-int cloudBase(double temp, double dew) {
+int? cloudBase(double? temp, double? dew) {
+  if (temp == null || dew == null) {
+    return null;
+  }
+
   final spread = temp - dew;
   final base = (spread / 2.5) * 1000;
   return base.round();
