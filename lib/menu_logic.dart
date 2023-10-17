@@ -276,7 +276,7 @@ class MenuLogic {
     String? userInput;
     while (true) {
       if (variable == null) {
-        userInput = _inputChecker(optionName, ifInvalid: inCaseInvalid, digitAmount: digitLimit, ifDigitLimit: ifDigitLimit);
+        userInput = _inputChecker(optionName, ifInvalid: inCaseInvalid);
 
         if (userInput == inCaseInvalid || userInput == ifDigitLimit) {
           comm.error = userInput!;
@@ -325,9 +325,9 @@ class MenuLogic {
 
   double? testLogic() {
     String? userInput;
-    userInput = _inputChecker(null, ifInvalid: inCaseInvalid, digitAmount: digitLimit, ifDigitLimit: ifDigitLimit);
+    userInput = _inputChecker(null, ifInvalid: inCaseInvalid);
 
-    if (userInput == inCaseInvalid || userInput == ifDigitLimit) {
+    if (userInput == inCaseInvalid) {
       if (comm.error.isEmpty) {
         comm.currentPosition--;
       }
@@ -387,13 +387,10 @@ class MenuLogic {
     comm.console.writeLine();
   }
 
-  String? _inputChecker(String? printOut, {required int digitAmount, String ifDigitLimit = 'Invalid Digit', String ifInvalid = 'Invalid number', }) {
-    digitAmount++;
-    final digitChecker = RegExp('^-?\\d{$digitAmount,}\$');
-
+  String? _inputChecker(String? printOut, {String ifInvalid = 'Invalid number', }) {
     String? userInput;
 
-    userInput = input(printOut, unit: unit, inputContent: _inputContent)?.toLowerCase();
+    userInput = input(printOut, unit: unit, inputContent: _inputContent, charLimit: digitLimit)?.toLowerCase();
 
     if (titles.contains(userInput) || typed.contains(userInput)) {
       return userInput;
@@ -401,8 +398,6 @@ class MenuLogic {
       return userInput;
     } else if (double.tryParse(userInput ?? '') == null) {
       return ifInvalid;
-    } else if (digitChecker.hasMatch(userInput ?? '')) {
-      return ifDigitLimit;
     }
 
     return userInput;
