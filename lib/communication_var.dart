@@ -6,6 +6,9 @@ final console = Console();
 var error = ''; // Stores errors messages if any.
 OptionIdent? selectedOption; // Stores values that are part of the optionList if userInput equals to one of the options.
 Map<String, num> dataResult = {}; // This Map will contain the calculated data for reuse in other options.
+Map<InputInfo?, String?> inputValues = {};
+var currentCursorPos = console.cursorPosition;
+var currentPosition = 0; // Saves the current input selected
 
 bool noInternet = false; // Checks when there is no internet.
 bool screenCleared = false; // To check the screen has been clear.
