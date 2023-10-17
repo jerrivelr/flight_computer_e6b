@@ -91,8 +91,7 @@ OptionIdent? cloudBaseScreen() {
       Coordinate(ty.dewInput.row!, ty.dewInput.colum!),
     ];
 
-    comm.console.cursorPosition = positions[comm.currentPosition];
-    comm.currentCursorPos = comm.console.cursorPosition;
+    pos.changePosition(positions);
 
     switch (comm.currentPosition) {
       case 0:
@@ -103,16 +102,8 @@ OptionIdent? cloudBaseScreen() {
         break;
     }
 
-    if (comm.currentPosition > 1) {
-      comm.console.clearScreen();
-      comm.currentCursorPos = Coordinate(comm.currentCursorPos!.row + 1, comm.console.cursorPosition!.col);
-      continue;
-    } else if (comm.currentPosition < 0) {
-      comm.currentPosition = 0;
-    }
-
-    comm.console.cursorPosition = positions[comm.currentPosition];
-    comm.currentCursorPos = comm.console.cursorPosition;
+    if (pos.positionCheck(positions)) continue;
+    pos.changePosition(positions);
 
     comm.console.clearScreen();
   }
