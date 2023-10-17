@@ -111,16 +111,17 @@ class MenuLogic {
 
   var _inputContent = '';
 
-  factory MenuLogic.screenType(InputTitle t, double? variable) {
-    switch (t) {
-      case InputTitle.temperature:
   int? _row = 0;
   int? _colum = 0;
   int? get row => _row;
   int? get colum => _colum;
+
+  factory MenuLogic.screenType(InputInfo type, {double? variable, bool firstOption = false}) {
+    switch (type) {
+      case InputInfo.temperature:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.temperature.title,
+            optionName: InputInfo.temperature.title,
             inCaseInvalid: 'Invalid Temperature',
             digitLimit: 3,
             ifDigitLimit: 'Temperature must be between (-999°C) — (999°C)',
@@ -128,46 +129,46 @@ class MenuLogic {
       case InputTitle.dewpoint:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.dewpoint.title,
+            optionName: InputInfo.dewpoint.title,
             inCaseInvalid: 'Invalid Dewpoint',
             digitLimit: 3,
             ifDigitLimit: 'Dewpoint must be between (-999°C) — (999°C)',
             autofillText: {'Dewpoint: ': '${formatNumber(variable ?? 0)}°C'}
         );
-      case InputTitle.indicatedAlt:
+      case InputInfo.indicatedAlt:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.indicatedAlt.title,
+            optionName: InputInfo.indicatedAlt.title,
             inCaseInvalid: 'Invalid Indicated Altitude',
             checkNegative: true,
             ifNegative: 'Indicated Altitude must be greater than 0ft',
             ifDigitLimit: 'Indicated Altitude must less than 100,000ft',
             autofillText: {'Indicated Altitude: ': '${formatNumber(variable ?? 0)}ft'}
         );
-      case InputTitle.baro:
+      case InputInfo.baro:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.baro.title,
+            optionName: InputInfo.baro.title,
             inCaseInvalid: 'Invalid Altimeter',
             checkNegative: true,
             digitLimit: 2,
             ifNegative: 'Altimeter setting must be greater than 0 InHg',
             autofillText: {'Baro: ': '${formatNumber(variable ?? 0)} InHg'}
         );
-      case InputTitle.distance:
+      case InputInfo.distance:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.distance.title,
+            optionName: InputInfo.distance.title,
             inCaseInvalid: 'Invalid Distance',
             checkNegative: true,
             ifNegative: 'Distance must be greater than 0nm',
             ifDigitLimit: 'Distance must less than 100,000nm',
             autofillText: {'Distance: ': '${formatNumber(variable ?? 0)}nm'}
         );
-      case InputTitle.time:
+      case InputInfo.time:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.time.title,
+            optionName: InputInfo.time.title,
             inCaseInvalid: 'Invalid Time. Ex. 1.5.',
             checkNegative: true,
             digitLimit: 2,
@@ -175,10 +176,10 @@ class MenuLogic {
             ifNegative: 'Time must be greater than 0 hr',
             autofillText: {'Time: ': '${formatNumber(variable ?? 0)} hr'}
         );
-      case InputTitle.calibratedAir:
+      case InputInfo.calibratedAir:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.calibratedAir.title,
+            optionName: InputInfo.calibratedAir.title,
             inCaseInvalid: 'Invalid Calibrated Airspeed',
             checkNegative: true,
             digitLimit: 3,
@@ -186,29 +187,29 @@ class MenuLogic {
             ifNegative: 'Calibrated Airspeed must be greater than 0kt',
             autofillText: {'Calibrated Airspeed: ': '${formatNumber(variable ?? 0)}kt'}
         );
-      case InputTitle.pressureAlt:
+      case InputInfo.pressureAlt:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.pressureAlt.title,
+            optionName: InputInfo.pressureAlt.title,
             inCaseInvalid: 'Invalid Pressure Altitude',
             checkNegative: true,
             ifDigitLimit: 'Pressure Altitude must less than 100,000ft',
             ifNegative: 'Pressure Altitude must be greater than 0ft',
             autofillText: {'Pressure Altitude: ': '${formatNumber(variable ?? 0)}ft'}
         );
-      case InputTitle.windDirection:
+      case InputInfo.windDirection:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.windDirection.title,
+            optionName: InputInfo.windDirection.title,
             inCaseInvalid: 'Invalid Wind Direction',
             checkDir: true,
             invalidDir: 'Wind Direction must be between 0° — 360°',
             autofillText: {'Wind Direction: ': '${formatNumber(variable ?? 0)}°'}
         );
-      case InputTitle.windSpeed:
+      case InputInfo.windSpeed:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.windSpeed.title,
+            optionName: InputInfo.windSpeed.title,
             inCaseInvalid: 'Invalid Wind Speed',
             checkNegative: true,
             digitLimit: 3,
@@ -216,27 +217,27 @@ class MenuLogic {
             ifNegative: 'Wind Speed must be greater than 0kt',
             autofillText: {'Wind Speed: ': '${formatNumber(variable ?? 0)}kt'}
         );
-      case InputTitle.runway:
+      case InputInfo.runway:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.runway.title,
+            optionName: InputInfo.runway.title,
             inCaseInvalid: 'Invalid Runway',
             checkRunway: true,
             autofillText: {'Runway ': formatNumber(variable ?? 0)}
         );
-      case InputTitle.trueCourse:
+      case InputInfo.trueCourse:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.trueCourse.title,
+            optionName: InputInfo.trueCourse.title,
             inCaseInvalid: 'Invalid Course',
             checkDir: true,
             invalidDir: 'The Course must be between 0° — 360°',
             autofillText: {'Course: ': '${formatNumber(variable ?? 0)}°'}
         );
-      case InputTitle.trueAirspeed:
+      case InputInfo.trueAirspeed:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.trueAirspeed.title,
+            optionName: InputInfo.trueAirspeed.title,
             inCaseInvalid: 'Invalid True Airspeed',
             digitLimit: 3,
             checkNegative: true,
@@ -244,20 +245,20 @@ class MenuLogic {
             ifNegative: 'True Airspeed must be positive',
             autofillText: {'True Airspeed: ': '${formatNumber(variable ?? 0)}kt'}
         );
-      case InputTitle.fuelVolume:
+      case InputInfo.fuelVolume:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.fuelVolume.title,
+            optionName: InputInfo.fuelVolume.title,
             inCaseInvalid: 'Invalid Fuel Volume',
             ifDigitLimit: 'Fuel Volume must be less than 100,000 Gal',
             checkNegative: true,
             ifNegative: 'Fuel Volume must be positive',
             autofillText: {'Fuel Volume: ': '${formatNumber(variable ?? 0)} Gal'}
         );
-      case InputTitle.fuelRate:
+      case InputInfo.fuelRate:
         return MenuLogic(
             variable: variable,
-            optionName: InputTitle.fuelRate.title,
+            optionName: InputInfo.fuelRate.title,
             inCaseInvalid: 'Invalid Fuel Rate',
             digitLimit: 4,
             ifDigitLimit: 'Fuel Rate must be less 10,000 Gal/hr',
