@@ -1,4 +1,5 @@
 import 'package:flight_e6b/simple_io.dart';
+import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
 enum InputInfo {
