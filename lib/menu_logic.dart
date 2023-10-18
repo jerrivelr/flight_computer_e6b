@@ -349,9 +349,13 @@ class MenuLogic {
       return null;
 
     } else if (checkDir && _directionCheck(userInput, invalidDir)) {
+      _inputContent = '';
+      comm.inputValues[inputType] = _inputContent;
       return null;
 
     } else if (checkRunway && _runwayCheck(userInput)) {
+      _inputContent = '';
+      comm.inputValues[inputType] = _inputContent;
       return null;
     }
 
