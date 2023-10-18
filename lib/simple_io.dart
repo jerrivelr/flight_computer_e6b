@@ -46,19 +46,27 @@ int intParse(String? printout, {String? ifInvalid}) {
   return intInput;
 }
 
-List<String> windComponentString({required double headTail, required double xCross}) {
+List<String>? windComponentString({required double? headTail, required double? xCross}) {
   final finalString = <String>[];
 
+  if (headTail == null || xCross == null) {
+    (xCross == null) ? finalString.add('X Wind: -- KT') : finalString;
+    (headTail == null) ? finalString.add('Head/Tail: -- KT') : finalString;
+
+    return finalString;
+  }
+
+
   if (xCross < 0) {
-    finalString.add('Left X Wind: ${xCross.abs().toStringAsFixed(2)}kt');
+    finalString.add('Left X Wind: ${formatNumber(xCross)} KT');
   } else {
-    finalString.add('Right X Wind: ${xCross.toStringAsFixed(2)}kt\n');
+    finalString.add('Right X Wind: ${formatNumber(xCross)} KT');
   }
 
   if (headTail < 0) {
-    finalString.add('Tailwind: ${headTail.abs().toStringAsFixed(2)}kt');
+    finalString.add('Tailwind: ${formatNumber(headTail)} KT');
   } else {
-    finalString.add('Headwind: ${headTail.toStringAsFixed(2)}kt');
+    finalString.add('Headwind: ${formatNumber(headTail)} KT');
   }
 
   return finalString;
