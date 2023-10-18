@@ -339,7 +339,7 @@ class MenuLogic {
       _inputContent = '';
       comm.inputValues[inputType] = _inputContent;
       return null;
-    } else if (checkNegative && double.tryParse(userInput)! <= 0) {
+    } else if (checkNegative && double.tryParse(userInput)! < 0) {
       if (comm.error.isEmpty) {
         comm.currentPosition--;
       }
