@@ -185,19 +185,17 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Calibrated Airspeed',
             checkNegative: true,
             digitLimit: 3,
-            ifDigitLimit: 'Calibrated Airspeed must less than 1,000kt',
             ifNegative: 'Calibrated Airspeed must be greater than 0kt',
-            autofillText: {'Calibrated Airspeed: ': '${formatNumber(variable ?? 0)}kt'}
+            unit: InputInfo.calibratedAir.unit,
+            inputType: type
         );
       case InputInfo.pressureAlt:
         return MenuLogic(
             variable: variable,
             optionName: InputInfo.pressureAlt.title,
             inCaseInvalid: 'Invalid Pressure Altitude',
-            checkNegative: true,
-            ifDigitLimit: 'Pressure Altitude must less than 100,000ft',
-            ifNegative: 'Pressure Altitude must be greater than 0ft',
-            autofillText: {'Pressure Altitude: ': '${formatNumber(variable ?? 0)}ft'}
+            unit: InputInfo.pressureAlt.unit,
+            inputType: type
         );
       case InputInfo.windDirection:
         return MenuLogic(
