@@ -1,4 +1,3 @@
-import 'package:characters/characters.dart';
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 import 'package:flight_e6b/menu_logic.dart';
@@ -20,30 +19,6 @@ String? input(String? printOut, {bool onlyNumbers = true, int charLimit = 10, St
   );
 
   return userInput?.trim();
-}
-
-double doubleParse(String? displayString, {String? ifInvalid}) {
-  var doubleInput = double.tryParse(input(displayString) ?? '');
-  while (doubleInput == null) {
-    print(ifInvalid);
-    var userInput = input(displayString);
-
-    doubleInput = double.tryParse(userInput ?? '');
-  }
-
-  return doubleInput;
-}
-
-int intParse(String? printout, {String? ifInvalid}) {
-  var intInput = int.tryParse(input(printout) ?? '');
-  while (intInput == null) {
-    print(ifInvalid);
-    var userInput = input(printout);
-
-    intInput = int.tryParse(userInput ?? '');
-  }
-
-  return intInput;
 }
 
 List<String> windComponentString({required double? headTail, required double? xCross}) {
@@ -168,47 +143,6 @@ OptionIdent? menuBuilder ({required Map<String, OptionIdent?> menuOptions, Strin
   comm.console.showCursor();
 
   return selection;
-}
-
-/// Used for printing the results of something
-void beautifulPrint(Object input, {String symbol = '='}) {
-  final inputString = input.toString();
-
-  if (!inputString.contains('\n')) {
-    final linesOfSymbols = symbol * (inputString.length + 4);
-    final result =
-        '$linesOfSymbols\n'
-        '$symbol $input $symbol\n'
-        '$linesOfSymbols';
-    print(result);
-
-  } else {
-
-    // To construct the final string.
-    final totalString = StringBuffer();
-
-    final splitString = inputString.split('\n');
-    // Used to store the lengths of the strings in splitString variable.
-    final stringLength = <int>[];
-
-    for (final sentence in splitString) {
-      stringLength.add(sentence.characters.length);
-    }
-
-    // List sorted to find the length of the longest string, which is the last item.
-    stringLength.sort();
-    final longestString = stringLength.last;
-
-    totalString.write('${symbol * (longestString + 4)}\n');
-    for (final sentence in splitString) {
-      var whitespaceToAdd = (longestString - 1) - (sentence.characters.length - 2);
-      totalString.write('$symbol $sentence${' ' * whitespaceToAdd}$symbol\n');
-    }
-    totalString.write(symbol * (longestString + 4));
-
-    print(totalString);
-
-  }
 }
 
 var _currentHighlight = 1;
@@ -393,6 +327,7 @@ bool interMenu(bool condition, [Map<String, OptionIdent?> options = const {'Retu
 
   return false;
 }
+
 void errorMessage(String message) {
   comm.console.setForegroundColor(ConsoleColor.red);
   comm.console.setTextStyle(bold: true, italic: true, blink: true);

@@ -186,45 +186,6 @@ int? heading(double? trueCourse, double? windCorrectionAngle) {
   return trueHeading.round();
 }
 
-int windDirectionChecker() {
-  var windDirection = doubleParse('Wind Direction: ', ifInvalid: 'Invalid wind direction\n');
-  while (windDirection > 360 || windDirection < 0) {
-    if (windDirection > 360) {
-      print('Wind direction must be between 0-360\n');
-    } else if (windDirection < 0) {
-      print('Wind direction must be positive\n');
-    }
-
-    windDirection = doubleParse('Wind Direction: ', ifInvalid: 'Invalid wind direction\n');
-  }
-
-  return windDirection.round();
-}
-
-double windSpeedChecker() {
-  var windSpeedKt = doubleParse('Wind Speed (kt): ', ifInvalid: 'Invalid wind speed\n');
-  while (windSpeedKt < 0) {
-    print('Wind speed must be positive\n');
-    windSpeedKt = doubleParse('Wind Speed (kt): ', ifInvalid: 'Invalid wind speed\n');
-  }
-
-  return windSpeedKt;
-}
-
-int trueCourseChecker() {
-  var trueCourse = doubleParse('True Course: ', ifInvalid: 'Invalid True Course');
-  while (trueCourse > 360 || trueCourse < 0) {
-    if (trueCourse > 360) {
-      print('True course must be between 0-360\n');
-    } else if (trueCourse < 0) {
-      print('True course must be positive\n');
-    }
-    trueCourse = doubleParse('True Course: ', ifInvalid: 'Invalid True Course');
-  }
-
-  return trueCourse.round();
-}
-
 double _saturationVapor({required double tempC}) {
   // Returns saturation vapor pressure in Pascals
   // Private function to calculate the partial vapor pressure
