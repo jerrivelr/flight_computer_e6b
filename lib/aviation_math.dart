@@ -172,6 +172,20 @@ double? correctionAngle({
   return calWindCorrAngle * (180 / pi);
 }
 
+int? heading(double? trueCourse, double? windCorrectionAngle) {
+  if (trueCourse == null || windCorrectionAngle == null) {
+    return null;
+  }
+
+  // To make sure true heading is not equal to more than 360.
+  var trueHeading = trueCourse + windCorrectionAngle;
+  if (trueHeading > 360) {
+    trueHeading -= 360;
+  }
+
+  return trueHeading.round();
+}
+
 int windDirectionChecker() {
   var windDirection = doubleParse('Wind Direction: ', ifInvalid: 'Invalid wind direction\n');
   while (windDirection > 360 || windDirection < 0) {
