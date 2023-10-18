@@ -115,23 +115,28 @@ int? trueAirspeed({required double? calibratedAirS, required double? pressAltitu
   return tas.round();
 }
 
-Map<String, double> windComponent({required double direction, required double windDirection, required double windSpeed, bool runway = false}) {
-  // Converting degrees into radians.
-  final double angularDiff;
-
-  if (runway) {
-    angularDiff = windDirection - (direction * 10);
-  } else {
-    angularDiff = direction - (180 + windDirection);
+double? crossWindComp({required double? direction, required double? windDirection, required double? windSpeed}) {
+  if (direction == null || windDirection == null || windSpeed == null) {
+    return null;
   }
 
+  final double angularDiff = windDirection - (direction * 10);
+
   final radians = angularDiff * (pi / 180);
-  final Map<String, double> result = {};
 
-  result['crossWind'] = windSpeed * (sin(radians));
-  result['headWind'] = windSpeed * (cos(radians));
+  return windSpeed * (sin(radians));
+}
 
-  return result;
+double? headWindComp({required double? direction, required double? windDirection, required double? windSpeed}) {
+  if (direction == null || windDirection == null || windSpeed == null) {
+    return null;
+  }
+
+  final double angularDiff = windDirection - (direction * 10);
+
+  final radians = angularDiff * (pi / 180);
+
+  return windSpeed * (cos(radians));
 }
 
 double? correctionAngle({
