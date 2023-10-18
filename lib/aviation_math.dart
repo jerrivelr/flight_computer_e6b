@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:flight_e6b/simple_io.dart';
+
 import 'package:flight_e6b/communication_var.dart' as comm;
 
 String windsInterpolation({
