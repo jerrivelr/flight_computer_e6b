@@ -143,7 +143,6 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Indicated Altitude',
             checkNegative: true,
             ifNegative: 'Indicated Altitude must be greater than 0ft',
-            ifDigitLimit: 'Indicated Altitude must less than 100,000ft',
             unit: InputInfo.indicatedAlt.unit,
             inputType: type
         );
@@ -165,8 +164,8 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Distance',
             checkNegative: true,
             ifNegative: 'Distance must be greater than 0nm',
-            ifDigitLimit: 'Distance must less than 100,000nm',
-            autofillText: {'Distance: ': '${formatNumber(variable ?? 0)}nm'}
+            unit: InputInfo.distance.unit,
+            inputType: type
         );
       case InputInfo.time:
         return MenuLogic(
@@ -175,9 +174,9 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Time. Ex. 1.5.',
             checkNegative: true,
             digitLimit: 2,
-            ifDigitLimit: 'Time must be less 100hr',
             ifNegative: 'Time must be greater than 0 hr',
-            autofillText: {'Time: ': '${formatNumber(variable ?? 0)} hr'}
+            unit: InputInfo.time.unit,
+            inputType: type
         );
       case InputInfo.calibratedAir:
         return MenuLogic(
