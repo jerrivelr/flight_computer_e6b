@@ -46,7 +46,7 @@ int intParse(String? printout, {String? ifInvalid}) {
   return intInput;
 }
 
-List<String>? windComponentString({required double? headTail, required double? xCross}) {
+List<String> windComponentString({required double? headTail, required double? xCross}) {
   final finalString = <String>[];
 
   if (headTail == null || xCross == null) {
