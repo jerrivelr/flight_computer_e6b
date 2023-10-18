@@ -317,100 +317,38 @@ OptionIdent? windComponentScreen() {
 }
 
 OptionIdent? headingCorrectionScreen() {
-  double? trueCourse;
-  double? windDirection;
-  double? windSpeedKt;
-  double? trueAirspeedTas;
+  tp.trueAirspeedInput.firstOption = true;
 
-  // Checking if wind direction, wind speed, and true airspeed was previously input or calculated.
-  bool windDirExists = comm.dataResult.containsKey('windDirection');
-  bool windSpeedExists = comm.dataResult.containsKey('windSpeed');
-  bool trueAirExists = comm.dataResult.containsKey('trueAirspeed');
+  double? trueAirspeedTas = double.tryParse(comm.inputValues[tp.trueAirspeedInput.inputType] ?? '');
+  double? trueCourse = double.tryParse(comm.inputValues[tp.trueCourseInput.inputType] ?? '');
+  double? windDirection = double.tryParse(comm.inputValues[tp.windDirInput.inputType] ?? '');
+  double? windSpeedKt = double.tryParse(comm.inputValues[tp.windSpeedInput.inputType] ?? '');
 
+  double? windCorrectionAngle;
+  int? trueHeading;
+  int? groundSpeedKt;
+  comm.currentPosition = 0;
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    // Creating input object for each input.
-    final trueCourseInput = MenuLogic.screenType(InputInfo.trueCourse, variable: trueCourse);
-    final windDirInput = MenuLogic.screenType(InputInfo.windDirection, variable: windDirection);
-    final windSpeedInput = MenuLogic.screenType(InputInfo.windSpeed, variable: windSpeedKt);
-    final trueAirspeedInput = MenuLogic.screenType(InputInfo.trueAirspeed, variable: trueAirspeedTas);
-
     screenHeader(title: 'HEADING/WIND CORRECTION ANGLE (WCA)');
 
-    // If the user decides to autofill the calculated or input values they will be autofilled.
-    if ([windDirExists, windSpeedExists, trueAirExists].contains(true)) {
-      bool? yesSelected = insideMenus(autofill: true);
-      if (yesSelected == null) continue;
-
-      if (yesSelected) {
-        windDirection = (windDirExists) ? comm.dataResult['windDirection']?.toDouble() : null;
-        windSpeedKt = (windSpeedExists) ? comm.dataResult['windSpeed']?.toDouble() : null;
-        trueAirspeedTas = (trueAirExists) ? comm.dataResult['trueAirspeed']?.toDouble() : null;
-      }
-
-      windDirExists = false;
-      windSpeedExists = false;
-      trueAirExists = false;
-
-      comm.console.clearScreen();
-      continue;
-    }
-
-    // Getting true course.
-    trueCourse = trueCourseInput.optionLogic();
-    if (repeatLoop(trueCourse)) continue;
-
-    // Getting wind direction.
-    windDirection = windDirInput.optionLogic();
-    if (repeatLoop(windDirection)) continue;
-
-    comm.dataResult['windDirection'] = windDirection!; // saving wind direction input for reuse
-
-    // Getting wind speed
-    windSpeedKt = windSpeedInput.optionLogic();
-    if (repeatLoop(windSpeedKt)) continue;
-
-    comm.dataResult['windSpeed'] = windSpeedKt!; // saving wind speed input for reuse
-
-    // Getting true airspeed.
-    trueAirspeedTas = trueAirspeedInput.optionLogic();
-    if (repeatLoop(trueAirspeedTas)) continue;
-
-    comm.dataResult['trueAirspeed'] = trueAirspeedTas!; // saving true airspeed input for reuse
+    tp.trueAirspeedInput.printInput();
+    tp.trueCourseInput.printInput();
+    tp.windDirInput.printInput();
+    tp.windSpeedInput.printInput();
 
     // Calculating wind correction angle.
-    final windCorrectionAngle = correctionAngle(
-        trueCourse: trueCourse!,
+    windCorrectionAngle = correctionAngle(
+        trueCourse: trueCourse,
         windDirection: windDirection,
         windSpeed: windSpeedKt,
         trueAirspeed: trueAirspeedTas
     );
 
-    if (windCorrectionAngle == null) {
-      comm.console.clearScreen();
-      comm.error = 'Invalid Values';
+    trueHeading = heading(trueCourse, windCorrectionAngle);
 
-      trueCourse = null;
-      windDirection = null;
-      windSpeedKt = null;
-      trueAirspeedTas = null;
-
-      windDirExists = false;
-      windSpeedExists = false;
-      trueAirExists = false;
-      continue;
-    }
-
-    // To make sure true heading is not equal to more than 360.
-    var trueHeading = trueCourse + windCorrectionAngle.round();
-    if (trueHeading > 360) {
-      trueHeading -= 360;
-    }
-
-    comm.dataResult['heading'] = trueHeading; // saving calculated heading for reuse
-
-    final groundSpeedKt = groundSpeed(
+    groundSpeedKt = groundSpeed(
         trueAirspeed: trueAirspeedTas,
         windDirection: windDirection,
         windSpeed: windSpeedKt,
@@ -420,28 +358,42 @@ OptionIdent? headingCorrectionScreen() {
 
     resultPrinter([
       'Heading: ${formatNumber(trueHeading)}°',
-      'WCA: ${windCorrectionAngle.round()}°',
-      'Ground Speed: ${groundSpeedKt.round()}kt'
+      'WCA: ${formatNumber(windCorrectionAngle?.round())}°',
+      'Ground Speed: ${formatNumber(groundSpeedKt?.round())} KT'
     ]);
 
-    final backOrNot = insideMenus();
-    if (backOrNot == null) continue;
+    final menu = interMenu(comm.currentPosition > 3);
+    if (menu) continue;
 
-    // Asking the user weather to go back to the main menu or stay in this option for new calculations.
-    if (backOrNot) {
-      comm.console.clearScreen();
-      // Resetting all the variables for new calculations.
-      trueCourse = null;
-      windDirection = null;
-      windSpeedKt = null;
-      trueAirspeedTas = null;
+    final positions = [
+      Coordinate(tp.trueAirspeedInput.row!, tp.trueAirspeedInput.colum!),
+      Coordinate(tp.trueCourseInput.row!, tp.trueCourseInput.colum!),
+      Coordinate(tp.windDirInput.row!, tp.windDirInput.colum!),
+      Coordinate(tp.windSpeedInput.row!, tp.windSpeedInput.colum!),
+    ];
 
-      windDirExists = true;
-      windSpeedExists = true;
-      trueAirExists = true;
+    pos.changePosition(positions);
 
-      continue;
+    switch (comm.currentPosition) {
+      case 0:
+        trueAirspeedTas = tp.trueAirspeedInput.testLogic();
+        break;
+      case 1:
+        trueCourse = tp.trueCourseInput.testLogic();
+        break;
+      case 2:
+        windDirection = tp.windDirInput.testLogic();
+        break;
+      case 3:
+        windSpeedKt = tp.windSpeedInput.testLogic();
+        break;
     }
+
+    if (pos.positionCheck(positions)) continue;
+    pos.changePosition(positions);
+
+    comm.console.clearScreen();
+
   }
 
   return comm.selectedOption;
