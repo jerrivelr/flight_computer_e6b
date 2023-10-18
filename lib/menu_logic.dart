@@ -94,15 +94,15 @@ class MenuLogic {
     this.inputType
   });
 
-  double? variable;
+  double? variable; // TODO No longer needed
   int digitLimit;
   String unit;
   String optionName;
   String inCaseInvalid;
   String ifNegative;
-  String ifDigitLimit;
+  String ifDigitLimit; // TODO No longer needed
   String invalidDir;
-  Map<String, String> autofillText;
+  Map<String, String> autofillText; // TODO No longer needed
   bool checkNegative;
   bool checkDir;
   bool checkRunway;
