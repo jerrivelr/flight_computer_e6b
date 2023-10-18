@@ -82,7 +82,11 @@ int? densityAlt({required double? tempC, required double? stationInches, require
   return calDensityFt.round();
 }
 
-int groundSpeed({required double trueAirspeed, required double windDirection, required double windSpeed, required double course, required double corrAngle}) {
+int? groundSpeed({required double? trueAirspeed, required double? windDirection, required double? windSpeed, required double? course, required double? corrAngle}) {
+  if (trueAirspeed == null || windDirection == null || windSpeed == null || course == null || corrAngle == null) {
+    return null;
+  }
+
   final courseRadians = course * (pi / 180);
   final corrAngleRadians = corrAngle * (pi / 180);
   final windDirectionRadians = windDirection * (pi / 180);
@@ -140,11 +144,15 @@ double? headWindComp({required double? direction, required double? windDirection
 }
 
 double? correctionAngle({
-  required double trueCourse,
-  required double windDirection,
-  required double windSpeed,
-  required double trueAirspeed}
+  required double? trueCourse,
+  required double? windDirection,
+  required double? windSpeed,
+  required double? trueAirspeed}
     ) {
+
+  if (trueCourse == null || windDirection == null || windSpeed == null || trueAirspeed == null) {
+    return null;
+  }
 
   // The angle between the wind direction and the desired course
   final windAngle = trueCourse - (180 + windDirection);
@@ -156,6 +164,7 @@ double? correctionAngle({
   final calWindCorrAngle = asin(forTheInverseSin);
 
   if (calWindCorrAngle.isNaN) {
+    comm.error = 'Invalid Values';
     return null;
   }
 
