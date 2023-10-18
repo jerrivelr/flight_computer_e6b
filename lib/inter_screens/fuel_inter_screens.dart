@@ -1,44 +1,60 @@
+import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/menu_logic.dart';
+import 'package:flight_e6b/input_type.dart' as tp;
+import 'package:flight_e6b/cursor_position.dart' as pos;
 import 'package:flight_e6b/communication_var.dart' as comm;
 
 OptionIdent? volumeScreen() {
-  double? fuelRate;
-  double? fuelTime;
+  tp.fuelRateInput.firstOption = true;
 
+  double? fuelRate = double.tryParse(comm.inputValues[tp.fuelRateInput.inputType] ?? '');
+  double? fuelTime = double.tryParse(comm.inputValues[tp.timeInput.inputType] ?? '');
+
+  double? fuelVolume;
+  double? fuelWeight;
+  comm.currentPosition = 0;
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    final fuelRateInput = MenuLogic.screenType(InputInfo.fuelRate, variable: fuelRate);
-    final durationInput = MenuLogic.screenType(InputInfo.time, variable: fuelTime);
-
     screenHeader(title: 'FUEL VOLUME (Gal)');
 
-    fuelRate = fuelRateInput.optionLogic();
-    if (repeatLoop(fuelRate)) continue;
+    tp.fuelRateInput.printInput();
+    tp.timeInput.printInput();
 
-    fuelTime = durationInput.optionLogic();
-    if (repeatLoop(fuelTime)) continue;
-
-    final fuelVolume = fuelRate! * fuelTime!;
-
-    resultPrinter([
-      'Fuel Volume: ${formatNumber(fuelVolume)} Gal',
-      'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
-    ]);
-
-    final backOrNot = insideMenus(goBack: 'Back to Fuel Menu', backMenuSelection: OptionIdent.fuel);
-    if (backOrNot == null) continue;
-
-    if (backOrNot) {
-      comm.console.clearScreen();
-      // Resetting all the variables for new calculations.
-      fuelRate = null;
-      fuelTime = null;
-
-      continue;
+    if (fuelRate != null && fuelTime != null) {
+      fuelVolume = fuelRate * fuelTime;
+      fuelWeight = fuelVolume * 6;
     }
 
+    resultPrinter([
+      'Fuel Volume: ${formatNumber(fuelVolume)} GAL',
+      'Fuel Weight: ${formatNumber(fuelWeight)} IBS'
+    ]);
+
+    final menu = interMenu(comm.currentPosition > 1);
+    if (menu) continue;
+
+    final positions = [
+      Coordinate(tp.fuelRateInput.row!, tp.fuelRateInput.colum!),
+      Coordinate(tp.timeInput.row!, tp.timeInput.colum!),
+    ];
+
+    pos.changePosition(positions);
+
+    switch (comm.currentPosition) {
+      case 0:
+        fuelRate = tp.fuelRateInput.testLogic();
+        break;
+      case 1:
+        fuelTime = tp.timeInput.testLogic();
+        break;
+    }
+
+    if (pos.positionCheck(positions)) continue;
+    pos.changePosition(positions);
+
+    comm.console.clearScreen();
   }
 
   return comm.selectedOption;
