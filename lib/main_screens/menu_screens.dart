@@ -5,7 +5,7 @@ import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/inter_screens/help_config.dart';
 import 'package:flight_e6b/inter_screens/fuel_inter_screens.dart';
 import 'package:flight_e6b/inter_screens/pd_altitude_inter_screens.dart';
-import 'package:flight_e6b/input_type.dart' as ty;
+import 'package:flight_e6b/input_type.dart' as tp;
 import 'package:flight_e6b/cursor_position.dart' as pos;
 import 'package:flight_e6b/communication_var.dart' as comm;
 
@@ -64,10 +64,10 @@ OptionIdent? helpConfig() {
 }
 
 OptionIdent? cloudBaseScreen() {
-  ty.tempInput.firstOption = true;
+  tp.tempInput.firstOption = true;
 
-  double? temperature = double.tryParse(comm.inputValues[ty.tempInput.inputType] ?? '');
-  double? dewpoint = double.tryParse(comm.inputValues[ty.dewInput.inputType] ?? '');
+  double? temperature = double.tryParse(comm.inputValues[tp.tempInput.inputType] ?? '');
+  double? dewpoint = double.tryParse(comm.inputValues[tp.dewInput.inputType] ?? '');
 
   int? result;
   comm.currentPosition = 0;
@@ -76,8 +76,8 @@ OptionIdent? cloudBaseScreen() {
   while (comm.selectedOption == null) {
     screenHeader(title: 'CLOUD BASE 🌧️');
 
-    ty.tempInput.printInput();
-    ty.dewInput.printInput();
+    tp.tempInput.printInput();
+    tp.dewInput.printInput();
 
     result = cloudBase(temperature, dewpoint);
 
@@ -87,18 +87,18 @@ OptionIdent? cloudBaseScreen() {
     if (menu) continue;
 
     final positions = [
-      Coordinate(ty.tempInput.row!, ty.tempInput.colum!),
-      Coordinate(ty.dewInput.row!, ty.dewInput.colum!),
+      Coordinate(tp.tempInput.row!, tp.tempInput.colum!),
+      Coordinate(tp.dewInput.row!, tp.dewInput.colum!),
     ];
 
     pos.changePosition(positions);
 
     switch (comm.currentPosition) {
       case 0:
-        temperature = ty.tempInput.testLogic();
+        temperature = tp.tempInput.testLogic();
         break;
       case 1:
-        dewpoint = ty.dewInput.testLogic();
+        dewpoint = tp.dewInput.testLogic();
         break;
     }
 

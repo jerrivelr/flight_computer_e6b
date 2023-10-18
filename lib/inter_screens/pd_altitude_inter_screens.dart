@@ -4,7 +4,7 @@ import 'package:flight_e6b/data_parsing/metar_data.dart';
 import 'package:flight_e6b/menu_logic.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:dart_console/dart_console.dart';
-import 'package:flight_e6b/input_type.dart' as ty;
+import 'package:flight_e6b/input_type.dart' as tp;
 import 'package:flight_e6b/cursor_position.dart' as pos;
 import 'package:flight_e6b/communication_var.dart' as comm;
 
@@ -196,12 +196,12 @@ Future<OptionIdent?> conditionsAirportScreen() async {
 }
 
 OptionIdent? manualScreen() {
-  ty.indiAltInput.firstOption = true;
+  tp.indiAltInput.firstOption = true;
 
-  double? indicatedAlt = double.tryParse(comm.inputValues[ty.indiAltInput.inputType] ?? '');
-  double? pressInHg = double.tryParse(comm.inputValues[ty.altimeterInput.inputType] ?? '');
-  double? temperature = double.tryParse(comm.inputValues[ty.tempInput.inputType] ?? '');
-  double? dewpoint = double.tryParse(comm.inputValues[ty.dewInput.inputType] ?? '');
+  double? indicatedAlt = double.tryParse(comm.inputValues[tp.indiAltInput.inputType] ?? '');
+  double? pressInHg = double.tryParse(comm.inputValues[tp.altimeterInput.inputType] ?? '');
+  double? temperature = double.tryParse(comm.inputValues[tp.tempInput.inputType] ?? '');
+  double? dewpoint = double.tryParse(comm.inputValues[tp.dewInput.inputType] ?? '');
 
   int? pressure;
   int? density;
@@ -217,10 +217,10 @@ OptionIdent? manualScreen() {
   while (comm.selectedOption == null) {
     screenHeader(title: 'PRESSURE/DENSITY ALTITUDE');
 
-    ty.indiAltInput.printInput();
-    ty.altimeterInput.printInput();
-    ty.tempInput.printInput();
-    ty.dewInput.printInput();
+    tp.indiAltInput.printInput();
+    tp.altimeterInput.printInput();
+    tp.tempInput.printInput();
+    tp.dewInput.printInput();
 
     // Calculated pressure altitude.
     pressure = pressureAlt(indicatedAlt, pressInHg);
@@ -240,26 +240,26 @@ OptionIdent? manualScreen() {
     if (menu) continue;
 
     final positions = [
-      Coordinate(ty.indiAltInput.row!, ty.indiAltInput.colum!),
-      Coordinate(ty.altimeterInput.row!, ty.altimeterInput.colum!),
-      Coordinate(ty.tempInput.row!, ty.tempInput.colum!),
-      Coordinate(ty.dewInput.row!, ty.dewInput.colum!),
+      Coordinate(tp.indiAltInput.row!, tp.indiAltInput.colum!),
+      Coordinate(tp.altimeterInput.row!, tp.altimeterInput.colum!),
+      Coordinate(tp.tempInput.row!, tp.tempInput.colum!),
+      Coordinate(tp.dewInput.row!, tp.dewInput.colum!),
     ];
 
     pos.changePosition(positions);
 
     switch (comm.currentPosition) {
       case 0:
-        indicatedAlt = ty.indiAltInput.testLogic();
+        indicatedAlt = tp.indiAltInput.testLogic();
         break;
       case 1:
-        pressInHg = ty.altimeterInput.testLogic();
+        pressInHg = tp.altimeterInput.testLogic();
         break;
       case 2:
-        temperature = ty.tempInput.testLogic();
+        temperature = tp.tempInput.testLogic();
         break;
       case 3:
-        dewpoint = ty.dewInput.testLogic();
+        dewpoint = tp.dewInput.testLogic();
         break;
     }
 
