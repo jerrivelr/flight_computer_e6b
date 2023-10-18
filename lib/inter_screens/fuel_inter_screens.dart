@@ -28,10 +28,8 @@ OptionIdent? volumeScreen() {
     tp.fuelRateInput.printInput();
     tp.timeInput.printInput();
 
-    if (fuelRate != null && fuelTime != null) {
-      fuelVolume = fuelRate * fuelTime;
-      fuelWeight = fuelVolume * 6;
-    }
+    fuelVolume = (fuelRate == null || fuelTime == null) ? null : fuelRate * fuelTime;
+    fuelWeight = (fuelVolume == null) ? null : fuelVolume * 6;
 
     resultPrinter([
       'Fuel Volume: ${formatNumber(fuelVolume)} GAL',
@@ -89,14 +87,9 @@ OptionIdent? enduranceScreen() {
     tp.volumeInput.printInput();
     tp.fuelRateInput.printInput();
 
-    if (fuelRate != null && fuelVolume != null) {
-      comm.error = (fuelRate == 0) ? 'Fuel rate must be greater than 0' : '';
-      endurance = (fuelRate == 0) ? null : (fuelVolume / fuelRate);
-
-      fuelWeight = fuelVolume * 6;
-    } else if (fuelVolume != null) {
-      fuelWeight = fuelVolume * 6;
-    }
+    comm.error = (fuelRate == 0) ? 'Fuel rate must be greater than 0' : '';
+    endurance = (fuelRate == 0 || fuelRate == null || fuelVolume == null) ? null : fuelVolume / fuelRate;
+    fuelWeight = (fuelVolume == null) ? null : fuelVolume * 6;
 
     resultPrinter([
       'Fuel Endurance: ${formatNumber(endurance)} HR',
@@ -126,48 +119,66 @@ OptionIdent? enduranceScreen() {
     pos.changePosition(positions);
 
     comm.console.clearScreen();
-
   }
 
   return comm.selectedOption;
 }
 
 OptionIdent? fuelRateScreen() {
-  double? fuelVolume;
-  double? fuelTime;
+  tp.volumeInput.firstOption = true;
 
+  double? fuelVolume = double.tryParse(comm.inputValues[tp.volumeInput.inputType] ?? '');
+  double? fuelTime = double.tryParse(comm.inputValues[tp.timeInput.inputType] ?? '');
+
+  double? fuelRate;
+  double? fuelWeight;
+  comm.currentPosition = 0;
   comm.selectedOption = null;
 
-  while (comm.selectedOption == null) {
-    final volumeInput = MenuLogic.screenType(InputInfo.fuelVolume, variable: fuelVolume);
-    final fuelTimeInput = MenuLogic.screenType(InputInfo.time, variable: fuelTime);
+  const options = {
+    'Return to:': null,
+    'Fuel Menu': OptionIdent.fuel,
+    'Main Menu': OptionIdent.menu
+  };
 
+  while (comm.selectedOption == null) {
     screenHeader(title: 'FUEL RATE');
 
-    fuelVolume = volumeInput.optionLogic();
-    if (repeatLoop(fuelVolume)) continue;
+    tp.volumeInput.printInput();
+    tp.timeInput.printInput();
 
-    fuelTime = fuelTimeInput.optionLogic();
-    if (repeatLoop(fuelTime)) continue;
-
-    final fuelRate = fuelVolume! / fuelTime!;
+    comm.error = (fuelTime == 0) ? 'Time must be greater than 0' : '';
+    fuelRate = (fuelTime == 0 || fuelTime == null || fuelVolume == null) ? null : fuelVolume / fuelTime;
+    fuelWeight = (fuelVolume == null) ? null : fuelVolume * 6;
 
     resultPrinter([
-      'Fuel Rate: ${formatNumber(fuelRate)} Gal/hr',
-      'Fuel Weight: ${formatNumber(fuelVolume * 6)} Ibs'
+      'Fuel Rate: ${formatNumber(fuelRate)} GAL/HR',
+      'Fuel Weight: ${formatNumber(fuelWeight)} IBS'
     ]);
 
-    final backOrNot = insideMenus(goBack: 'Back to Fuel Menu', backMenuSelection: OptionIdent.fuel);
-    if (backOrNot == null) continue;
+    final menu = interMenu(comm.currentPosition > 1, options);
+    if (menu) continue;
 
-    if (backOrNot) {
-      comm.console.clearScreen();
-      // Resetting all the variables for new calculations.
-      fuelVolume = null;
-      fuelTime = null;
+    final positions = [
+      Coordinate(tp.volumeInput.row!, tp.volumeInput.colum!),
+      Coordinate(tp.timeInput.row!, tp.timeInput.colum!),
+    ];
 
-      continue;
+    pos.changePosition(positions);
+
+    switch (comm.currentPosition) {
+      case 0:
+        fuelVolume = tp.volumeInput.testLogic();
+        break;
+      case 1:
+        fuelTime = tp.timeInput.testLogic();
+        break;
     }
+
+    if (pos.positionCheck(positions)) continue;
+    pos.changePosition(positions);
+
+    comm.console.clearScreen();
   }
 
   return comm.selectedOption;
