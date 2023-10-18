@@ -200,95 +200,60 @@ OptionIdent? groundSpeedScreen() {
 }
 
 OptionIdent? trueAirspeedScreen() {
-  double? calibratedAir;
-  double? pressAltitude;
-  double? temperature;
+  tp.calibratedInput.firstOption = true;
 
-  // Checking pressure altitude was previously calculated or input.
-  bool pressExists = comm.dataResult.containsKey('pressureAlt');
-  bool tempExists = comm.dataResult.containsKey('temperature');
+  double? calibratedAir = double.tryParse(comm.inputValues[tp.calibratedInput.inputType] ?? '');
+  double? pressAltitude = double.tryParse(comm.inputValues[tp.pressAltInput.inputType] ?? '');
+  double? temperature = double.tryParse(comm.inputValues[tp.tempInput.inputType] ?? '');
 
+  int? calTrueAirspeed;
+  comm.currentPosition = 0;
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    // Creating input object for each input.
-    final calibratedInput = MenuLogic.screenType(InputInfo.calibratedAir, variable: calibratedAir);
-    final pressAltInput = MenuLogic.screenType(InputInfo.pressureAlt, variable: pressAltitude);
-    final tempInput = MenuLogic.screenType(InputInfo.temperature, variable: temperature);
-
     screenHeader(title: 'TRUE AIRSPEED (kt)');
 
-    // If pressure altitude or temperature was input from option 2, the user is asked weather or not they want to autofill.
-    if (pressExists || tempExists) {
-      bool? yesSelected = insideMenus(autofill: true);
-      if (yesSelected == null) continue;
+    tp.calibratedInput.printInput();
+    tp.pressAltInput.printInput();
+    tp.tempInput.printInput();
 
-      if (yesSelected) {
-        pressAltitude = (pressExists) ? comm.dataResult['pressureAlt']?.toDouble() : null;
-        temperature = (tempExists) ? comm.dataResult['temperature']?.toDouble() : null;
-      }
-
-      comm.console.clearScreen();
-      pressExists = false;
-      tempExists = false;
-
-      continue;
-    }
-
-    // Getting Calibrated airspeed.
-    calibratedAir = calibratedInput.optionLogic();
-    if (repeatLoop(calibratedAir)) continue;
-
-    // Getting pressure altitude.
-    pressAltitude = pressAltInput.optionLogic();
-    if (repeatLoop(pressAltitude)) continue;
-
-    // Getting temperature.
-    temperature = tempInput.optionLogic();
-    if (repeatLoop(temperature)) continue;
-
-    final calTrueAirspeed = trueAirspeed(
-        calibratedAirS: calibratedAir!,
-        pressAltitude: pressAltitude!,
-        tempC: temperature!
+    calTrueAirspeed = trueAirspeed(
+        calibratedAirS: calibratedAir,
+        pressAltitude: pressAltitude,
+        tempC: temperature
     );
 
-    if (calTrueAirspeed == null) {
-      comm.console.clearScreen();
-      comm.error = 'Invalid Result. Try different values';
+    resultPrinter(['True Airspeed: ${formatNumber(calTrueAirspeed)} KT']);
 
-      calibratedAir = null;
-      pressAltitude = null;
-      temperature = null;
+    comm.inputValues[InputInfo.trueAirspeed] = calTrueAirspeed?.toString();
 
-      pressExists = false;
-      tempExists = false;
+    final menu = interMenu(comm.currentPosition > 2);
+    if (menu) continue;
 
-      continue;
+    final positions = [
+      Coordinate(tp.calibratedInput.row!, tp.calibratedInput.colum!),
+      Coordinate(tp.pressAltInput.row!, tp.pressAltInput.colum!),
+      Coordinate(tp.tempInput.row!, tp.tempInput.colum!),
+    ];
+
+    pos.changePosition(positions);
+
+    switch (comm.currentPosition) {
+      case 0:
+        calibratedAir = tp.calibratedInput.testLogic();
+        break;
+      case 1:
+        pressAltitude = tp.pressAltInput.testLogic();
+        break;
+      case 2:
+        temperature = tp.tempInput.testLogic();
+        break;
     }
 
-    comm.dataResult['pressureAlt'] = pressAltitude;
-    comm.dataResult['temperature'] = temperature;
+    if (pos.positionCheck(positions)) continue;
+    pos.changePosition(positions);
 
-    // Sending true airspeed result to dateResult map for reuse
-    comm.dataResult['trueAirspeed'] = calTrueAirspeed;
-    resultPrinter(['True Airspeed: ${formatNumber(calTrueAirspeed)}kt']);
-
-    final backOrNot = insideMenus();
-    if (backOrNot == null) continue;
-
-    if (backOrNot) {
-      comm.console.clearScreen();
-      // Resetting all the variables for new calculations.
-      calibratedAir = null;
-      pressAltitude = null;
-      temperature = null;
-
-      pressExists = true;
-      tempExists = true;
-
-      continue;
-    }
+    comm.console.clearScreen();
   }
 
   return comm.selectedOption;
