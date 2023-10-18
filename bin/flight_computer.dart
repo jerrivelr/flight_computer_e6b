@@ -17,31 +17,24 @@ void main(List<String> arguments) async {
         userSelection = helpConfig();
         break;
       case OptionIdent.cloudBase:
-        comm.console.clearScreen();
         userSelection = cloudBaseScreen();
         break;
       case OptionIdent.pressDenAlt:
-        comm.console.clearScreen();
         userSelection = await pressDensityScreen();
         break;
       case OptionIdent.groundSpeed:
-        comm.console.clearScreen();
         userSelection = groundSpeedScreen();
         break;
       case OptionIdent.trueAirspeed:
-        comm.console.clearScreen();
         userSelection = trueAirspeedScreen();
         break;
       case OptionIdent.windComp:
-        comm.console.clearScreen();
         userSelection = windComponentScreen();
         break;
       case OptionIdent.windCorrection:
-        comm.console.clearScreen();
         userSelection = headingCorrectionScreen();
         break;
       case OptionIdent.fuel:
-        comm.console.clearScreen();
         userSelection = fuelScreen();
         break;
       default:
