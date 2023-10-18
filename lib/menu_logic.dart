@@ -254,10 +254,10 @@ class MenuLogic {
             variable: variable,
             optionName: InputInfo.fuelVolume.title,
             inCaseInvalid: 'Invalid Fuel Volume',
-            ifDigitLimit: 'Fuel Volume must be less than 100,000 Gal',
             checkNegative: true,
             ifNegative: 'Fuel Volume must be positive',
-            autofillText: {'Fuel Volume: ': '${formatNumber(variable ?? 0)} Gal'}
+            unit: InputInfo.fuelVolume.unit,
+            inputType: type
         );
       case InputInfo.fuelRate:
         return MenuLogic(
@@ -265,10 +265,10 @@ class MenuLogic {
             optionName: InputInfo.fuelRate.title,
             inCaseInvalid: 'Invalid Fuel Rate',
             digitLimit: 4,
-            ifDigitLimit: 'Fuel Rate must be less 10,000 Gal/hr',
             checkNegative: true,
             ifNegative: 'Fuel Rate must be greater than 0 Gal/hr',
-            autofillText: {'Fuel Rate: ': '${formatNumber(variable ?? 0)} Gal/hr'}
+            unit: InputInfo.fuelRate.unit,
+            inputType: type
         );
     }
   }
