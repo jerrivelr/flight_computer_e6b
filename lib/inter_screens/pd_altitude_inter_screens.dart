@@ -231,6 +231,8 @@ OptionIdent? manualScreen() {
         elevation: indicatedAlt
     );
 
+    comm.inputValues[InputInfo.pressureAlt] = pressure?.toString();
+
     resultPrinter([
       'Pressure Altitude: ${formatNumber(pressure)} FT',
       'Density Altitude: ${formatNumber(density)} FT'
