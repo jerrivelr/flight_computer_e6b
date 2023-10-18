@@ -95,7 +95,11 @@ int groundSpeed({required double trueAirspeed, required double windDirection, re
   return sqrt(formulaPart1 - formulaPart2).round();
 }
 
-int? trueAirspeed({required double calibratedAirS, required double pressAltitude, required double tempC}) {
+int? trueAirspeed({required double? calibratedAirS, required double? pressAltitude, required double? tempC}) {
+  if (calibratedAirS == null || pressAltitude == null || tempC == null) {
+    return null;
+  }
+
   final mbPressAtAlt = _pressAtAltitude(pressAltitude, tempC);
 
   final seaLevelDensity = _airDensity(pressMb: 1013.25, tempC: 15); // Air density at sea level in kg/m^3.
@@ -104,6 +108,7 @@ int? trueAirspeed({required double calibratedAirS, required double pressAltitude
   final tas = calibratedAirS * (sqrt(seaLevelDensity / altitudeDensity));
 
   if (tas.isNaN) {
+    comm.error = 'Invalid Result. Try different values';
     return null;
   }
 
