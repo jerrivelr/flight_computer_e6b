@@ -204,7 +204,9 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Wind Direction',
             checkDir: true,
             invalidDir: 'Wind Direction must be between 0° — 360°',
-            autofillText: {'Wind Direction: ': '${formatNumber(variable ?? 0)}°'}
+            digitLimit: 3,
+            unit: InputInfo.windDirection.unit,
+            inputType: type
         );
       case InputInfo.windSpeed:
         return MenuLogic(
@@ -213,9 +215,8 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Wind Speed',
             checkNegative: true,
             digitLimit: 3,
-            ifDigitLimit: 'Wind Speed must less than 1,000kt',
-            ifNegative: 'Wind Speed must be greater than 0kt',
-            autofillText: {'Wind Speed: ': '${formatNumber(variable ?? 0)}kt'}
+            unit: InputInfo.windSpeed.unit,
+            inputType: type
         );
       case InputInfo.runway:
         return MenuLogic(
@@ -223,7 +224,9 @@ class MenuLogic {
             optionName: InputInfo.runway.title,
             inCaseInvalid: 'Invalid Runway',
             checkRunway: true,
-            autofillText: {'Runway ': formatNumber(variable ?? 0)}
+            digitLimit: 2,
+            unit: InputInfo.runway.unit,
+            inputType: type
         );
       case InputInfo.trueCourse:
         return MenuLogic(
