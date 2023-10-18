@@ -260,56 +260,57 @@ OptionIdent? trueAirspeedScreen() {
 }
 
 OptionIdent? windComponentScreen() {
-  double? windDirection;
-  double? windSpeedKt;
-  double? runwayNumber;
+  tp.windDirInput.firstOption = true;
 
+  double? windDirection = double.tryParse(comm.inputValues[tp.windDirInput.inputType] ?? '');
+  double? windSpeedKt = double.tryParse(comm.inputValues[tp.windSpeedInput.inputType] ?? '');
+  double? runwayNumber = double.tryParse(comm.inputValues[tp.runwayInput.inputType] ?? '');
+
+  double? xWindComp;
+  double? headTailComp;
+  comm.currentPosition = 0;
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    // Creating input object for each input.
-    final windDirInput = MenuLogic.screenType(InputInfo.windDirection, variable: windDirection);
-    final windSpeedInput = MenuLogic.screenType(InputInfo.windSpeed, variable: windSpeedKt);
-    final runwayInput = MenuLogic.screenType(InputInfo.runway, variable: runwayNumber);
-
     screenHeader(title: 'WIND COMPONENT 💨');
 
-    // Getting wind direction.
-    windDirection = windDirInput.optionLogic();
-    if (repeatLoop(windDirection)) continue;
+    tp.windDirInput.printInput();
+    tp.windSpeedInput.printInput();
+    tp.runwayInput.printInput();
 
-    comm.dataResult['windDirection'] = windDirection!; // Sending the inputted wind directicomm dataResult map.
-
-    // Getting wind speed
-    windSpeedKt = windSpeedInput.optionLogic();
-    if (repeatLoop(windSpeedKt)) continue;
-
-    comm.dataResult['windSpeed'] = windSpeedKt!; // Sending the inputted wind specomm dataResult map.
-
-    // Getting runway number.
-    runwayNumber = runwayInput.optionLogic();
-    if (repeatLoop(runwayNumber)) continue;
-
-    // Map with calculated wind component.
-    final result = windComponent(direction: runwayNumber!, windDirection: windDirection, windSpeed: windSpeedKt, runway: true);
     // Calculated head wind and tail wind component.
-    final crossWindComp =  result['crossWind']!;
-    final headTailComp = result['headWind']!;
+    xWindComp =  crossWindComp(direction: runwayNumber, windDirection: windDirection, windSpeed: windSpeedKt);
+    headTailComp = headWindComp(direction: runwayNumber, windDirection: windDirection, windSpeed: windSpeedKt);
 
-    resultPrinter(windComponentString(headTail: headTailComp, xCross: crossWindComp));
+    resultPrinter(windComponentString(headTail: headTailComp, xCross: xWindComp));
 
-    final backOrNot = insideMenus();
-    if (backOrNot == null) continue;
+    final menu = interMenu(comm.currentPosition > 2);
+    if (menu) continue;
 
-    if (backOrNot) {
-      comm.console.clearScreen();
-      // Resetting all the variables for new calculations.
-      windDirection = null;
-      windSpeedKt = null;
-      runwayNumber = null;
+    final positions = [
+      Coordinate(tp.windDirInput.row!, tp.windDirInput.colum!),
+      Coordinate(tp.windSpeedInput.row!, tp.windSpeedInput.colum!),
+      Coordinate(tp.runwayInput.row!, tp.runwayInput.colum!),
+    ];
 
-      continue;
+    pos.changePosition(positions);
+
+    switch (comm.currentPosition) {
+      case 0:
+        windDirection = tp.windDirInput.testLogic();
+        break;
+      case 1:
+        windSpeedKt = tp.windSpeedInput.testLogic();
+        break;
+      case 2:
+        runwayNumber = tp.runwayInput.testLogic();
+        break;
     }
+
+    if (pos.positionCheck(positions)) continue;
+    pos.changePosition(positions);
+
+    comm.console.clearScreen();
   }
 
   return comm.selectedOption;
