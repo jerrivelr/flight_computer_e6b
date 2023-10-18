@@ -235,7 +235,8 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Course',
             checkDir: true,
             invalidDir: 'The Course must be between 0° — 360°',
-            autofillText: {'Course: ': '${formatNumber(variable ?? 0)}°'}
+            unit: InputInfo.trueCourse.unit,
+            inputType: type
         );
       case InputInfo.trueAirspeed:
         return MenuLogic(
@@ -244,9 +245,9 @@ class MenuLogic {
             inCaseInvalid: 'Invalid True Airspeed',
             digitLimit: 3,
             checkNegative: true,
-            ifDigitLimit: 'True Airspeed must less than 1,000kt',
             ifNegative: 'True Airspeed must be positive',
-            autofillText: {'True Airspeed: ': '${formatNumber(variable ?? 0)}kt'}
+            unit: InputInfo.trueAirspeed.unit,
+            inputType: type
         );
       case InputInfo.fuelVolume:
         return MenuLogic(
