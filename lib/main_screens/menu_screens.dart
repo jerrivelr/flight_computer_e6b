@@ -149,42 +149,51 @@ Future<OptionIdent?> pressDensityScreen() async {
 }
 
 OptionIdent? groundSpeedScreen() {
-  double? distanceNm;
-  double? timeHr;
+  tp.distanceInput.firstOption = true;
 
+  double? distanceNm = double.tryParse(comm.inputValues[tp.distanceInput.inputType] ?? '');
+  double? timeHr = double.tryParse(comm.inputValues[tp.timeInput.inputType] ?? '');
+
+  int? calGroundSpeed;
+  comm.currentPosition = 0;
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    // Creating input object for each input.
-    final distanceInput = MenuLogic.screenType(InputInfo.distance, variable: distanceNm);
-    final timeInput = MenuLogic.screenType(InputInfo.time, variable: timeHr);
-
     screenHeader(title: 'GROUND SPEED (kt)');
 
-    // Getting distance
-    distanceNm = distanceInput.optionLogic();
-    if (repeatLoop(distanceNm)) continue;
+    tp.distanceInput.printInput();
+    tp.timeInput.printInput();
 
-    // Getting time in hours
-    timeHr = timeInput.optionLogic();
-    if (repeatLoop(timeHr)) continue;
-
-    final calGroundSpeed = (distanceNm! / timeHr!).round();
-    comm.dataResult['groundSpeed'] = calGroundSpeed; // Sending ground specomm dataResult map.
-
-    resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed)}kt']);
-
-    final backOrNot = insideMenus();
-    if (backOrNot == null) continue;
-
-    if (backOrNot) {
-      comm.console.clearScreen();
-      // Resetting all the variables for new calculations.
-      distanceNm = null;
-      timeHr = null;
-
-      continue;
+    if (distanceNm != null && timeHr != null) {
+      comm.error = (timeHr == 0) ? 'Time must be greater than 0' : '';
+      calGroundSpeed = (timeHr == 0) ? null : (distanceNm / timeHr).round();
     }
+
+    resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed)} KT']);
+
+    final menu = interMenu(comm.currentPosition > 1);
+    if (menu) continue;
+
+    final positions = [
+      Coordinate(tp.distanceInput.row!, tp.distanceInput.colum!),
+      Coordinate(tp.timeInput.row!, tp.timeInput.colum!),
+    ];
+
+    pos.changePosition(positions);
+
+    switch (comm.currentPosition) {
+      case 0:
+        distanceNm = tp.distanceInput.testLogic();
+        break;
+      case 1:
+        timeHr = tp.timeInput.testLogic();
+        break;
+    }
+
+    if (pos.positionCheck(positions)) continue;
+    pos.changePosition(positions);
+
+    comm.console.clearScreen();
   }
 
   return comm.selectedOption;
