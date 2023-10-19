@@ -234,6 +234,7 @@ class MenuLogic {
             optionName: InputInfo.trueCourse.title,
             inCaseInvalid: 'Invalid Course',
             checkDir: true,
+            digitLimit: 3,
             invalidDir: 'The Course must be between 0° — 360°',
             unit: InputInfo.trueCourse.unit,
             inputType: type
