@@ -17,6 +17,7 @@ enum InputInfo {
   trueCourse('Course: ', '°'),
   trueAirspeed('True Airspeed: ', ' KT'),
   fuelVolume('Fuel Volume: ', ' GAL'),
+  groundSpeed('Ground Speed: ', ' KT'),
   fuelRate('Fuel Rate: ', ' GAL/HR');
 
   const InputInfo(this.title, this.unit);
@@ -35,6 +36,9 @@ enum OptionIdent {
   airport('airport', 'op2'),
   manual('manual', 'op2'),
   groundSpeed('ground speed', 'op3'),
+  calGroundSpeed('cal gs', 'op3'),
+  groundDur('ground dur', 'op3'),
+  groundDis('ground dis', 'op3'),
   trueAirspeed('true airspeed', 'op4'),
   windComp('wind component', 'op5'),
   windCorrection('wind correction', 'op6'),
@@ -269,6 +273,16 @@ class MenuLogic {
             checkNegative: true,
             ifNegative: 'Fuel Rate must be greater than 0 Gal/hr',
             unit: InputInfo.fuelRate.unit,
+            inputType: type
+        );
+      case InputInfo.groundSpeed:
+        return MenuLogic(
+            optionName: InputInfo.groundSpeed.title,
+            inCaseInvalid: 'Invalid Ground Speed',
+            digitLimit: 3,
+            checkNegative: true,
+            ifNegative: 'Ground must be greater than 0',
+            unit: InputInfo.groundSpeed.unit,
             inputType: type
         );
     }

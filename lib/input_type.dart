@@ -15,4 +15,5 @@ final fuelRateInput = MenuLogic.screenType(InputInfo.fuelRate);
 final volumeInput = MenuLogic.screenType(InputInfo.fuelVolume);
 final altimeterInput = MenuLogic.screenType(InputInfo.baro);
 final indiAltInput = MenuLogic.screenType(InputInfo.indicatedAlt);
+final groundSpeedInput = MenuLogic.screenType(InputInfo.groundSpeed);
 
