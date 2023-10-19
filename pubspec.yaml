@@ -1,6 +1,6 @@
 name: flight_e6b
 description: This is a flight computer E6B.
-version: 2.0.0
+version: 0.6.0
 repository: https://github.com/jerrivelr/flight_computer_e6b.git
 
 environment:
