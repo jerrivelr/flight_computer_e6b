@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 import 'package:flight_e6b/menu_logic.dart';
 import 'package:flight_e6b/read_line_custom.dart';
 import 'package:flight_e6b/shortcuts.dart';
 import 'package:intl/intl.dart';
+import 'package:yaml/yaml.dart';
 
 String? input(String? printOut, {bool onlyNumbers = true, int charLimit = 10, String inputContent = '', String unit = ''}) {
   if (printOut != null) {
@@ -359,17 +362,31 @@ void printDownData(Map<String, String> data) {
 }
 
 void screenHeader({required String title, int color = 22, bool errorWindow = true}) {
+  final yamlFile = File(r'C:\Users\jerri\IdeaProjects\flight_e6b\pubspec.yaml');
+  final yamlContent = yamlFile.readAsStringSync();
+  final yamlDecoded = loadYaml(yamlContent) as Map;
+  final versionStr = ' v${yamlDecoded['version']} ';
+
+  final windowWidth = comm.console.windowWidth;
+  final windowHalf = (windowWidth / 2) - (title.length / 2);
+  final spaces = ' ' * windowHalf.round();
+
   comm.console.setBackgroundExtendedColor(color);
   comm.console.setForegroundExtendedColor(253);
   comm.console.setTextStyle(bold: true, italic: true);
 
-  comm.console.writeLine(title, TextAlignment.center);
+  comm.console.write(spaces);
+  comm.console.write(title);
+
+  final spaceRemanding = windowWidth - spaces.length - title.length - versionStr.length;
+  final spaces1 = ' ' * spaceRemanding.round();
+
+  comm.console.write(spaces1);
+  comm.console.write(versionStr);
+  comm.console.writeLine();
 
   comm.console.resetColorAttributes();
   if (errorWindow) {
     errorMessage(comm.error);
   }
-
-  comm.console.setForegroundColor(ConsoleColor.white);
-  comm.console.setTextStyle(bold: true);
 }
