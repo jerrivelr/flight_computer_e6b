@@ -163,7 +163,7 @@ OptionIdent? groundSpeedScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    selection = menuBuilder (title: 'GROUND SPEED (KT)', menuOptions: groundOptions);
+    selection = menuBuilder (title: 'GROUND SPEED', menuOptions: groundOptions);
 
     switch (selection) {
       case OptionIdent.calGroundSpeed:
