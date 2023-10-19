@@ -5,6 +5,12 @@ import 'package:flight_e6b/input_type.dart' as tp;
 import 'package:flight_e6b/cursor_position.dart' as pos;
 import 'package:flight_e6b/communication_var.dart' as comm;
 
+const options = {
+  'Return to:': null,
+  'Fuel Menu': OptionIdent.fuel,
+  'Main Menu': OptionIdent.menu
+};
+
 OptionIdent? volumeScreen() {
   tp.fuelRateInput.firstOption = true;
 
@@ -15,12 +21,6 @@ OptionIdent? volumeScreen() {
   double? fuelWeight;
   comm.currentPosition = 0;
   comm.selectedOption = null;
-
-  const options = {
-    'Return to:': null,
-    'Fuel Menu': OptionIdent.fuel,
-    'Main Menu': OptionIdent.menu
-  };
 
   while (comm.selectedOption == null) {
     screenHeader(title: 'FUEL VOLUME (Gal)');
@@ -75,12 +75,6 @@ OptionIdent? enduranceScreen() {
   comm.currentPosition = 0;
   comm.selectedOption = null;
 
-  const options = {
-    'Return to:': null,
-    'Fuel Menu': OptionIdent.fuel,
-    'Main Menu': OptionIdent.menu
-  };
-
   while (comm.selectedOption == null) {
     screenHeader(title: 'FUEL ENDURANCE');
 
@@ -134,12 +128,6 @@ OptionIdent? fuelRateScreen() {
   double? fuelWeight;
   comm.currentPosition = 0;
   comm.selectedOption = null;
-
-  const options = {
-    'Return to:': null,
-    'Fuel Menu': OptionIdent.fuel,
-    'Main Menu': OptionIdent.menu
-  };
 
   while (comm.selectedOption == null) {
     screenHeader(title: 'FUEL RATE');
