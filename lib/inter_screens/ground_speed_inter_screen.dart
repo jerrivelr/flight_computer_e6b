@@ -27,10 +27,8 @@ OptionIdent? speedScreen() {
     tp.distanceInput.printInput();
     tp.timeInput.printInput();
 
-    if (distanceNm != null && timeHr != null) {
-      comm.error = (timeHr == 0) ? 'Time must be greater than 0' : '';
-      calGroundSpeed = (timeHr == 0) ? null : (distanceNm / timeHr).round();
-    }
+    comm.error = (timeHr == 0) ? 'Time must be greater than 0' : '';
+    calGroundSpeed = (distanceNm == null || timeHr == null || timeHr == 0) ? null : (distanceNm / timeHr).round();
 
     comm.inputValues[InputInfo.groundSpeed] = calGroundSpeed?.toString();
 
