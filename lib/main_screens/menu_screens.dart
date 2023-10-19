@@ -1,3 +1,4 @@
+import 'package:flight_e6b/inter_screens/ground_speed_inter_screen.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/menu_logic.dart';
 import 'package:flight_e6b/aviation_math.dart';
@@ -149,51 +150,42 @@ Future<OptionIdent?> pressDensityScreen() async {
 }
 
 OptionIdent? groundSpeedScreen() {
-  tp.distanceInput.firstOption = true;
+  OptionIdent? selection;
 
-  double? distanceNm = double.tryParse(comm.inputValues[tp.distanceInput.inputType] ?? '');
-  double? timeHr = double.tryParse(comm.inputValues[tp.timeInput.inputType] ?? '');
+  const groundOptions = {
+    'Calculate...': null,
+    'Ground Speed (KT)': OptionIdent.calGroundSpeed,
+    'Duration (HR)': OptionIdent.groundDur,
+    'Distance (NM)': OptionIdent.groundDis,
+    'Main Menu': OptionIdent.menu
+  };
 
-  int? calGroundSpeed;
-  comm.currentPosition = 0;
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    screenHeader(title: 'GROUND SPEED (kt)');
+    selection = menuBuilder (title: 'GROUND SPEED (KT)', menuOptions: groundOptions);
 
-    tp.distanceInput.printInput();
-    tp.timeInput.printInput();
-
-    if (distanceNm != null && timeHr != null) {
-      comm.error = (timeHr == 0) ? 'Time must be greater than 0' : '';
-      calGroundSpeed = (timeHr == 0) ? null : (distanceNm / timeHr).round();
-    }
-
-    resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed)} KT']);
-
-    final menu = interMenu(comm.currentPosition > 1);
-    if (menu) continue;
-
-    final positions = [
-      Coordinate(tp.distanceInput.row!, tp.distanceInput.colum!),
-      Coordinate(tp.timeInput.row!, tp.timeInput.colum!),
-    ];
-
-    pos.changePosition(positions);
-
-    switch (comm.currentPosition) {
-      case 0:
-        distanceNm = tp.distanceInput.testLogic();
+    switch (selection) {
+      case OptionIdent.calGroundSpeed:
+        comm.console.clearScreen();
+        speedScreen();
         break;
-      case 1:
-        timeHr = tp.timeInput.testLogic();
+      case OptionIdent.groundDur:
+        comm.console.clearScreen();
+        durationScreen();
         break;
+      case OptionIdent.groundDis:
+        comm.console.clearScreen();
+        distanceScreen();
+        break;
+      case OptionIdent.menu:
+        comm.console.clearScreen();
+        comm.selectedOption = selection;
+        break;
+      default:
+        comm.console.clearScreen();
+        return selection;
     }
-
-    if (pos.positionCheck(positions)) continue;
-    pos.changePosition(positions);
-
-    comm.console.clearScreen();
   }
 
   return comm.selectedOption;
@@ -355,6 +347,8 @@ OptionIdent? headingCorrectionScreen() {
         course: trueCourse,
         corrAngle: windCorrectionAngle
     );
+
+    comm.inputValues[InputInfo.groundSpeed] = groundSpeedKt?.toString();
 
     resultPrinter([
       'Heading: ${formatNumber(trueHeading)}°',
