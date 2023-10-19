@@ -27,7 +27,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
 
     if (airportId == null) {
       comm.console.clearScreen();
-      comm.error = '';
+      comm.errorMessage = '';
       return comm.selectedOption;
     }
 
@@ -48,7 +48,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
       // Makes one loop to redraw the screen.
       comm.console.clearScreen();
       comm.screenCleared = false;
-      comm.error = '';
+      comm.errorMessage = '';
       continue;
     }
 
@@ -59,7 +59,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
     // This is to display the downloading screen when downloading process.
     if (comm.screenCleared) {
       comm.screenCleared = false;
-      comm.error = '';
+      comm.errorMessage = '';
       continue;
     }
 
@@ -67,7 +67,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
     if (_checkConnectErrors()) continue;
 
     if (downloadMetar?.isEmpty ?? false) {
-      comm.error = 'No Weather Information Available for $airpName';
+      comm.errorMessage = 'No Weather Information Available for $airpName';
       airportId = null;
       downloadMetar = null;
 
@@ -83,7 +83,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
     // This is in the rare case temperature, dewpoint, or altimeter are missing from the download.
     if (metarData.temperature == null) {
       final tempInput = MenuLogic.screenType(InputInfo.temperature, variable: metarData.temperature?.toDouble());
-      comm.error = 'Temperature is missing from download. Type it out.';
+      comm.errorMessage = 'Temperature is missing from download. Type it out.';
 
       if (_repeatIfMissingValue()) continue;
 
@@ -95,7 +95,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
     } else if (metarData.dewpoint == null || metarData.dewpoint! > metarData.temperature!) {
 
       final dewInput = MenuLogic.screenType(InputInfo.dewpoint, variable: metarData.dewpoint?.toDouble());
-      comm.error = 'Dewpoint is missing from download. Make sure dewpoint is less than or equal to temperature (${metarData.temperature}°C).';
+      comm.errorMessage = 'Dewpoint is missing from download. Make sure dewpoint is less than or equal to temperature (${metarData.temperature}°C).';
 
       if (_repeatIfMissingValue()) continue;
 
@@ -103,7 +103,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
       if (repeatLoop(metarData.dewpoint)) {
         continue;
       } else if (metarData.dewpoint! > metarData.temperature!) {
-        comm.error = 'Dewpoint must be less than or equal to ${metarData.temperature}°C (Temperature)';
+        comm.errorMessage = 'Dewpoint must be less than or equal to ${metarData.temperature}°C (Temperature)';
 
         metarData.dewpoint = null;
         comm.console.clearScreen();
@@ -113,7 +113,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
       continue;
     } else if (metarData.altimeterInHg == null) {
       final altimeterInput = MenuLogic.screenType(InputInfo.baro, variable: metarData.altimeterInHg?.toDouble());
-      comm.error = 'The altimeter setting is missing from download. Type it out.';
+      comm.errorMessage = 'The altimeter setting is missing from download. Type it out.';
 
       if (_repeatIfMissingValue()) continue;
 
@@ -155,7 +155,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
 
     if (density == null) {
       comm.console.clearScreen();
-      comm.error = 'Invalid Result';
+      comm.errorMessage = 'Invalid Result';
 
       airportId = null;
       downloadMetar = null;
@@ -282,7 +282,7 @@ bool _invalidAirportFormat(String? id) {
     return false;
   }
   comm.console.clearScreen();
-  comm.error = 'Enter a valid ICAO/IATA Airport Code';
+  comm.errorMessage = 'Enter a valid ICAO/IATA Airport Code';
 
   return true;
 }
@@ -291,7 +291,7 @@ bool _airportNotFound(String? airportName) {
 
   if (airportName == null) {
     comm.console.clearScreen();
-    comm.error = 'Airport Not Found';
+    comm.errorMessage = 'Airport Not Found';
     return true;
   }
 
@@ -300,7 +300,7 @@ bool _airportNotFound(String? airportName) {
 
 bool _checkConnectErrors() {
   if (comm.noInternet) {
-    comm.error = 'Check your internet connection...';
+    comm.errorMessage = 'Check your internet connection...';
     comm.noInternet = false;
     comm.screenCleared = true;
     comm.console.clearScreen();
@@ -308,7 +308,7 @@ bool _checkConnectErrors() {
 
     return true;
   }  else if (comm.formatError) {
-    comm.error = 'Downloaded data is corrupted. Try another airport or try again.';
+    comm.errorMessage = 'Downloaded data is corrupted. Try another airport or try again.';
     comm.formatError = false;
     comm.screenCleared = true;
     comm.console.clearScreen();
@@ -316,7 +316,7 @@ bool _checkConnectErrors() {
 
     return true;
   } else if (comm.handShakeError) {
-    comm.error = 'There is has been a problem when downloading the data. Try again.';
+    comm.errorMessage = 'There is has been a problem when downloading the data. Try again.';
     comm.handShakeError = false;
     comm.screenCleared = true;
     comm.console.clearScreen();
@@ -324,7 +324,7 @@ bool _checkConnectErrors() {
 
     return true;
   } else if (comm.httpError) {
-    comm.error = 'A problem occurred when downloading the weather data from aviationweather.gov. Try again.';
+    comm.errorMessage = 'A problem occurred when downloading the weather data from aviationweather.gov. Try again.';
     comm.httpError = false;
     comm.screenCleared = true;
     comm.console.clearScreen();
@@ -332,7 +332,7 @@ bool _checkConnectErrors() {
 
     return true;
   } else if (comm.timeoutError) {
-    comm.error = 'aviationweather.gov took too long to response. Try again.';
+    comm.errorMessage = 'aviationweather.gov took too long to response. Try again.';
     comm.timeoutError = false;
     comm.screenCleared = true;
     comm.console.clearScreen();
@@ -341,7 +341,7 @@ bool _checkConnectErrors() {
     return true;
   }
 
-  comm.error = '';
+  comm.errorMessage = '';
 
   return false;
 }
@@ -355,7 +355,7 @@ bool _repeatIfMissingValue() {
   }
 
   missingValue = true;
-  comm.error = '';
+  comm.errorMessage = '';
 
   return false;
 }

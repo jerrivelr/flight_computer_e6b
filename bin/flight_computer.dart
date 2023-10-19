@@ -7,7 +7,7 @@ void main(List<String> arguments) async {
   OptionIdent? userSelection = OptionIdent.menu;
 
   while (userSelection != OptionIdent.exit) {
-    comm.error = '';
+    comm.errorMessage = '';
 
     switch (userSelection) {
       case OptionIdent.menu:

@@ -3,7 +3,7 @@ import 'package:flight_e6b/menu_logic.dart';
 
 final console = Console();
 
-var error = ''; // Stores errors messages if any.
+var errorMessage = ''; // Stores errors messages if any.
 OptionIdent? selectedOption; // Stores values that are part of the optionList if userInput equals to one of the options.
 Map<String, num> dataResult = {}; // This Map will contain the calculated data for reuse in other options.
 Map<InputInfo?, String?> inputValues = {};

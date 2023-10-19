@@ -387,6 +387,6 @@ void screenHeader({required String title, int color = 22, bool errorWindow = tru
 
   comm.console.resetColorAttributes();
   if (errorWindow) {
-    errorMessage(comm.error);
+    errorMessage(comm.errorMessage);
   }
 }

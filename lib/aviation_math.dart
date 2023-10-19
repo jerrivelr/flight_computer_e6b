@@ -72,7 +72,7 @@ int? densityAlt({required double? tempC, required double? stationInches, require
   // Density Altitude in kilometers and the altitude is geo potential.
   final calDensityKm = 44.3308 - (42.2665 * (pow(density, 0.234969))); // In km
   if (calDensityKm.isNaN) {
-    comm.error = 'Invalid Result. Try different values';
+    comm.errorMessage = 'Invalid Result. Try different values';
     return null;
   }
 
@@ -112,7 +112,7 @@ int? trueAirspeed({required double? calibratedAirS, required double? pressAltitu
   final tas = calibratedAirS * (sqrt(seaLevelDensity / altitudeDensity));
 
   if (tas.isNaN) {
-    comm.error = 'Invalid Result. Try different values';
+    comm.errorMessage = 'Invalid Result. Try different values';
     return null;
   }
 
@@ -164,7 +164,7 @@ double? correctionAngle({
   final calWindCorrAngle = asin(forTheInverseSin);
 
   if (calWindCorrAngle.isNaN) {
-    comm.error = 'Invalid Values';
+    comm.errorMessage = 'Invalid Values';
     return null;
   }
 

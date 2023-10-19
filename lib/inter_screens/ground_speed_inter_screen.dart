@@ -27,7 +27,7 @@ OptionIdent? speedScreen() {
     tp.distanceInput.printInput();
     tp.timeInput.printInput();
 
-    comm.error = (timeHr == 0) ? 'Time must be greater than 0' : '';
+    comm.errorMessage = (timeHr == 0) ? 'Time must be greater than 0' : '';
     calGroundSpeed = (distanceNm == null || timeHr == null || timeHr == 0) ? null : (distanceNm / timeHr).round();
 
     comm.inputValues[InputInfo.groundSpeed] = calGroundSpeed?.toString();
@@ -78,7 +78,7 @@ OptionIdent? durationScreen() {
     tp.distanceInput.printInput();
     tp.groundSpeedInput.printInput();
 
-    comm.error = (groundSpeedKt == 0) ? 'Ground Speed must greater than 0' : '';
+    comm.errorMessage = (groundSpeedKt == 0) ? 'Ground Speed must greater than 0' : '';
     result = (distance == null || groundSpeedKt == null || groundSpeedKt == 0) ? null : distance / groundSpeedKt.round();
 
     comm.inputValues[InputInfo.time] = result?.toStringAsPrecision(2);

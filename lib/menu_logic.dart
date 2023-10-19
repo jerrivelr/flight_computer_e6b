@@ -295,17 +295,17 @@ class MenuLogic {
         userInput = _inputChecker(optionName, ifInvalid: inCaseInvalid);
 
         if (userInput == inCaseInvalid || userInput == ifDigitLimit) {
-          comm.error = userInput!;
+          comm.errorMessage = userInput!;
           break;
 
         } else if (titles.contains(userInput) || typed.contains(userInput)) {
           comm.console.clearScreen();
           comm.selectedOption = checkIdent(userInput);
-          comm.error = '';
+          comm.errorMessage = '';
           break;
 
         } else if (checkNegative && double.tryParse(userInput!)! <= 0) {
-          comm.error = ifNegative;
+          comm.errorMessage = ifNegative;
           break;
 
         } else if (checkDir && _directionCheck(userInput!, invalidDir)) {
@@ -315,7 +315,7 @@ class MenuLogic {
           break;
         }
 
-        comm.error = '';
+        comm.errorMessage = '';
         comm.selectedOption = null;
         // To indicate the screen will be refresh
         comm.screenCleared = true;
@@ -344,10 +344,10 @@ class MenuLogic {
     userInput = _inputChecker(null, ifInvalid: inCaseInvalid);
 
     if (userInput == inCaseInvalid) {
-      if (comm.error.isEmpty) {
+      if (comm.errorMessage.isEmpty) {
         comm.currentPosition--;
       }
-      comm.error = userInput!;
+      comm.errorMessage = userInput!;
       _inputContent = '';
       return null;
 
@@ -356,10 +356,10 @@ class MenuLogic {
       comm.inputValues[inputType] = _inputContent;
       return null;
     } else if (checkNegative && double.tryParse(userInput)! < 0) {
-      if (comm.error.isEmpty) {
+      if (comm.errorMessage.isEmpty) {
         comm.currentPosition--;
       }
-      comm.error = ifNegative;
+      comm.errorMessage = ifNegative;
       _inputContent = '';
       comm.inputValues[inputType] = _inputContent; // Saves the input value for reuse when the option is re access.
       return null;
@@ -375,7 +375,7 @@ class MenuLogic {
       return null;
     }
 
-    comm.error = '';
+    comm.errorMessage = '';
     comm.selectedOption = null;
     // To indicate the screen will be refresh
     comm.screenCleared = true;
@@ -433,13 +433,13 @@ class MenuLogic {
     final numberInt = int.tryParse(numberStr);
 
     if (numberInt == null) {
-      comm.error = 'Runway number must be whole numbers (ex. 24, 36, 15)';
+      comm.errorMessage = 'Runway number must be whole numbers (ex. 24, 36, 15)';
       return true;
     } else if (numberInt > 36) {
-      comm.error = 'Runway number must be between 0 — 36';
+      comm.errorMessage = 'Runway number must be between 0 — 36';
       return true;
     } else if (numberInt < 0) {
-      comm.error = 'Runway number must be positive';
+      comm.errorMessage = 'Runway number must be positive';
       return true;
     }
 
@@ -449,7 +449,7 @@ class MenuLogic {
   bool _directionCheck(String numberStr, String errorMessage) {
     final numberDouble = double.tryParse(numberStr);
     if (numberDouble! < 0 || numberDouble > 360) {
-      comm.error = errorMessage;
+      comm.errorMessage = errorMessage;
       return true;
     }
 

@@ -81,7 +81,7 @@ OptionIdent? enduranceScreen() {
     tp.volumeInput.printInput();
     tp.fuelRateInput.printInput();
 
-    comm.error = (fuelRate == 0) ? 'Fuel rate must be greater than 0' : '';
+    comm.errorMessage = (fuelRate == 0) ? 'Fuel rate must be greater than 0' : '';
     endurance = (fuelRate == 0 || fuelRate == null || fuelVolume == null) ? null : fuelVolume / fuelRate;
     fuelWeight = (fuelVolume == null) ? null : fuelVolume * 6;
 
@@ -135,7 +135,7 @@ OptionIdent? fuelRateScreen() {
     tp.volumeInput.printInput();
     tp.timeInput.printInput();
 
-    comm.error = (fuelTime == 0) ? 'Time must be greater than 0' : '';
+    comm.errorMessage = (fuelTime == 0) ? 'Time must be greater than 0' : '';
     fuelRate = (fuelTime == 0 || fuelTime == null || fuelVolume == null) ? null : fuelVolume / fuelTime;
     fuelWeight = (fuelVolume == null) ? null : fuelVolume * 6;
 
