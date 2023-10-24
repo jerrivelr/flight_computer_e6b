@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
-import 'package:flight_e6b/menu_logic.dart';
+import 'package:flight_e6b/menu_files/menu_logic.dart';
 import 'package:flight_e6b/read_line_custom.dart';
 import 'package:flight_e6b/shortcuts.dart';
 import 'package:intl/intl.dart';

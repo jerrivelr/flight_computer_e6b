@@ -1,6 +1,7 @@
 import 'package:flight_e6b/communication_var.dart' as comm;
 import 'package:flight_e6b/main_screens/menu_screens.dart';
-import 'package:flight_e6b/menu_logic.dart';
+import 'package:flight_e6b/menu_files/menu_logic.dart';
+import 'package:flight_e6b/menu_files/menus.dart';
 
 void main(List<String> arguments) async {
   comm.console.clearScreen();
