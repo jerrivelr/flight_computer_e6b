@@ -7,27 +7,9 @@ import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/inter_screens/help_config.dart';
 import 'package:flight_e6b/inter_screens/fuel_inter_screens.dart';
 import 'package:flight_e6b/inter_screens/pd_altitude_inter_screens.dart';
-import 'package:flight_e6b/menu_files/menu_builder.dart';
 import 'package:flight_e6b/input_type.dart' as tp;
 import 'package:flight_e6b/cursor_position.dart' as pos;
 import 'package:flight_e6b/communication_var.dart' as comm;
-
-OptionIdent? mainMenu() {
-  const options = {
-  'Help/Config': OptionIdent.helpConfig,
-  'Cloud Base (ft)': OptionIdent.cloudBase,
-  'Pressure/Density Altitude (ft)': OptionIdent.pressDenAlt,
-  'Ground Speed (GS)': OptionIdent.groundSpeed,
-  'True Airspeed (TAS)': OptionIdent.trueAirspeed,
-  'Wind Component': OptionIdent.windComp,
-  'Heading/Wind Correction Angle (WCA)': OptionIdent.windCorrection,
-  'Fuel': OptionIdent.fuel,
-  'Exit': OptionIdent.exit
-  };
-
-  final menuDisplay = menuBuilder(title: 'FLIGHT COMPUTER (E6B)', menuOptions: options);
-  return menuDisplay;
-}
 
 OptionIdent? helpConfig() {
   OptionIdent? selection;
