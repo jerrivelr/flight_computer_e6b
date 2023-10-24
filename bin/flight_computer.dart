@@ -12,7 +12,7 @@ void main(List<String> arguments) async {
 
     switch (userSelection) {
       case OptionIdent.menu:
-        userSelection = mainMenu();
+        userSelection = mainMenu.displayMenu();
         break;
       case OptionIdent.helpConfig:
         userSelection = helpConfig();
