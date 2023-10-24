@@ -14,16 +14,10 @@ import 'package:flight_e6b/communication_var.dart' as comm;
 OptionIdent? helpConfig() {
   OptionIdent? selection;
 
-  const options = {
-    'Help': OptionIdent.help,
-    'Config': OptionIdent.config,
-    'Main Menu': OptionIdent.menu
-  };
-
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    selection = menuBuilder (title: 'HELP/CONFIG', menuOptions: options);
+    selection = helpConfigMenu.displayMenu();
 
     switch (selection) {
       case OptionIdent.help:
@@ -99,17 +93,10 @@ OptionIdent? cloudBaseScreen() {
 Future<OptionIdent?> pressDensityScreen() async {
   OptionIdent? selection;
 
-  const densityPressOption = {
-  'Calculate Pressure/Density Altitude From...': null,
-  'Conditions at Airport': OptionIdent.airport,
-  'Manual Values': OptionIdent.manual,
-  'Main Menu': OptionIdent.menu
-  };
-
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    selection = menuBuilder(title: 'PRESSURE/DENSITY ALTITUDE', menuOptions: densityPressOption);
+    selection = pressDenMenu.displayMenu();
 
     switch (selection) {
       case OptionIdent.airport:
@@ -136,18 +123,10 @@ Future<OptionIdent?> pressDensityScreen() async {
 OptionIdent? groundSpeedScreen() {
   OptionIdent? selection;
 
-  const groundOptions = {
-    'Calculate...': null,
-    'Ground Speed (KT)': OptionIdent.calGroundSpeed,
-    'Duration (HR)': OptionIdent.groundDur,
-    'Distance (NM)': OptionIdent.groundDis,
-    'Main Menu': OptionIdent.menu
-  };
-
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    selection = menuBuilder (title: 'GROUND SPEED', menuOptions: groundOptions);
+    selection = groundSpeedMenu.displayMenu();
 
     switch (selection) {
       case OptionIdent.calGroundSpeed:
@@ -380,18 +359,10 @@ OptionIdent? headingCorrectionScreen() {
 OptionIdent? fuelScreen() {
   OptionIdent? selection;
 
-  const fuelOptions = {
-  'Calculate Fuel...': null,
-  'Volume (US Gal)': OptionIdent.fuelVol,
-  'Endurance (hr)': OptionIdent.fuelDur,
-  'Rate (US GPH)': OptionIdent.fuelRate,
-  'Main Menu': OptionIdent.menu
-  };
-
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    selection = menuBuilder (title: 'FUEL', menuOptions: fuelOptions);
+    selection = fuelMenu.displayMenu();
 
     switch (selection) {
       case OptionIdent.fuelVol:
