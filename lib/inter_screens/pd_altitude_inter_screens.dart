@@ -12,6 +12,8 @@ String? airportId;
 bool missingValue = true;
 
 Future<OptionIdent?> conditionsAirportScreen() async {
+  comm.console.showCursor();
+
   List<dynamic>? downloadMetar;
   Metar? metarData;
 
@@ -20,7 +22,6 @@ Future<OptionIdent?> conditionsAirportScreen() async {
 
   //               //                   //
   while(comm.selectedOption == null) {
-    comm.console.showCursor();
     screenHeader(title: 'PRESSURE/DENSITY ALTITUDE');
 
     airportId ??= retrieveAirport();
