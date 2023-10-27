@@ -11,6 +11,12 @@ import 'package:flight_e6b/simple_io.dart';
 String? airportId;
 bool missingValue = true;
 
+const options = {
+  'Return to:': null,
+  'Pressure/Density Altitude Menu': OptionIdent.pressDenAlt,
+  'Main Menu': OptionIdent.menu
+};
+
 Future<OptionIdent?> conditionsAirportScreen() async {
   comm.console.showCursor();
 
@@ -208,12 +214,6 @@ OptionIdent? manualScreen() {
   int? density;
   comm.currentPosition = 0;
   comm.selectedOption = null;
-
-  const options = {
-    'Return to:': null,
-    'Pressure/Density Altitude Menu': OptionIdent.pressDenAlt,
-    'Main Menu': OptionIdent.menu
-  };
 
   while (comm.selectedOption == null) {
     screenHeader(title: 'PRESSURE/DENSITY ALTITUDE');
