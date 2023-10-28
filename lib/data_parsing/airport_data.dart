@@ -68,7 +68,12 @@ Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async
 
   try {
     final response = await http.get(url);
-    final jsonMap = jsonDecode(response.body);
+    final jsonMap = jsonDecode(response.body) as List<dynamic>;
+
+    if (jsonMap.length > 1) {
+      return null;
+    }
+
 
     comm.noInternet = false;
     comm.formatError = false;
