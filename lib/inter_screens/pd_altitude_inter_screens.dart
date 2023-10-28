@@ -67,11 +67,8 @@ Future<OptionIdent?> conditionsAirportScreen() async {
     if (menu) continue;
 
     comm.console.cursorPosition = cursorPosition;
-    _airportId = retrieveAirport();
 
-    // Downloads METAR information from the selected airport.
-    _downloadMetar = await metar(_airportId);
-
+    _airportId = retrieveAirport(_airportId);
     _airpName = airportName(_airportId);
     _airpElevation = airportElevation(_airportId);
     _metarData = Metar.fromJson(_downloadMetar);
