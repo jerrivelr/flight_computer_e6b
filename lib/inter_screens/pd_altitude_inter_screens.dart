@@ -159,16 +159,16 @@ OptionIdent? manualScreen() {
 
     switch (comm.currentPosition) {
       case 0:
-        indicatedAlt = tp.indiAltInput.testLogic();
+        indicatedAlt = tp.indiAltInput.optionLogic();
         break;
       case 1:
-        pressInHg = tp.altimeterInput.testLogic();
+        pressInHg = tp.altimeterInput.optionLogic();
         break;
       case 2:
-        temperature = tp.tempInput.testLogic();
+        temperature = tp.tempInput.optionLogic();
         break;
       case 3:
-        dewpoint = tp.dewInput.testLogic();
+        dewpoint = tp.dewInput.optionLogic();
         break;
     }
 

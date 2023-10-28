@@ -46,10 +46,10 @@ OptionIdent? speedScreen() {
 
     switch (comm.currentPosition) {
       case 0:
-        distanceNm = tp.distanceInput.testLogic();
+        distanceNm = tp.distanceInput.optionLogic();
         break;
       case 1:
-        timeHr = tp.timeInput.testLogic();
+        timeHr = tp.timeInput.optionLogic();
         break;
     }
 
@@ -97,10 +97,10 @@ OptionIdent? durationScreen() {
 
     switch (comm.currentPosition) {
       case 0:
-        distance = tp.distanceInput.testLogic();
+        distance = tp.distanceInput.optionLogic();
         break;
       case 1:
-        groundSpeedKt = tp.groundSpeedInput.testLogic();
+        groundSpeedKt = tp.groundSpeedInput.optionLogic();
         break;
     }
 
@@ -147,10 +147,10 @@ OptionIdent? distanceScreen() {
 
     switch (comm.currentPosition) {
       case 0:
-        groundSpeedKt = tp.groundSpeedInput.testLogic();
+        groundSpeedKt = tp.groundSpeedInput.optionLogic();
         break;
       case 1:
-        timeHr = tp.timeInput.testLogic();
+        timeHr = tp.timeInput.optionLogic();
         break;
     }
 

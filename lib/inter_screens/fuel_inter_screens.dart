@@ -48,10 +48,10 @@ OptionIdent? volumeScreen() {
 
     switch (comm.currentPosition) {
       case 0:
-        fuelRate = tp.fuelRateInput.testLogic();
+        fuelRate = tp.fuelRateInput.optionLogic();
         break;
       case 1:
-        fuelTime = tp.timeInput.testLogic();
+        fuelTime = tp.timeInput.optionLogic();
         break;
     }
 
@@ -102,10 +102,10 @@ OptionIdent? enduranceScreen() {
 
     switch (comm.currentPosition) {
       case 0:
-        fuelVolume = tp.volumeInput.testLogic();
+        fuelVolume = tp.volumeInput.optionLogic();
         break;
       case 1:
-        fuelRate = tp.fuelRateInput.testLogic();
+        fuelRate = tp.fuelRateInput.optionLogic();
         break;
     }
 
@@ -156,10 +156,10 @@ OptionIdent? fuelRateScreen() {
 
     switch (comm.currentPosition) {
       case 0:
-        fuelVolume = tp.volumeInput.testLogic();
+        fuelVolume = tp.volumeInput.optionLogic();
         break;
       case 1:
-        fuelTime = tp.timeInput.testLogic();
+        fuelTime = tp.timeInput.optionLogic();
         break;
     }
 

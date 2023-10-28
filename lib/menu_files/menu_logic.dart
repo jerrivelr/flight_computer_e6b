@@ -267,7 +267,7 @@ class MenuLogic {
     }
   }
 
-  double? testLogic() {
+  double? optionLogic() {
     String? userInput;
     userInput = _inputChecker(null, ifInvalid: inCaseInvalid);
 
