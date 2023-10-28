@@ -8,8 +8,11 @@ import 'package:flight_e6b/input_type.dart' as tp;
 import 'package:flight_e6b/menu_files/menu_logic.dart';
 import 'package:flight_e6b/simple_io.dart';
 
-String? airportId;
-bool missingValue = true;
+String? _airportId;
+List<dynamic>? _downloadMetar;
+Metar? _metarData;
+String? _airpName;
+int? _airpElevation;
 
 const options = {
   'Return to:': null,
@@ -18,139 +21,34 @@ const options = {
 };
 
 Future<OptionIdent?> conditionsAirportScreen() async {
-  comm.console.showCursor();
-
-  List<dynamic>? downloadMetar;
-  Metar? metarData;
-
   comm.selectedOption = null;
-  comm.screenCleared = true;
+  comm.currentPosition = 0;
 
   //               //                   //
   while(comm.selectedOption == null) {
     screenHeader(title: 'PRESSURE/DENSITY ALTITUDE');
 
-    airportId ??= retrieveAirport();
-
-    if (airportId == null) {
-      comm.console.clearScreen();
-      comm.errorMessage = '';
-      return comm.selectedOption;
-    }
-
-    final airpName = airportName(airportId);
-    final airpElevation = airportElevation(airportId);
-
-    if (_invalidAirportFormat(airportId)) {
-      // Airport invalid and screens updates.
-      airportId = null;
-      continue;
-
-    } else if (_airportNotFound(airpName)) {
-      // Airport not in the airports.json file
-      airportId = null;
-      continue;
-
-    } else if (repeatLoop(airportId)) {
-      // Makes one loop to redraw the screen.
-      comm.console.clearScreen();
-      comm.screenCleared = false;
-      comm.errorMessage = '';
-      continue;
-    }
-
-    // Downloads METAR information from the selected airport.
-    downloadMetar ??= await metar(airportId);
-    // downloadMetar ??= testMetar();
-
-    // This is to display the downloading screen when downloading process.
-    if (comm.screenCleared) {
-      comm.screenCleared = false;
-      comm.errorMessage = '';
-      continue;
-    }
-
-    // Checks for no internet connection and when the connection comes back.
-    if (_checkConnectErrors()) continue;
-
-    if (downloadMetar?.isEmpty ?? false) {
-      comm.errorMessage = 'No Weather Information Available for $airpName';
-      airportId = null;
-      downloadMetar = null;
-
-      comm.screenCleared = true;
-      comm.console.clearScreen();
-      continue;
-    }
-
-    // Makes a map with all downloaded METAR data from easier access.
-    metarData ??= Metar.fromJson(downloadMetar!);
-    //               //             //            //                //
-
-    // This is in the rare case temperature, dewpoint, or altimeter are missing from the download.
-    if (metarData.temperature == null) {
-      final tempInput = MenuLogic.screenType(InputInfo.temperature, variable: metarData.temperature?.toDouble());
-      comm.errorMessage = 'Temperature is missing from download. Type it out.';
-
-      if (_repeatIfMissingValue()) continue;
-
-      metarData.temperature = tempInput.optionLogic();
-      if (repeatLoop(metarData.temperature)) continue;
-
-      continue;
-
-    } else if (metarData.dewpoint == null || metarData.dewpoint! > metarData.temperature!) {
-
-      final dewInput = MenuLogic.screenType(InputInfo.dewpoint, variable: metarData.dewpoint?.toDouble());
-      comm.errorMessage = 'Dewpoint is missing from download. Make sure dewpoint is less than or equal to temperature (${metarData.temperature}°C).';
-
-      if (_repeatIfMissingValue()) continue;
-
-      metarData.dewpoint = dewInput.optionLogic();
-      if (repeatLoop(metarData.dewpoint)) {
-        continue;
-      } else if (metarData.dewpoint! > metarData.temperature!) {
-        comm.errorMessage = 'Dewpoint must be less than or equal to ${metarData.temperature}°C (Temperature)';
-
-        metarData.dewpoint = null;
-        comm.console.clearScreen();
-        continue;
-      }
-
-      continue;
-    } else if (metarData.altimeterInHg == null) {
-      final altimeterInput = MenuLogic.screenType(InputInfo.baro, variable: metarData.altimeterInHg?.toDouble());
-      comm.errorMessage = 'The altimeter setting is missing from download. Type it out.';
-
-      if (_repeatIfMissingValue()) continue;
-
-      metarData.altimeterInHg = altimeterInput.optionLogic();
-      if (repeatLoop(metarData.altimeterInHg)) continue;
-
-      continue;
-    }
-    //               //             //            //                //
+    comm.console.write('Airport: ');
+    final cursorPosition = comm.console.cursorPosition;
+    comm.console.writeLine('\n');
 
     // Data for calculation.
-    final elevation = airpElevation?.toDouble();
-    final temperature = metarData.temperature?.toDouble();
-    final dewpoint = metarData.dewpoint?.toDouble();
-    final altimeter = metarData.altimeterInHg?.toDouble();
+    final elevation = _airpElevation?.toDouble();
+    final temperature = _metarData?.temperature?.toDouble();
+    final dewpoint = _metarData?.dewpoint?.toDouble();
+    final altimeter = _metarData?.altimeterInHg?.toDouble();
 
-    final result = {
-      'Airport: ': '$airpName ($airportId)\n',
-      'METAR: ': '${metarData.rawMetar}\n',
-      'Elevation: ': '${elevation?.round()} FT\n',
+    printDownData({
+      'ID: ': _airportFormat(),
+      'METAR: ': '${_metarData?.rawMetar ?? '--'}\n',
+      'Elevation: ': '${formatNumber(elevation)} FT\n',
       'Temperature: ': '${formatNumber(temperature)} °C\n',
       'Dewpoint: ': '${formatNumber(dewpoint)} °C\n',
       'Altimeter: ': '${formatNumber(altimeter)} InHg\n'
-    };
-
-    printDownData(result); // Prints downloaded data with colors.
+    }); // Prints downloaded data with colors.
 
     // Calculated pressure altitude.
     final pressure = pressureAlt(elevation, altimeter);
-    // comm.dataResult['pressureAlt'] = pressure.toDouble();
 
     // Calculated density altitude
     final density = densityAlt(
@@ -160,42 +58,50 @@ Future<OptionIdent?> conditionsAirportScreen() async {
         elevation: elevation
     );
 
-    if (density == null) {
-      comm.console.clearScreen();
-      comm.errorMessage = 'Invalid Result';
-
-      airportId = null;
-      downloadMetar = null;
-      metarData = null;
-
-      comm.screenCleared = true;
-      missingValue = true;
-
-      continue;
-    }
-    // Sending calculated density altitude to comm dataResult Map.
-    comm.dataResult['densityAlt'] = density;
-
     resultPrinter([
-      'Pressure Altitude: ${formatNumber(pressure)}ft',
-      'Density Altitude: ${formatNumber(density)}ft']
+      'Pressure Altitude: ${formatNumber(pressure)} FT',
+      'Density Altitude: ${formatNumber(density)} FT']
     );
 
-    final backOrNot = insideMenus(goBack: 'Back to Pressure/Density Altitude Menu', backMenuSelection: OptionIdent.pressDenAlt);
-    if (backOrNot == null) continue;
+    final menu = interMenu(comm.currentPosition > 0, options);
+    if (menu) continue;
 
-    if (backOrNot) {
-      comm.console.clearScreen();
-      // Resetting all the variables for new calculations.
-      airportId = null;
-      downloadMetar = null;
-      metarData = null;
+    comm.console.cursorPosition = cursorPosition;
 
-      comm.screenCleared = true;
-      missingValue = true;
+    _airportId = retrieveAirport(_airportId);
+    _airpName = airportName(_airportId);
+    _airpElevation = airportElevation(_airportId);
 
+    if (_invalidAirportFormat(_airportId) && comm.keyPressed != ControlCharacter.arrowDown) {
+      // Airport invalid and screens updates.
+      comm.currentPosition = 0;
+      _metarData = null;
+      continue;
+    } else if (_airportNotFound(_airpName) && comm.keyPressed != ControlCharacter.arrowDown) {
+      // Airport not in the airports.json file
+      comm.currentPosition = 0;
+      _metarData = null;
       continue;
     }
+    // Downloads METAR information from the selected airport.
+    _downloadMetar = await metar(_airportId);
+    _metarData = Metar.fromJson(_downloadMetar);
+
+    // Checks for no internet connection and when the connection comes back.
+    if (_checkConnectErrors() && comm.keyPressed != ControlCharacter.arrowDown) {
+      comm.currentPosition = 0;
+      continue;
+    }
+
+    if ((_downloadMetar?.isEmpty ?? false) && comm.keyPressed != ControlCharacter.arrowDown) {
+      comm.errorMessage = 'No Weather Information Available for $_airpName';
+      comm.currentPosition = 0;
+
+      comm.console.clearScreen();
+      continue;
+    }
+
+    comm.console.clearScreen();
   }
 
   // airportId = null;
@@ -253,16 +159,16 @@ OptionIdent? manualScreen() {
 
     switch (comm.currentPosition) {
       case 0:
-        indicatedAlt = tp.indiAltInput.testLogic();
+        indicatedAlt = tp.indiAltInput.optionLogic();
         break;
       case 1:
-        pressInHg = tp.altimeterInput.testLogic();
+        pressInHg = tp.altimeterInput.optionLogic();
         break;
       case 2:
-        temperature = tp.tempInput.testLogic();
+        temperature = tp.tempInput.optionLogic();
         break;
       case 3:
-        dewpoint = tp.dewInput.testLogic();
+        dewpoint = tp.dewInput.optionLogic();
         break;
     }
 
@@ -279,7 +185,7 @@ bool _invalidAirportFormat(String? id) {
   // Airport invalid and screens updates.
   final validAirport = RegExp(r'^\w{3,4}$'); // To check the airport identifier.
 
-  if (validAirport.hasMatch(id ?? '')) {
+  if (validAirport.hasMatch(id ?? '') || (id?.isEmpty ?? true)) {
     return false;
   }
   comm.console.clearScreen();
@@ -288,9 +194,16 @@ bool _invalidAirportFormat(String? id) {
   return true;
 }
 
+String _airportFormat() {
+  if (_airportId == null || _airpName == null) {
+    return '--\n';
+  }
+
+  return '$_airpName ($_airportId)\n';
+}
 bool _airportNotFound(String? airportName) {
 
-  if (airportName == null) {
+  if (airportName == null && (_airportId?.isNotEmpty ?? false)) {
     comm.console.clearScreen();
     comm.errorMessage = 'Airport Not Found';
     return true;
@@ -303,59 +216,35 @@ bool _checkConnectErrors() {
   if (comm.noInternet) {
     comm.errorMessage = 'Check your internet connection...';
     comm.noInternet = false;
-    comm.screenCleared = true;
     comm.console.clearScreen();
-    airportId = null;
 
     return true;
   }  else if (comm.formatError) {
     comm.errorMessage = 'Downloaded data is corrupted. Try another airport or try again.';
     comm.formatError = false;
-    comm.screenCleared = true;
     comm.console.clearScreen();
-    airportId = null;
 
     return true;
   } else if (comm.handShakeError) {
     comm.errorMessage = 'There is has been a problem when downloading the data. Try again.';
     comm.handShakeError = false;
-    comm.screenCleared = true;
     comm.console.clearScreen();
-    airportId = null;
 
     return true;
   } else if (comm.httpError) {
     comm.errorMessage = 'A problem occurred when downloading the weather data from aviationweather.gov. Try again.';
     comm.httpError = false;
-    comm.screenCleared = true;
     comm.console.clearScreen();
-    airportId = null;
 
     return true;
   } else if (comm.timeoutError) {
     comm.errorMessage = 'aviationweather.gov took too long to response. Try again.';
     comm.timeoutError = false;
-    comm.screenCleared = true;
-    comm.console.clearScreen();
-    airportId = null;
-
-    return true;
-  }
-
-  comm.errorMessage = '';
-
-  return false;
-}
-
-bool _repeatIfMissingValue() {
-  if (missingValue) {
-    missingValue = false;
     comm.console.clearScreen();
 
     return true;
   }
 
-  missingValue = true;
   comm.errorMessage = '';
 
   return false;

@@ -12,16 +12,13 @@ final airportJson = File(r'C:\Users\jerri\IdeaProjects\flight_e6b\lib\airport_da
 final content = airportJson.readAsStringSync();
 final contentDecoded = jsonDecode(content);
 
-String? retrieveAirport() {
-  final idInput = input('Airport ID: ', onlyNumbers: false, charLimit: 4)?.toUpperCase();
+String? retrieveAirport([String? variable]) {
+  final idInput = input(null, onlyNumbers: false, charLimit: 4)?.toUpperCase();
 
   // If user inputs something inside the optionList global variable, it will exit the option and jump to the selected
   // option without creating any instance.
-  if (titles.contains(idInput?.toLowerCase()) || typed.contains(idInput?.toLowerCase())) {
-    comm.selectedOption = checkIdent(idInput?.toLowerCase());
-    return null;
-  } else if (idInput?.isEmpty ?? true) {
-    return idInput ?? '';
+  if (idInput?.isEmpty ?? true) {
+    return variable;
   }
 
   // This is for when user inputs the airport ID in IATA so the output is in ICAO because the weather API only accepts
@@ -56,9 +53,13 @@ String? airportName(String? airportId) {
 }
 
 Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async {
+  if (airportId == null || airportId.isEmpty) {
+    return null;
+  }
+
   // returns the data downloaded from aviationweather.gov in List<dynamic>
   final queryParameters = {
-    'ids': airportId ?? '',
+    'ids': airportId,
     'format': 'json',
     'taf': includeTaf.toString()
   };
@@ -66,10 +67,13 @@ Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async
   final url = Uri.https('aviationweather.gov', '/api/data/metar.php', queryParameters);
 
   try {
-    _downloadingText();
-
     final response = await http.get(url);
-    final jsonMap = jsonDecode(response.body);
+    final jsonMap = jsonDecode(response.body) as List<dynamic>;
+
+    if (jsonMap.length > 1) {
+      return null;
+    }
+
 
     comm.noInternet = false;
     comm.formatError = false;
@@ -101,18 +105,6 @@ Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async
     return null;
   }
 }
-
-void _downloadingText() {
-  final row = (comm.console.windowHeight / 2).round() - 1;
-
-  comm.console.resetColorAttributes();
-  comm.console.cursorPosition = Coordinate(row - 2, 0);
-  comm.console.hideCursor();
-  comm.console.setTextStyle(bold: true, italic: true);
-  comm.console.writeLine('Downloading...', TextAlignment.center);
-  comm.console.setTextStyle();
-}
-
 
 List<dynamic>? testMetar() {
   try {

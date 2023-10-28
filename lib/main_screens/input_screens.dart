@@ -74,10 +74,10 @@ OptionIdent? cloudBaseScreen() {
 
     switch (comm.currentPosition) {
       case 0:
-        temperature = tp.tempInput.testLogic();
+        temperature = tp.tempInput.optionLogic();
         break;
       case 1:
-        dewpoint = tp.dewInput.testLogic();
+        dewpoint = tp.dewInput.optionLogic();
         break;
     }
 
@@ -195,13 +195,13 @@ OptionIdent? trueAirspeedScreen() {
 
     switch (comm.currentPosition) {
       case 0:
-        calibratedAir = tp.calibratedInput.testLogic();
+        calibratedAir = tp.calibratedInput.optionLogic();
         break;
       case 1:
-        pressAltitude = tp.pressAltInput.testLogic();
+        pressAltitude = tp.pressAltInput.optionLogic();
         break;
       case 2:
-        temperature = tp.tempInput.testLogic();
+        temperature = tp.tempInput.optionLogic();
         break;
     }
 
@@ -252,13 +252,13 @@ OptionIdent? windComponentScreen() {
 
     switch (comm.currentPosition) {
       case 0:
-        windDirection = tp.windDirInput.testLogic();
+        windDirection = tp.windDirInput.optionLogic();
         break;
       case 1:
-        windSpeedKt = tp.windSpeedInput.testLogic();
+        windSpeedKt = tp.windSpeedInput.optionLogic();
         break;
       case 2:
-        runwayNumber = tp.runwayInput.testLogic();
+        runwayNumber = tp.runwayInput.optionLogic();
         break;
     }
 
@@ -333,16 +333,16 @@ OptionIdent? headingCorrectionScreen() {
 
     switch (comm.currentPosition) {
       case 0:
-        trueAirspeedTas = tp.trueAirspeedInput.testLogic();
+        trueAirspeedTas = tp.trueAirspeedInput.optionLogic();
         break;
       case 1:
-        trueCourse = tp.trueCourseInput.testLogic();
+        trueCourse = tp.trueCourseInput.optionLogic();
         break;
       case 2:
-        windDirection = tp.windDirInput.testLogic();
+        windDirection = tp.windDirInput.optionLogic();
         break;
       case 3:
-        windSpeedKt = tp.windSpeedInput.testLogic();
+        windSpeedKt = tp.windSpeedInput.optionLogic();
         break;
     }
 
