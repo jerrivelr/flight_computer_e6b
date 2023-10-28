@@ -67,113 +67,6 @@ String formatNumber(num? number) {
 }
 
 var _currentHighlight = 1;
-bool? insideMenus({
-  String text = 'Reenter values?',
-  String goBack = 'Back to Main Menu',
-  OptionIdent backMenuSelection = OptionIdent.menu,
-  Map<String, OptionIdent?> customOptions = const {},
-  bool autofill = false,
-  bool custom = false,
-
-}) {
-  OptionIdent? selection;
-  comm.console.hideCursor();
-
-  Map<String, OptionIdent?> options;
-
-  if (autofill) {
-    options = {
-      'Autofill previously calculated/entered values?': null,
-      'Yes': OptionIdent.yes,
-      'No': OptionIdent.no,
-      goBack: backMenuSelection
-    };
-  } else if (custom) {
-    options = customOptions;
-  } else if (backMenuSelection != OptionIdent.menu) {
-    options = {
-      text: null,
-      'Yes': OptionIdent.yes,
-      goBack: backMenuSelection,
-      'Main Menu': OptionIdent.menu
-    };
-  } else {
-    options = {
-      text: null,
-      'Yes': OptionIdent.yes,
-      goBack: backMenuSelection
-    };
-  }
-
-  final optionKeys = options.keys.toList();
-
-  if (_currentHighlight < 1) {
-    _currentHighlight = options.length - 1;
-  } else if (_currentHighlight > options.length - 1) {
-    _currentHighlight = 1;
-  }
-
-  for (var item in options.entries) {
-    if (options[item.key] == null) {
-      comm.console.setForegroundExtendedColor(180);
-      comm.console.setTextStyle(bold: true, italic: true);
-      comm.console.writeLine(item.key);
-      comm.console.resetColorAttributes();
-      continue;
-    }
-
-    if (item.key == optionKeys[_currentHighlight]) {
-      comm.console.setBackgroundExtendedColor(94);
-    }
-
-    final optionLength = item.key.length;
-
-    comm.console.setTextStyle(bold: true);
-    comm.console.write(item.key.padLeft(optionLength + 2).padRight(optionLength + 4));
-    comm.console.writeLine();
-    comm.console.resetColorAttributes();
-  }
-
-  var key = comm.console.readKey();
-
-  selection = shortcuts(key);
-
-  switch (key.controlChar) {
-    case ControlCharacter.arrowDown:
-      _currentHighlight++;
-      comm.console.clearScreen();
-      break;
-    case ControlCharacter.arrowUp:
-      _currentHighlight--;
-      comm.console.clearScreen();
-      break;
-    case ControlCharacter.enter:
-      comm.console.clearScreen();
-      comm.console.showCursor();
-      selection = options[optionKeys[_currentHighlight]];
-      _currentHighlight = 0;
-      break;
-    default:
-      comm.console.clearScreen();
-      break;
-  }
-
-  comm.console.showCursor();
-
-  if (selection == null) return null;
-
-  _currentHighlight = 1;
-  if (selection == OptionIdent.yes) {
-    return true;
-  } else if (selection == OptionIdent.no) {
-    return false;
-  }
-
-  comm.selectedOption = selection;
-
-  return false;
-}
-
 bool interMenu(bool condition, [Map<String, OptionIdent?> options = const {'Return to:': null,'Back to Main Menu': OptionIdent.menu}]) {
   final optionKeys = options.keys.toList();
 
@@ -239,7 +132,9 @@ bool interMenu(bool condition, [Map<String, OptionIdent?> options = const {'Retu
   } else if (_currentHighlight < 1) {
     comm.console.showCursor();
     _currentHighlight = 1;
-    comm.currentPosition--;
+
+    if (comm.currentPosition > 0) comm.currentPosition--;
+
     comm.currentCursorPos = Coordinate(comm.currentCursorPos!.row - 1, comm.console.cursorPosition!.col);
     return true;
   } else if (condition && _currentHighlight <= options.length - 1) {
