@@ -67,8 +67,6 @@ Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async
   final url = Uri.https('aviationweather.gov', '/api/data/metar.php', queryParameters);
 
   try {
-    _downloadingText();
-
     final response = await http.get(url);
     final jsonMap = jsonDecode(response.body);
 
@@ -102,18 +100,6 @@ Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async
     return null;
   }
 }
-
-void _downloadingText() {
-  final row = (comm.console.windowHeight / 2).round() - 1;
-
-  comm.console.resetColorAttributes();
-  comm.console.cursorPosition = Coordinate(row - 2, 0);
-  comm.console.hideCursor();
-  comm.console.setTextStyle(bold: true, italic: true);
-  comm.console.writeLine('Downloading...', TextAlignment.center);
-  comm.console.setTextStyle();
-}
-
 
 List<dynamic>? testMetar() {
   try {
