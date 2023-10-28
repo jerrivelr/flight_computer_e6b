@@ -93,7 +93,9 @@ extension CustomConsole on Console {
               buffer = scrollbackBuffer!.up(buffer);
               index = buffer.length;
             }
-            comm.currentPosition--;
+            if (comm.currentPosition > 0) {
+              comm.currentPosition--;
+            }
 
             return buffer.substring(0, buffer.length - unit.length);
           case ControlCharacter.arrowDown:
