@@ -71,7 +71,6 @@ Future<OptionIdent?> conditionsAirportScreen() async {
     _airportId = retrieveAirport(_airportId);
     _airpName = airportName(_airportId);
     _airpElevation = airportElevation(_airportId);
-    _metarData = Metar.fromJson(_downloadMetar);
 
     if (_invalidAirportFormat(_airportId) && comm.keyPressed != ControlCharacter.arrowDown) {
       // Airport invalid and screens updates.
@@ -82,6 +81,9 @@ Future<OptionIdent?> conditionsAirportScreen() async {
       comm.currentPosition = 0;
       continue;
     }
+    // Downloads METAR information from the selected airport.
+    _downloadMetar = await metar(_airportId);
+    _metarData = Metar.fromJson(_downloadMetar);
 
     // Checks for no internet connection and when the connection comes back.
     if (_checkConnectErrors() && comm.keyPressed != ControlCharacter.arrowDown) {
