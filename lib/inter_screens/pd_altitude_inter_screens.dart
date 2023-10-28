@@ -279,7 +279,7 @@ bool _invalidAirportFormat(String? id) {
   // Airport invalid and screens updates.
   final validAirport = RegExp(r'^\w{3,4}$'); // To check the airport identifier.
 
-  if (validAirport.hasMatch(id ?? '')) {
+  if (validAirport.hasMatch(id ?? '') || (id?.isEmpty ?? true)) {
     return false;
   }
   comm.console.clearScreen();
@@ -297,7 +297,7 @@ String _airportFormat() {
 }
 bool _airportNotFound(String? airportName) {
 
-  if (airportName == null) {
+  if (airportName == null && (_airportId?.isNotEmpty ?? false)) {
     comm.console.clearScreen();
     comm.errorMessage = 'Airport Not Found';
     return true;
