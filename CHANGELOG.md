@@ -1,3 +1,10 @@
+# Version v0.6.0
+- Added: You can now navigate through each input using the arrow keys
+- Added: Help menu added
+- Fix: Several crashes fixed when larger values are input
+- Added: Screen header now shows current version
+- Added: New ground speed screen
+
 # Version v0.5.0
 - You can change between options using keyboard shortcuts
 - Input, only accepts numbers
