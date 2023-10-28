@@ -14,8 +14,6 @@ Metar? _metarData;
 String? _airpName;
 int? _airpElevation;
 
-bool missingValue = true;
-
 const options = {
   'Return to:': null,
   'Pressure/Density Altitude Menu': OptionIdent.pressDenAlt,
@@ -246,20 +244,6 @@ bool _checkConnectErrors() {
     return true;
   }
 
-  comm.errorMessage = '';
-
-  return false;
-}
-
-bool _repeatIfMissingValue() {
-  if (missingValue) {
-    missingValue = false;
-    comm.console.clearScreen();
-
-    return true;
-  }
-
-  missingValue = true;
   comm.errorMessage = '';
 
   return false;
