@@ -53,9 +53,13 @@ String? airportName(String? airportId) {
 }
 
 Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async {
+  if (airportId == null || airportId.isEmpty) {
+    return null;
+  }
+
   // returns the data downloaded from aviationweather.gov in List<dynamic>
   final queryParameters = {
-    'ids': airportId ?? '',
+    'ids': airportId,
     'format': 'json',
     'taf': includeTaf.toString()
   };
