@@ -17,3 +17,5 @@ var handShakeError = false; // Checks if there is a problem during the handShake
 var httpError = false; // Checks if there is a problem with http request.
 var timeoutError = false; // Checks when the website takes too long to response.
 
+ControlCharacter? keyPressed; // to catch which was pressed
+

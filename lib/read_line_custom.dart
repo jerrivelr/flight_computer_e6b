@@ -35,6 +35,8 @@ extension CustomConsole on Console {
       final key = readKey();
 
       if (key.isControl) {
+        comm.keyPressed = key.controlChar;
+
         final selection = shortcuts(key);
         if (selection != null) {
           return null;
