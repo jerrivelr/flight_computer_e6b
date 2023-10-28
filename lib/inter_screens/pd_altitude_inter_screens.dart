@@ -288,6 +288,13 @@ bool _invalidAirportFormat(String? id) {
   return true;
 }
 
+String _airportFormat() {
+  if (_airportId == null || _airpName == null) {
+    return '--\n';
+  }
+
+  return '$_airpName ($_airportId)\n';
+}
 bool _airportNotFound(String? airportName) {
 
   if (airportName == null) {
