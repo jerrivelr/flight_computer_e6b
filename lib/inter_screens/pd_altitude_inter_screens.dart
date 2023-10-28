@@ -76,23 +76,23 @@ Future<OptionIdent?> conditionsAirportScreen() async {
     _airpElevation = airportElevation(_airportId);
     _metarData = Metar.fromJson(_downloadMetar);
 
-    if (_invalidAirportFormat(_airportId)) {
+    if (_invalidAirportFormat(_airportId) && comm.keyPressed != ControlCharacter.arrowDown) {
       // Airport invalid and screens updates.
       comm.currentPosition = 0;
       continue;
-    } else if (_airportNotFound(_airpName)) {
+    } else if (_airportNotFound(_airpName) && comm.keyPressed != ControlCharacter.arrowDown) {
       // Airport not in the airports.json file
       comm.currentPosition = 0;
       continue;
     }
 
     // Checks for no internet connection and when the connection comes back.
-    if (_checkConnectErrors()) {
+    if (_checkConnectErrors() && comm.keyPressed != ControlCharacter.arrowDown) {
       comm.currentPosition = 0;
       continue;
     }
 
-    if (_downloadMetar?.isEmpty ?? false) {
+    if ((_downloadMetar?.isEmpty ?? false) && comm.keyPressed != ControlCharacter.arrowDown) {
       comm.errorMessage = 'No Weather Information Available for $_airpName';
       comm.currentPosition = 0;
 
