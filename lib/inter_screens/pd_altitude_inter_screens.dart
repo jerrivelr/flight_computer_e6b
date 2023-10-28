@@ -310,41 +310,31 @@ bool _checkConnectErrors() {
   if (comm.noInternet) {
     comm.errorMessage = 'Check your internet connection...';
     comm.noInternet = false;
-    comm.screenCleared = true;
     comm.console.clearScreen();
-    airportId = null;
 
     return true;
   }  else if (comm.formatError) {
     comm.errorMessage = 'Downloaded data is corrupted. Try another airport or try again.';
     comm.formatError = false;
-    comm.screenCleared = true;
     comm.console.clearScreen();
-    airportId = null;
 
     return true;
   } else if (comm.handShakeError) {
     comm.errorMessage = 'There is has been a problem when downloading the data. Try again.';
     comm.handShakeError = false;
-    comm.screenCleared = true;
     comm.console.clearScreen();
-    airportId = null;
 
     return true;
   } else if (comm.httpError) {
     comm.errorMessage = 'A problem occurred when downloading the weather data from aviationweather.gov. Try again.';
     comm.httpError = false;
-    comm.screenCleared = true;
     comm.console.clearScreen();
-    airportId = null;
 
     return true;
   } else if (comm.timeoutError) {
     comm.errorMessage = 'aviationweather.gov took too long to response. Try again.';
     comm.timeoutError = false;
-    comm.screenCleared = true;
     comm.console.clearScreen();
-    airportId = null;
 
     return true;
   }
