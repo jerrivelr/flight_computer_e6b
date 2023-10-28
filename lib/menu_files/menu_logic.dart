@@ -85,10 +85,7 @@ class MenuLogic {
     required this.optionName,
     required this.inCaseInvalid,
     this.unit = '',
-    this.autofillText = const {},
-    this.variable,
     this.digitLimit = 5,
-    this.ifDigitLimit = 'Invalid number',
     this.ifNegative = '',
     this.invalidDir = '',
     this.checkNegative = false,
@@ -98,15 +95,12 @@ class MenuLogic {
     this.inputType
   });
 
-  double? variable; // TODO No longer needed
   int digitLimit;
   String unit;
   String optionName;
   String inCaseInvalid;
   String ifNegative;
-  String ifDigitLimit; // TODO No longer needed
   String invalidDir;
-  Map<String, String> autofillText; // TODO No longer needed
   bool checkNegative;
   bool checkDir;
   bool checkRunway;
@@ -120,11 +114,10 @@ class MenuLogic {
   int? get row => _row;
   int? get colum => _colum;
 
-  factory MenuLogic.screenType(InputInfo type, {double? variable}) {
+  factory MenuLogic.screenType(InputInfo type) {
     switch (type) {
       case InputInfo.temperature:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.temperature.title,
             inCaseInvalid: 'Invalid Temperature',
             digitLimit: 3,
@@ -133,7 +126,6 @@ class MenuLogic {
         );
       case InputInfo.dewpoint:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.dewpoint.title,
             inCaseInvalid: 'Invalid Dewpoint',
             digitLimit: 3,
@@ -142,7 +134,6 @@ class MenuLogic {
         );
       case InputInfo.indicatedAlt:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.indicatedAlt.title,
             inCaseInvalid: 'Invalid Indicated Altitude',
             checkNegative: true,
@@ -152,7 +143,6 @@ class MenuLogic {
         );
       case InputInfo.baro:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.baro.title,
             inCaseInvalid: 'Invalid Altimeter',
             digitLimit: 4,
@@ -163,7 +153,6 @@ class MenuLogic {
         );
       case InputInfo.distance:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.distance.title,
             inCaseInvalid: 'Invalid Distance',
             checkNegative: true,
@@ -173,7 +162,6 @@ class MenuLogic {
         );
       case InputInfo.time:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.time.title,
             inCaseInvalid: 'Invalid Time. Ex. 1.5.',
             checkNegative: true,
@@ -184,7 +172,6 @@ class MenuLogic {
         );
       case InputInfo.calibratedAir:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.calibratedAir.title,
             inCaseInvalid: 'Invalid Calibrated Airspeed',
             checkNegative: true,
@@ -195,7 +182,6 @@ class MenuLogic {
         );
       case InputInfo.pressureAlt:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.pressureAlt.title,
             inCaseInvalid: 'Invalid Pressure Altitude',
             unit: InputInfo.pressureAlt.unit,
@@ -203,7 +189,6 @@ class MenuLogic {
         );
       case InputInfo.windDirection:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.windDirection.title,
             inCaseInvalid: 'Invalid Wind Direction',
             checkDir: true,
@@ -214,7 +199,6 @@ class MenuLogic {
         );
       case InputInfo.windSpeed:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.windSpeed.title,
             inCaseInvalid: 'Invalid Wind Speed',
             checkNegative: true,
@@ -224,7 +208,6 @@ class MenuLogic {
         );
       case InputInfo.runway:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.runway.title,
             inCaseInvalid: 'Invalid Runway',
             checkRunway: true,
@@ -234,7 +217,6 @@ class MenuLogic {
         );
       case InputInfo.trueCourse:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.trueCourse.title,
             inCaseInvalid: 'Invalid Course',
             checkDir: true,
@@ -245,7 +227,6 @@ class MenuLogic {
         );
       case InputInfo.trueAirspeed:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.trueAirspeed.title,
             inCaseInvalid: 'Invalid True Airspeed',
             digitLimit: 3,
@@ -256,7 +237,6 @@ class MenuLogic {
         );
       case InputInfo.fuelVolume:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.fuelVolume.title,
             inCaseInvalid: 'Invalid Fuel Volume',
             checkNegative: true,
@@ -266,7 +246,6 @@ class MenuLogic {
         );
       case InputInfo.fuelRate:
         return MenuLogic(
-            variable: variable,
             optionName: InputInfo.fuelRate.title,
             inCaseInvalid: 'Invalid Fuel Rate',
             digitLimit: 4,
@@ -286,57 +265,6 @@ class MenuLogic {
             inputType: type
         );
     }
-  }
-
-  double? optionLogic() {
-    String? userInput;
-    while (true) {
-      if (variable == null) {
-        userInput = _inputChecker(optionName, ifInvalid: inCaseInvalid);
-
-        if (userInput == inCaseInvalid || userInput == ifDigitLimit) {
-          comm.errorMessage = userInput!;
-          break;
-
-        } else if (titles.contains(userInput) || typed.contains(userInput)) {
-          comm.console.clearScreen();
-          comm.selectedOption = checkIdent(userInput);
-          comm.errorMessage = '';
-          break;
-
-        } else if (checkNegative && double.tryParse(userInput!)! <= 0) {
-          comm.errorMessage = ifNegative;
-          break;
-
-        } else if (checkDir && _directionCheck(userInput!, invalidDir)) {
-          break;
-
-        } else if (checkRunway && _runwayCheck(userInput!)) {
-          break;
-        }
-
-        comm.errorMessage = '';
-        comm.selectedOption = null;
-        // To indicate the screen will be refresh
-        comm.screenCleared = true;
-        variable = double.tryParse(userInput!);
-
-        return variable;
-
-      } else {
-        for (final item in autofillText.entries) {
-          comm.console.setForegroundExtendedColor(253);
-          comm.console.write(item.key);
-          comm.console.setForegroundExtendedColor(180);
-          comm.console.write('${item.value}\n');
-
-          comm.console.resetColorAttributes();
-        }
-        return variable;
-      }
-    }
-
-    return null;
   }
 
   double? testLogic() {
@@ -377,11 +305,13 @@ class MenuLogic {
 
     comm.errorMessage = '';
     comm.selectedOption = null;
+
     // To indicate the screen will be refresh
     comm.screenCleared = true;
     _inputContent = userInput;
     comm.inputValues[inputType] = _inputContent; // Saves the input value for reuse when the option is re access.
-    variable = double.tryParse(userInput);
+
+    final variable = double.tryParse(userInput);
 
     return variable;
   }
@@ -455,15 +385,4 @@ class MenuLogic {
 
     return false;
   }
-}
-
-bool repeatLoop(Object? variable) {
-  // Make sure the input value is not null and that the screen is refreshed.
-  if (comm.screenCleared || variable == null) {
-    comm.screenCleared = false;
-    comm.console.clearScreen();
-    return true;
-  }
-
-  return false;
 }
