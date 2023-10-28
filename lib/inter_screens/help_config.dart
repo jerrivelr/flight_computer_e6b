@@ -29,6 +29,7 @@ OptionIdent? helpScreen() {
     ..insertRows(tableContent)
     ;
 
+  comm.currentPosition = 0;
   comm.selectedOption = null;
   while (comm.selectedOption == null) {
     screenHeader(title: 'HELP');
@@ -45,8 +46,8 @@ OptionIdent? helpScreen() {
       'Main Menu': OptionIdent.menu
     };
     
-    final backOrNot = insideMenus(custom: true, customOptions: helpMenu);
-    if (backOrNot == null) continue;
+    final backOrNot = interMenu(comm.currentPosition >= 0, helpMenu);
+    if (backOrNot) continue;
   }
 
   return comm.selectedOption;
