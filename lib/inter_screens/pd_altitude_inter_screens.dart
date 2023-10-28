@@ -75,10 +75,12 @@ Future<OptionIdent?> conditionsAirportScreen() async {
     if (_invalidAirportFormat(_airportId) && comm.keyPressed != ControlCharacter.arrowDown) {
       // Airport invalid and screens updates.
       comm.currentPosition = 0;
+      _metarData = null;
       continue;
     } else if (_airportNotFound(_airpName) && comm.keyPressed != ControlCharacter.arrowDown) {
       // Airport not in the airports.json file
       comm.currentPosition = 0;
+      _metarData = null;
       continue;
     }
     // Downloads METAR information from the selected airport.
