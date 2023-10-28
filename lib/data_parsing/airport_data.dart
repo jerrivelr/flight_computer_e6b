@@ -12,13 +12,13 @@ final airportJson = File(r'C:\Users\jerri\IdeaProjects\flight_e6b\lib\airport_da
 final content = airportJson.readAsStringSync();
 final contentDecoded = jsonDecode(content);
 
-String? retrieveAirport() {
+String? retrieveAirport([String? variable]) {
   final idInput = input(null, onlyNumbers: false, charLimit: 4)?.toUpperCase();
 
   // If user inputs something inside the optionList global variable, it will exit the option and jump to the selected
   // option without creating any instance.
   if (idInput?.isEmpty ?? true) {
-    return idInput ?? '';
+    return variable;
   }
 
   // This is for when user inputs the airport ID in IATA so the output is in ICAO because the weather API only accepts
