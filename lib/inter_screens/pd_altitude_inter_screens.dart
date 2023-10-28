@@ -7,6 +7,7 @@ import 'package:flight_e6b/data_parsing/metar_data.dart';
 import 'package:flight_e6b/input_type.dart' as tp;
 import 'package:flight_e6b/menu_files/menu_logic.dart';
 import 'package:flight_e6b/simple_io.dart';
+import 'package:flight_e6b/menu_files/menu_builder.dart';
 
 String? _airportId;
 List<dynamic>? _downloadMetar;
