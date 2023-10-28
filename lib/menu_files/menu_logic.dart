@@ -281,7 +281,7 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Ground Speed',
             digitLimit: 3,
             checkNegative: true,
-            ifNegative: 'Ground must be greater than 0',
+            ifNegative: 'Ground Speed must be greater than 0 KT',
             unit: InputInfo.groundSpeed.unit,
             inputType: type
         );
