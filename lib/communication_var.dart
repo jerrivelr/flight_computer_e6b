@@ -1,5 +1,5 @@
 import 'package:dart_console/dart_console.dart';
-import 'package:flight_e6b/menu_files/menu_logic.dart';
+import 'package:flight_e6b/enums.dart';
 
 final console = Console();
 

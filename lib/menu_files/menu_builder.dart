@@ -1,8 +1,8 @@
-import 'package:flight_e6b/communication_var.dart' as comm;
-import 'package:flight_e6b/menu_files/menu_logic.dart';
-import 'package:dart_console/dart_console.dart';
+import 'package:flight_e6b/enums.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/shortcuts.dart';
+import 'package:dart_console/dart_console.dart';
+import 'package:flight_e6b/communication_var.dart' as comm;
 
 class MenuBuilder {
   MenuBuilder({required this.menuOptions, this.highlightColor = 94, this.title = '', this.noTitle = false});

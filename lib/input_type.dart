@@ -1,4 +1,5 @@
 import 'package:flight_e6b/menu_files/menu_logic.dart';
+import 'package:flight_e6b/enums.dart';
 
 final tempInput = MenuLogic.screenType(InputInfo.temperature);
 final dewInput = MenuLogic.screenType(InputInfo.dewpoint);

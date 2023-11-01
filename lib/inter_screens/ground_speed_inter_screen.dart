@@ -1,10 +1,10 @@
-import 'package:dart_console/dart_console.dart';
+import 'package:flight_e6b/enums.dart';
 import 'package:flight_e6b/simple_io.dart';
-import 'package:flight_e6b/menu_files/menu_logic.dart';
+import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/input_type.dart' as tp;
 import 'package:flight_e6b/cursor_position.dart' as pos;
-import 'package:flight_e6b/communication_var.dart' as comm;
 import 'package:flight_e6b/menu_files/menu_builder.dart';
+import 'package:flight_e6b/communication_var.dart' as comm;
 
 const options = {
   'Return to:': null,

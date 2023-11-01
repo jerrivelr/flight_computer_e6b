@@ -1,5 +1,5 @@
-import 'package:flight_e6b/menu_files/menu_logic.dart';
 import 'package:flight_e6b/menu_files/menu_builder.dart';
+import 'package:flight_e6b/enums.dart';
 
 final mainMenu = MenuBuilder(
     title: 'FLIGHT COMPUTER (E6B)',
