@@ -17,7 +17,7 @@ final mainMenu = MenuBuilder(
 ); // Main Menu
 
 final helpConfigMenu = MenuBuilder(
-    title: 'HELP/CONFIG',
+    title: 'HELP/SETTINGS',
     menuOptions: {
       'Help': OptionIdent.help,
       'Settings': OptionIdent.setting,
