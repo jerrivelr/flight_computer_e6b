@@ -26,58 +26,28 @@ enum InputInfo {
 }
 
 enum OptionIdent {
-  helpSetting('helpConfig', 'helpConfig'),
-  help('help', 'help'),
-  setting('config', 'config'),
-  menu('menu', 'menu'),
-  exit('exit', 'exit'),
-  cloudBase('cloud base', 'op1'),
-  pressDenAlt('altitude', 'op2'),
-  airport('airport', 'op2'),
-  manual('manual', 'op2'),
-  groundSpeed('ground speed', 'op3'),
-  calGroundSpeed('cal gs', 'op3'),
-  groundDur('ground dur', 'op3'),
-  groundDis('ground dis', 'op3'),
-  trueAirspeed('true airspeed', 'op4'),
-  windComp('wind component', 'op5'),
-  windCorrection('wind correction', 'op6'),
-  fuel('fuel', 'op7'),
-  fuelVol('fuel volume', 'op7'),
-  fuelDur('fuel duration', 'op7'),
-  fuelRate('fuel rate', 'op7'),
-  yes('yes', 'yes'),
-  no('no', 'no');
-
-  const OptionIdent(this.title, this.typedOption);
-
-  final String title;
-  final String typedOption;
-
-}
-
-final titles = <String>[for (final item in OptionIdent.values) item.title];
-final typed = <String>[for (final item in OptionIdent.values) item.typedOption];
-
-OptionIdent? checkIdent(String? inputString) {
-  if (titles.contains(inputString)) {
-
-    for (final item in OptionIdent.values) {
-      if (item.title == inputString) {
-        return item;
-      }
-    }
-
-  } else if (typed.contains(inputString)) {
-
-    for (final item in OptionIdent.values) {
-      if (item.typedOption == inputString) {
-        return item;
-      }
-    }
-  }
-
-  return null;
+  helpSetting,
+  help,
+  setting,
+  menu,
+  exit,
+  cloudBase,
+  pressDenAlt,
+  airport,
+  manual,
+  groundSpeed,
+  calGroundSpeed,
+  groundDur,
+  groundDis,
+  trueAirspeed,
+  windComp,
+  windCorrection,
+  fuel,
+  fuelVol,
+  fuelDur,
+  fuelRate,
+  yes,
+  no;
 }
 
 class MenuLogic {
@@ -347,9 +317,7 @@ class MenuLogic {
 
     userInput = input(printOut, unit: unit, inputContent: _inputContent, charLimit: digitLimit)?.toLowerCase();
 
-    if (titles.contains(userInput) || typed.contains(userInput)) {
-      return userInput;
-    } else if (userInput?.isEmpty ?? false) {
+   if (userInput?.isEmpty ?? false) {
       userInput = null;
       return userInput;
     } else if (double.tryParse(userInput ?? '') == null) {
