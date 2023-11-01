@@ -129,12 +129,10 @@ bool interMenu(bool condition, [Map<String, OptionIdent?> options = const {'Retu
   }
 
   if (condition) {
-    OptionIdent? selection;
     comm.console.hideCursor();
 
     var key = comm.console.readKey();
-
-    selection = shortcuts(key);
+    shortcuts(key);
 
     switch (key.controlChar) {
       case ControlCharacter.arrowDown:
