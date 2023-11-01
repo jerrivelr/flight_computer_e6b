@@ -142,6 +142,7 @@ extension CustomConsole on Console {
             break;
         }
       } else if (buffer.length < bufferMaxLength) {
+        key.char = key.char.toUpperCase();
 
         if (symbolLookup.hasMatch(key.char)) {
 
