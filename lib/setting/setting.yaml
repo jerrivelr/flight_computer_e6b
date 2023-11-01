@@ -1,0 +1,27 @@
+selectedUnit:
+  temperature:
+    fahrenheit: false
+    celsius: true
+  altitude:
+    feet: true
+    meters: false
+  speed:
+    knots: true
+    kilometersHours: false
+    milesHour: false
+  distance:
+    nauticalMiles: true
+    feet: false
+    inches: false
+    kilometers: false
+    meters: false
+  time:
+    hour: true
+    minute: false
+    seconds: false
+  pressure:
+    inchesOfMercury: true
+    millibars: false
+  weight:
+    pound: true
+    kilograms: false
