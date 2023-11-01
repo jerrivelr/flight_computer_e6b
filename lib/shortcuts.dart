@@ -7,7 +7,7 @@ OptionIdent? shortcuts(Key key) {
   switch (key.controlChar) {
     case ControlCharacter.F1:
       comm.console.clearScreen();
-      comm.selectedOption = OptionIdent.helpConfig;
+      comm.selectedOption = OptionIdent.helpSetting;
       return comm.selectedOption;
     case ControlCharacter.ctrlF:
       comm.console.clearScreen();

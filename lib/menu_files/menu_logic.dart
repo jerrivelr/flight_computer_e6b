@@ -26,9 +26,9 @@ enum InputInfo {
 }
 
 enum OptionIdent {
-  helpConfig('helpConfig', 'helpConfig'),
+  helpSetting('helpConfig', 'helpConfig'),
   help('help', 'help'),
-  config('config', 'config'),
+  setting('config', 'config'),
   menu('menu', 'menu'),
   exit('exit', 'exit'),
   cloudBase('cloud base', 'op1'),

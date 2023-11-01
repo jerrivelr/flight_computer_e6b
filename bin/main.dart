@@ -14,7 +14,7 @@ void main(List<String> arguments) async {
       case OptionIdent.menu:
         userSelection = mainMenu.displayMenu();
         break;
-      case OptionIdent.helpConfig:
+      case OptionIdent.helpSetting:
         userSelection = helpConfig();
         break;
       case OptionIdent.cloudBase:

@@ -4,7 +4,7 @@ import 'package:flight_e6b/menu_files/menu_builder.dart';
 final mainMenu = MenuBuilder(
     title: 'FLIGHT COMPUTER (E6B)',
     menuOptions: {
-      'Help/Config': OptionIdent.helpConfig,
+      'Help/Settings': OptionIdent.helpSetting,
       'Cloud Base (ft)': OptionIdent.cloudBase,
       'Pressure/Density Altitude (ft)': OptionIdent.pressDenAlt,
       'Ground Speed (GS)': OptionIdent.groundSpeed,
@@ -20,7 +20,7 @@ final helpConfigMenu = MenuBuilder(
     title: 'HELP/CONFIG',
     menuOptions: {
       'Help': OptionIdent.help,
-      'Config': OptionIdent.config,
+      'Settings': OptionIdent.setting,
       'Main Menu': OptionIdent.menu
     }
 );

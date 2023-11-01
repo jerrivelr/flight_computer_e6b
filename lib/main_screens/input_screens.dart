@@ -25,7 +25,7 @@ OptionIdent? helpConfig() {
         comm.console.clearScreen();
         helpScreen();
         break;
-      case OptionIdent.config:
+      case OptionIdent.setting:
         comm.console.clearScreen();
         configScreen();
         break;

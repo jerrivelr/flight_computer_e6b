@@ -43,7 +43,7 @@ OptionIdent? helpScreen() {
 
     final helpMenu = {
       'Return to:': null,
-      'Help/Config': OptionIdent.helpConfig,
+      'Help/Config': OptionIdent.helpSetting,
       'Main Menu': OptionIdent.menu
     };
     
