@@ -1,4 +1,4 @@
-selectedUnit:
+selected_unit:
   temperature:
     fahrenheit: false
     celsius: true
@@ -7,10 +7,10 @@ selectedUnit:
     meters: false
   speed:
     knots: true
-    kilometersHours: false
+    kilometer_hours: false
     milesHour: false
   distance:
-    nauticalMiles: true
+    nautical_miles: true
     feet: false
     inches: false
     kilometers: false
@@ -20,7 +20,7 @@ selectedUnit:
     minute: false
     seconds: false
   pressure:
-    inchesOfMercury: true
+    inches_of_mercury: true
     millibars: false
   weight:
     pound: true
