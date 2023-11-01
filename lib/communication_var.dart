@@ -5,8 +5,7 @@ final console = Console();
 
 var errorMessage = ''; // Stores errors messages if any.
 OptionIdent? selectedOption; // Stores values that are part of the optionList if userInput equals to one of the options.
-var dataResult = <String, num>{}; // This Map will contain the calculated data for reuse in other options.
-var inputValues = <InputInfo?, String?>{};
+var inputValues = <InputInfo?, String?>{}; // This Map will contain the calculated data for reuse in other options.
 var currentCursorPos = console.cursorPosition;
 var currentPosition = 0; // Saves the current input selected
 
