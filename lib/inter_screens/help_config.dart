@@ -4,10 +4,16 @@ import 'package:flight_e6b/menu_files/menu_logic.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/menu_files/menu_builder.dart';
 
+const helpMenu = {
+  'Return to:': null,
+  'Help/Settings': OptionIdent.helpSetting,
+  'Main Menu': OptionIdent.menu
+};
+
 OptionIdent? helpScreen() {
   const List<List<Object>>tableContent = [
     ['Main Menu', 'CTRL + N'],
-    ['Help/Config', 'F1'],
+    ['Help/Settings', 'F1'],
     ['Cloud Base', 'CTRL + Q'],
     ['Pressure/Density Altitude', 'CTRL + W'],
     ['Ground Speed', 'CTRL + E'],
@@ -40,12 +46,6 @@ OptionIdent? helpScreen() {
     comm.console.writeLine('• Only numbers are allowed on most inputs');
     comm.console.writeLine('• Conditions at airport is the only option that allow all characters');
     comm.console.writeLine();
-
-    final helpMenu = {
-      'Return to:': null,
-      'Help/Config': OptionIdent.helpSetting,
-      'Main Menu': OptionIdent.menu
-    };
     
     final backOrNot = interMenu(comm.currentPosition >= 0, helpMenu);
     if (backOrNot) continue;
@@ -54,6 +54,6 @@ OptionIdent? helpScreen() {
   return comm.selectedOption;
 }
 
-OptionIdent? configScreen() {
+OptionIdent? settingScreen() {
 
 }
