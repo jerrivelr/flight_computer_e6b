@@ -1,0 +1,26 @@
+temperature:
+    fahrenheit: ' °F'
+    celsius: ' °C'
+altitude:
+    feet: ' FT'
+    meters: ' M'
+speed:
+    knots: ' KTS'
+    kilometersHours: ' KM/HR'
+    milesHour: ' MPH'
+distance:
+  nauticalMiles: ' NM'
+  feet: ' FT'
+  inches: ' IN'
+  kilometers: ' KM'
+  meters: ' M'
+time:
+  hour: ' HR'
+  minute: ' MIN'
+  seconds: ' SEC'
+pressure:
+  inchesOfMercury: ' InHg'
+  millibars: ' MB'
+weight:
+  pound: ' LB'
+  kilograms: ' KG'
