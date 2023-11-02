@@ -6,7 +6,7 @@ import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 import 'package:http/http.dart' as http;
 
-final airportJson = File(r'C:\Users\jerri\IdeaProjects\flight_e6b\lib\airport_database\airports.json');
+final airportJson = File(r'..\lib\airport_database\airports.json');
 final content = airportJson.readAsStringSync();
 final contentDecoded = jsonDecode(content);
 
@@ -104,14 +104,14 @@ Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async
   }
 }
 
-List<dynamic>? testMetar() {
-  try {
-    final jsonFile = File(r'C:\Users\jerri\IdeaProjects\flight_e6b\lib\test_response.json');
-    final decodedMetar = jsonDecode(jsonFile.readAsStringSync());
-
-    return decodedMetar;
-  } on FormatException {
-    comm.formatError = true;
-    return null;
-  }
-}
+// List<dynamic>? testMetar() {
+//   try {
+//     final jsonFile = File(r'C:\Users\jerri\IdeaProjects\flight_e6b\lib\test_response.json');
+//     final decodedMetar = jsonDecode(jsonFile.readAsStringSync());
+//
+//     return decodedMetar;
+//   } on FormatException {
+//     comm.formatError = true;
+//     return null;
+//   }
+// }

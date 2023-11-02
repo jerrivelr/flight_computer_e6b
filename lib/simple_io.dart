@@ -95,7 +95,7 @@ void printDownData(Map<String, String> data) {
 }
 
 void screenHeader({required String title, int color = 22, bool errorWindow = true}) {
-  final yamlFile = File(r'C:\Users\jerri\IdeaProjects\flight_e6b\pubspec.yaml');
+  final yamlFile = File(r'..\pubspec.yaml');
   final yamlContent = yamlFile.readAsStringSync();
   final yamlDecoded = loadYaml(yamlContent) as Map;
   final versionStr = ' v${yamlDecoded['version']} ';
