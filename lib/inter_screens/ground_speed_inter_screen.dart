@@ -1,4 +1,5 @@
 import 'package:flight_e6b/enums.dart';
+import 'package:flight_e6b/setting/setting_lookup.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/input_type.dart' as tp;
@@ -23,7 +24,7 @@ OptionIdent? speedScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    screenHeader(title: 'GROUND SPEED (KT)');
+    screenHeader(title: 'GROUND SPEED (${speedUnit()?.trim()})');
 
     tp.distanceInput.printInput();
     tp.timeInput.printInput();
@@ -33,7 +34,7 @@ OptionIdent? speedScreen() {
 
     comm.inputValues[InputInfo.groundSpeed] = calGroundSpeed?.toString();
 
-    resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed)} KT']);
+    resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed)}'], unit: speedUnit);
 
     final menu = interMenu(comm.currentPosition > 1, options);
     if (menu) continue;
@@ -74,7 +75,7 @@ OptionIdent? durationScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    screenHeader(title: 'DURATION (HR)');
+    screenHeader(title: 'DURATION (${timeUnit()?.trim()})');
 
     tp.distanceInput.printInput();
     tp.groundSpeedInput.printInput();
@@ -84,7 +85,7 @@ OptionIdent? durationScreen() {
 
     comm.inputValues[InputInfo.time] = result?.toStringAsPrecision(2);
 
-    resultPrinter(['Duration: ${formatNumber(result)} HR']);
+    resultPrinter(['Duration: ${formatNumber(result)}'], unit: timeUnit);
 
     final menu = interMenu(comm.currentPosition > 1, options);
     if (menu) continue;
@@ -125,7 +126,7 @@ OptionIdent? distanceScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    screenHeader(title: 'DISTANCE (NM)');
+    screenHeader(title: 'DISTANCE (${distanceUnit()?.trim()})');
 
     tp.groundSpeedInput.printInput();
     tp.timeInput.printInput();
@@ -134,7 +135,7 @@ OptionIdent? distanceScreen() {
 
     comm.inputValues[InputInfo.distance] = result?.toString();
 
-    resultPrinter(['Distance: ${formatNumber(result)} NM']);
+    resultPrinter(['Distance: ${formatNumber(result)}'], unit: distanceUnit);
 
     final menu = interMenu(comm.currentPosition > 1, options);
     if (menu) continue;

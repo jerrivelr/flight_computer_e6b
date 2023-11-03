@@ -168,7 +168,7 @@ OptionIdent? trueAirspeedScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    screenHeader(title: 'TRUE AIRSPEED (kt)');
+    screenHeader(title: 'TRUE AIRSPEED (${speedUnit()?.trim()})');
 
     tp.calibratedInput.printInput();
     tp.pressAltInput.printInput();
@@ -180,7 +180,7 @@ OptionIdent? trueAirspeedScreen() {
         tempC: temperature
     );
 
-    resultPrinter(['True Airspeed: ${formatNumber(calTrueAirspeed)} KT']);
+    resultPrinter(['True Airspeed: ${formatNumber(calTrueAirspeed)}'], unit: speedUnit);
 
     comm.inputValues[InputInfo.trueAirspeed] = calTrueAirspeed?.toString();
 
@@ -318,7 +318,7 @@ OptionIdent? headingCorrectionScreen() {
     resultPrinter([
       'Heading: ${formatNumber(trueHeading)}°',
       'WCA: ${formatNumber(windCorrectionAngle?.round())}°',
-      'Ground Speed: ${formatNumber(groundSpeedKt?.round())} KT'
+      'Ground Speed: ${formatNumber(groundSpeedKt?.round())}${speedUnit()}'
     ]);
 
     final menu = interMenu(comm.currentPosition > 3);

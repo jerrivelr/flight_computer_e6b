@@ -1,4 +1,5 @@
 import 'package:dart_console/dart_console.dart';
+import 'package:flight_e6b/setting/setting_lookup.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/input_type.dart' as tp;
 import 'package:flight_e6b/cursor_position.dart' as pos;
@@ -24,7 +25,7 @@ OptionIdent? volumeScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    screenHeader(title: 'FUEL VOLUME (Gal)');
+    screenHeader(title: 'FUEL VOLUME (${fuelUnit()?.trim()})');
 
     tp.fuelRateInput.printInput();
     tp.timeInput.printInput();
@@ -33,8 +34,8 @@ OptionIdent? volumeScreen() {
     fuelWeight = (fuelVolume == null) ? null : fuelVolume * 6;
 
     resultPrinter([
-      'Fuel Volume: ${formatNumber(fuelVolume)} GAL',
-      'Fuel Weight: ${formatNumber(fuelWeight)} IBS'
+      'Fuel Volume: ${formatNumber(fuelVolume)}${fuelUnit()}',
+      'Fuel Weight: ${formatNumber(fuelWeight)}${weightUnit()}'
     ]);
 
     final menu = interMenu(comm.currentPosition > 1, options);
@@ -77,7 +78,7 @@ OptionIdent? enduranceScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    screenHeader(title: 'FUEL ENDURANCE');
+    screenHeader(title: 'FUEL ENDURANCE (${timeUnit()?.trim()})');
 
     tp.volumeInput.printInput();
     tp.fuelRateInput.printInput();
@@ -87,8 +88,8 @@ OptionIdent? enduranceScreen() {
     fuelWeight = (fuelVolume == null) ? null : fuelVolume * 6;
 
     resultPrinter([
-      'Fuel Endurance: ${formatNumber(endurance)} HR',
-      'Fuel Weight: ${formatNumber(fuelWeight)} IBS'
+      'Fuel Endurance: ${formatNumber(endurance)}${timeUnit()}',
+      'Fuel Weight: ${formatNumber(fuelWeight)}${weightUnit()}'
     ]);
 
     final menu = interMenu(comm.currentPosition > 1, options);
@@ -131,7 +132,7 @@ OptionIdent? fuelRateScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    screenHeader(title: 'FUEL RATE');
+    screenHeader(title: 'FUEL RATE (${fuelRateUnit()?.trim()})');
 
     tp.volumeInput.printInput();
     tp.timeInput.printInput();
@@ -141,8 +142,8 @@ OptionIdent? fuelRateScreen() {
     fuelWeight = (fuelVolume == null) ? null : fuelVolume * 6;
 
     resultPrinter([
-      'Fuel Rate: ${formatNumber(fuelRate)} GAL/HR',
-      'Fuel Weight: ${formatNumber(fuelWeight)} IBS'
+      'Fuel Rate: ${formatNumber(fuelRate)}${fuelRateUnit()}',
+      'Fuel Weight: ${formatNumber(fuelWeight)}${weightUnit()}'
     ]);
 
     final menu = interMenu(comm.currentPosition > 1, options);
