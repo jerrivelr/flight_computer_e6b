@@ -121,7 +121,7 @@ class MenuLogic {
             checkDir: true,
             invalidDir: 'Wind Direction must be between 0° — 360°',
             digitLimit: 3,
-            unit: InputInfo.windDirection.unit,
+            unit: '°',
             inputType: type
         );
       case InputInfo.windSpeed:
@@ -139,7 +139,7 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Runway',
             checkRunway: true,
             digitLimit: 2,
-            unit: InputInfo.runway.unit,
+            unit: '°',
             inputType: type
         );
       case InputInfo.trueCourse:
@@ -149,7 +149,7 @@ class MenuLogic {
             checkDir: true,
             digitLimit: 3,
             invalidDir: 'The Course must be between 0° — 360°',
-            unit: InputInfo.trueCourse.unit,
+            unit: '°',
             inputType: type
         );
       case InputInfo.trueAirspeed:

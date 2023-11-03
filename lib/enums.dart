@@ -1,24 +1,23 @@
 enum InputInfo {
-  temperature('Temperature: ', ' °C'),
-  dewpoint('Dewpoint: ', ' °C'),
-  indicatedAlt('Indicated Altitude: ', ' FT'),
-  baro('Baro: ', ' In Hg'),
-  distance('Distance: ', ' NM'),
-  time('Time: ', ' HR'),
-  calibratedAir('Calibrated Airspeed: ', ' KT'),
-  pressureAlt('Pressure Altitude: ', ' FT'),
-  windDirection('Wind Direction: ', '°'),
-  windSpeed('Wind Speed: ', ' KT'),
-  runway('Runway: ', '°'),
-  trueCourse('Course: ', '°'),
-  trueAirspeed('True Airspeed: ', ' KT'),
-  fuelVolume('Fuel Volume: ', ' GAL'),
-  groundSpeed('Ground Speed: ', ' KT'),
-  fuelRate('Fuel Rate: ', ' GAL/HR');
+  temperature('Temperature: '),
+  dewpoint('Dewpoint: '),
+  indicatedAlt('Indicated Altitude: '),
+  baro('Baro: '),
+  distance('Distance: '),
+  time('Time: '),
+  calibratedAir('Calibrated Airspeed: '),
+  pressureAlt('Pressure Altitude: '),
+  windDirection('Wind Direction: '),
+  windSpeed('Wind Speed: '),
+  runway('Runway: '),
+  trueCourse('Course: '),
+  trueAirspeed('True Airspeed: '),
+  fuelVolume('Fuel Volume: '),
+  groundSpeed('Ground Speed: '),
+  fuelRate('Fuel Rate: ');
 
-  const InputInfo(this.title, this.unit);
+  const InputInfo(this.title);
   final String title;
-  final String unit;
 }
 
 enum OptionIdent {
