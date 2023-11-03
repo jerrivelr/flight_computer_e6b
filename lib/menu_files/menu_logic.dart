@@ -1,6 +1,7 @@
-import 'package:flight_e6b/simple_io.dart';
-import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/enums.dart';
+import 'package:flight_e6b/read_line_custom.dart';
+import 'package:dart_console/dart_console.dart';
+import 'package:flight_e6b/setting/setting_lookup.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
 class MenuLogic {
@@ -15,7 +16,8 @@ class MenuLogic {
     this.checkDir = false,
     this.checkRunway = false,
     this.firstOption = false,
-    this.inputType
+    this.unitLookup,
+    this.inputType,
   });
 
   int digitLimit;
@@ -29,6 +31,7 @@ class MenuLogic {
   bool checkRunway;
   bool firstOption;
   InputInfo? inputType;
+  Function? unitLookup;
 
   var _inputContent = '';
 
@@ -36,6 +39,7 @@ class MenuLogic {
   int? _colum = 0;
   int? get row => _row;
   int? get colum => _colum;
+  Object? _unit;
 
   factory MenuLogic.screenType(InputInfo type) {
     switch (type) {
@@ -44,7 +48,7 @@ class MenuLogic {
             optionName: InputInfo.temperature.title,
             inCaseInvalid: 'Invalid Temperature',
             digitLimit: 3,
-            unit: InputInfo.temperature.unit,
+            unitLookup: temperatureUnit,
             inputType: type
         );
       case InputInfo.dewpoint:
@@ -52,7 +56,7 @@ class MenuLogic {
             optionName: InputInfo.dewpoint.title,
             inCaseInvalid: 'Invalid Dewpoint',
             digitLimit: 3,
-            unit: InputInfo.dewpoint.unit,
+            unitLookup: temperatureUnit,
             inputType: type
         );
       case InputInfo.indicatedAlt:
@@ -242,6 +246,7 @@ class MenuLogic {
   void printInput() {
     _inputContent = comm.inputValues[inputType] ?? '';
     _row = comm.console.cursorPosition?.row;
+    if (unitLookup != null ) _unit = unitLookup!() ?? '';
 
     comm.console.setForegroundColor(ConsoleColor.brightWhite);
     if (comm.currentCursorPos?.row == _row || firstOption) {
@@ -253,9 +258,9 @@ class MenuLogic {
       comm.console.setForegroundExtendedColor(180);
 
       if (_inputContent.isEmpty) {
-        comm.console.write('--$unit');
+        comm.console.write('--$_unit');
       } else {
-        comm.console.write('$_inputContent$unit');
+        comm.console.write('$_inputContent${_unit ?? ''}');
       }
 
       comm.console.resetColorAttributes();
@@ -267,8 +272,9 @@ class MenuLogic {
 
   String? _inputChecker(String? printOut, {String ifInvalid = 'Invalid number', }) {
     String? userInput;
+    if (unitLookup != null ) _unit = unitLookup!() ?? '';
 
-    userInput = input(printOut, unit: unit, inputContent: _inputContent, charLimit: digitLimit)?.toLowerCase();
+    userInput = comm.console.input(printOut, unit: _unit.toString(), inputContent: _inputContent, charLimit: digitLimit)?.toLowerCase();
 
    if (userInput?.isEmpty ?? false) {
       userInput = null;
