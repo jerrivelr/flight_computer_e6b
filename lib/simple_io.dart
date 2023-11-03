@@ -55,14 +55,16 @@ void errorMessage(String message) {
   comm.console.resetColorAttributes();
 }
 
-void resultPrinter(List<String> displayString) {
+void resultPrinter(List<String> displayString, {Function? unit}) {
   final table = Table()
     ..borderColor = ConsoleColor.brightGreen
     ..borderStyle = BorderStyle.bold
     ..borderType = BorderType.horizontal;
 
+  Object? displayUnit = (unit != null) ? unit() : '';
+
   for (final item in displayString) {
-    table.insertRow([item]);
+    table.insertRow(['$item$displayUnit']);
   }
 
   comm.console.write(table);
