@@ -36,7 +36,6 @@ OptionIdent? helpScreen() {
     ..insertRows(tableContent)
     ;
 
-  comm.currentPosition = 0;
   comm.selectedOption = null;
   while (comm.selectedOption == null) {
     screenHeader(title: 'HELP');
@@ -47,7 +46,7 @@ OptionIdent? helpScreen() {
     comm.console.writeLine('• Conditions at airport is the only option that allow all characters');
     comm.console.writeLine();
     
-    final backOrNot = interMenu(comm.currentPosition >= 0, helpMenu);
+    final backOrNot = interMenu(true, helpMenu);
     if (backOrNot) continue;
   }
 
