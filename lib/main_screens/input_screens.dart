@@ -4,6 +4,7 @@ import 'package:flight_e6b/aviation_math.dart';
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/menu_files/menus.dart';
 import 'package:flight_e6b/input_type.dart' as tp;
+import 'package:flight_e6b/setting/setting_lookup.dart';
 import 'package:flight_e6b/cursor_position.dart' as pos;
 import 'package:flight_e6b/menu_files/menu_builder.dart';
 import 'package:flight_e6b/inter_screens/help_config.dart';
@@ -61,7 +62,7 @@ OptionIdent? cloudBaseScreen() {
 
     result = cloudBase(temperature, dewpoint);
 
-    resultPrinter(['Cloud Base: ${formatNumber(result)} FT']);
+    resultPrinter(['Cloud Base: ${formatNumber(result)}'], unit: altitudeUnit);
 
     final menu = interMenu(comm.currentPosition > 1);
     if (menu) continue;

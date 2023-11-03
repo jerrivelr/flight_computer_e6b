@@ -3,6 +3,7 @@ import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/aviation_math.dart';
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/input_type.dart' as tp;
+import 'package:flight_e6b/setting/setting_lookup.dart';
 import 'package:flight_e6b/cursor_position.dart' as pos;
 import 'package:flight_e6b/data_parsing/metar_data.dart';
 import 'package:flight_e6b/menu_files/menu_builder.dart';
@@ -142,9 +143,9 @@ OptionIdent? manualScreen() {
     comm.inputValues[InputInfo.pressureAlt] = pressure?.toString();
 
     resultPrinter([
-      'Pressure Altitude: ${formatNumber(pressure)} FT',
-      'Density Altitude: ${formatNumber(density)} FT'
-    ]);
+      'Pressure Altitude: ${formatNumber(pressure)}',
+      'Density Altitude: ${formatNumber(density)}'],
+    unit: altitudeUnit);
 
     final menu = interMenu(comm.currentPosition > 3, options);
     if (menu) continue;
