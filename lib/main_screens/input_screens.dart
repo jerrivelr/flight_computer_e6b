@@ -182,7 +182,7 @@ OptionIdent? trueAirspeedScreen() {
 
     resultPrinter(['True Airspeed: ${formatNumber(calTrueAirspeed)}'], unit: speedUnit);
 
-    comm.inputValues[InputInfo.trueAirspeed] = calTrueAirspeed?.toString();
+    comm.inputValues[InputTitle.trueAirspeed] = calTrueAirspeed?.toString();
 
     final menu = interMenu(comm.currentPosition > 2);
     if (menu) continue;
@@ -313,7 +313,7 @@ OptionIdent? headingCorrectionScreen() {
         corrAngle: windCorrectionAngle
     );
 
-    comm.inputValues[InputInfo.groundSpeed] = groundSpeedKt?.toString();
+    comm.inputValues[InputTitle.groundSpeed] = groundSpeedKt?.toString();
 
     resultPrinter([
       'Heading: ${formatNumber(trueHeading)}°',

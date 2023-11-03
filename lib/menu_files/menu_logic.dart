@@ -30,7 +30,7 @@ class MenuLogic {
   bool checkDir;
   bool checkRunway;
   bool firstOption;
-  InputInfo? inputType;
+  InputTitle? inputType;
   Function? unitLookup;
 
   var _inputContent = '';
@@ -41,36 +41,36 @@ class MenuLogic {
   int? get colum => _colum;
   Object? _unit;
 
-  factory MenuLogic.screenType(InputInfo type) {
+  factory MenuLogic.screenType(InputTitle type) {
     switch (type) {
-      case InputInfo.temperature:
+      case InputTitle.temperature:
         return MenuLogic(
-            optionName: InputInfo.temperature.title,
+            optionName: InputTitle.temperature.title,
             inCaseInvalid: 'Invalid Temperature',
             digitLimit: 3,
             unitLookup: temperatureUnit,
             inputType: type
         );
-      case InputInfo.dewpoint:
+      case InputTitle.dewpoint:
         return MenuLogic(
-            optionName: InputInfo.dewpoint.title,
+            optionName: InputTitle.dewpoint.title,
             inCaseInvalid: 'Invalid Dewpoint',
             digitLimit: 3,
             unitLookup: temperatureUnit,
             inputType: type
         );
-      case InputInfo.indicatedAlt:
+      case InputTitle.indicatedAlt:
         return MenuLogic(
-            optionName: InputInfo.indicatedAlt.title,
+            optionName: InputTitle.indicatedAlt.title,
             inCaseInvalid: 'Invalid Indicated Altitude',
             checkNegative: true,
             ifNegative: 'Indicated Altitude must be greater than 0',
             unitLookup: altitudeUnit,
             inputType: type
         );
-      case InputInfo.baro:
+      case InputTitle.baro:
         return MenuLogic(
-            optionName: InputInfo.baro.title,
+            optionName: InputTitle.baro.title,
             inCaseInvalid: 'Invalid Altimeter',
             digitLimit: 4,
             checkNegative: true,
@@ -78,18 +78,18 @@ class MenuLogic {
             unitLookup: pressUnit,
             inputType: type
         );
-      case InputInfo.distance:
+      case InputTitle.distance:
         return MenuLogic(
-            optionName: InputInfo.distance.title,
+            optionName: InputTitle.distance.title,
             inCaseInvalid: 'Invalid Distance',
             checkNegative: true,
             ifNegative: 'Distance must be greater than 0',
             unitLookup: distanceUnit,
             inputType: type
         );
-      case InputInfo.time:
+      case InputTitle.time:
         return MenuLogic(
-            optionName: InputInfo.time.title,
+            optionName: InputTitle.time.title,
             inCaseInvalid: 'Invalid Time. Ex. 1.5.',
             checkNegative: true,
             digitLimit: 2,
@@ -97,9 +97,9 @@ class MenuLogic {
             unitLookup: timeUnit,
             inputType: type
         );
-      case InputInfo.calibratedAir:
+      case InputTitle.calibratedAir:
         return MenuLogic(
-            optionName: InputInfo.calibratedAir.title,
+            optionName: InputTitle.calibratedAir.title,
             inCaseInvalid: 'Invalid Calibrated Airspeed',
             checkNegative: true,
             digitLimit: 3,
@@ -107,16 +107,16 @@ class MenuLogic {
             unitLookup: speedUnit,
             inputType: type
         );
-      case InputInfo.pressureAlt:
+      case InputTitle.pressureAlt:
         return MenuLogic(
-            optionName: InputInfo.pressureAlt.title,
+            optionName: InputTitle.pressureAlt.title,
             inCaseInvalid: 'Invalid Pressure Altitude',
             unitLookup: altitudeUnit,
             inputType: type
         );
-      case InputInfo.windDirection:
+      case InputTitle.windDirection:
         return MenuLogic(
-            optionName: InputInfo.windDirection.title,
+            optionName: InputTitle.windDirection.title,
             inCaseInvalid: 'Invalid Wind Direction',
             checkDir: true,
             invalidDir: 'Wind Direction must be between 0° — 360°',
@@ -124,27 +124,27 @@ class MenuLogic {
             unit: '°',
             inputType: type
         );
-      case InputInfo.windSpeed:
+      case InputTitle.windSpeed:
         return MenuLogic(
-            optionName: InputInfo.windSpeed.title,
+            optionName: InputTitle.windSpeed.title,
             inCaseInvalid: 'Invalid Wind Speed',
             checkNegative: true,
             digitLimit: 3,
             unitLookup: speedUnit,
             inputType: type
         );
-      case InputInfo.runway:
+      case InputTitle.runway:
         return MenuLogic(
-            optionName: InputInfo.runway.title,
+            optionName: InputTitle.runway.title,
             inCaseInvalid: 'Invalid Runway',
             checkRunway: true,
             digitLimit: 2,
             unit: '°',
             inputType: type
         );
-      case InputInfo.trueCourse:
+      case InputTitle.trueCourse:
         return MenuLogic(
-            optionName: InputInfo.trueCourse.title,
+            optionName: InputTitle.trueCourse.title,
             inCaseInvalid: 'Invalid Course',
             checkDir: true,
             digitLimit: 3,
@@ -152,9 +152,9 @@ class MenuLogic {
             unit: '°',
             inputType: type
         );
-      case InputInfo.trueAirspeed:
+      case InputTitle.trueAirspeed:
         return MenuLogic(
-            optionName: InputInfo.trueAirspeed.title,
+            optionName: InputTitle.trueAirspeed.title,
             inCaseInvalid: 'Invalid True Airspeed',
             digitLimit: 3,
             checkNegative: true,
@@ -162,18 +162,18 @@ class MenuLogic {
             unitLookup: speedUnit,
             inputType: type
         );
-      case InputInfo.fuelVolume:
+      case InputTitle.fuelVolume:
         return MenuLogic(
-            optionName: InputInfo.fuelVolume.title,
+            optionName: InputTitle.fuelVolume.title,
             inCaseInvalid: 'Invalid Fuel Volume',
             checkNegative: true,
             ifNegative: 'Fuel Volume must be positive',
             unitLookup: fuelUnit,
             inputType: type
         );
-      case InputInfo.fuelRate:
+      case InputTitle.fuelRate:
         return MenuLogic(
-            optionName: InputInfo.fuelRate.title,
+            optionName: InputTitle.fuelRate.title,
             inCaseInvalid: 'Invalid Fuel Rate',
             digitLimit: 4,
             checkNegative: true,
@@ -181,9 +181,9 @@ class MenuLogic {
             unitLookup: fuelRateUnit,
             inputType: type
         );
-      case InputInfo.groundSpeed:
+      case InputTitle.groundSpeed:
         return MenuLogic(
-            optionName: InputInfo.groundSpeed.title,
+            optionName: InputTitle.groundSpeed.title,
             inCaseInvalid: 'Invalid Ground Speed',
             digitLimit: 3,
             checkNegative: true,

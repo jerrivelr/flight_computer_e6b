@@ -1,4 +1,4 @@
-enum InputInfo {
+enum InputTitle {
   temperature('Temperature: '),
   dewpoint('Dewpoint: '),
   indicatedAlt('Indicated Altitude: '),
@@ -16,7 +16,7 @@ enum InputInfo {
   groundSpeed('Ground Speed: '),
   fuelRate('Fuel Rate: ');
 
-  const InputInfo(this.title);
+  const InputTitle(this.title);
   final String title;
 }
 

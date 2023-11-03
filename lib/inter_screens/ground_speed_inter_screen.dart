@@ -32,7 +32,7 @@ OptionIdent? speedScreen() {
     comm.errorMessage = (timeHr == 0) ? 'Time must be greater than 0' : '';
     calGroundSpeed = (distanceNm == null || timeHr == null || timeHr == 0) ? null : (distanceNm / timeHr).round();
 
-    comm.inputValues[InputInfo.groundSpeed] = calGroundSpeed?.toString();
+    comm.inputValues[InputTitle.groundSpeed] = calGroundSpeed?.toString();
 
     resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed)}'], unit: speedUnit);
 
@@ -83,7 +83,7 @@ OptionIdent? durationScreen() {
     comm.errorMessage = (groundSpeedKt == 0) ? 'Ground Speed must greater than 0' : '';
     result = (distance == null || groundSpeedKt == null || groundSpeedKt == 0) ? null : distance / groundSpeedKt.round();
 
-    comm.inputValues[InputInfo.time] = result?.toStringAsPrecision(2);
+    comm.inputValues[InputTitle.time] = result?.toStringAsPrecision(2);
 
     resultPrinter(['Duration: ${formatNumber(result)}'], unit: timeUnit);
 
@@ -133,7 +133,7 @@ OptionIdent? distanceScreen() {
 
     result = (timeHr == null || groundSpeedKt == null) ? null : (groundSpeedKt * timeHr).round();
 
-    comm.inputValues[InputInfo.distance] = result?.toString();
+    comm.inputValues[InputTitle.distance] = result?.toString();
 
     resultPrinter(['Distance: ${formatNumber(result)}'], unit: distanceUnit);
 

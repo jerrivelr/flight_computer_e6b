@@ -140,7 +140,7 @@ OptionIdent? manualScreen() {
         elevation: indicatedAlt
     );
 
-    comm.inputValues[InputInfo.pressureAlt] = pressure?.toString();
+    comm.inputValues[InputTitle.pressureAlt] = pressure?.toString();
 
     resultPrinter([
       'Pressure Altitude: ${formatNumber(pressure)}',
