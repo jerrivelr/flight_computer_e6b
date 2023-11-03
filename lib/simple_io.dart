@@ -2,25 +2,8 @@ import 'dart:io';
 
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
-import 'package:flight_e6b/read_line_custom.dart';
 import 'package:intl/intl.dart';
 import 'package:yaml/yaml.dart';
-
-String? input(String? printOut, {bool onlyNumbers = true, int charLimit = 10, String inputContent = '', String unit = ''}) {
-  if (printOut != null) {
-    comm.console.write(printOut);
-  }
-
-  comm.console.setForegroundExtendedColor(180);
-  final userInput = comm.console.readLineCustom(
-      onlyNumbers: onlyNumbers,
-      charLimit: charLimit,
-      inputContent: inputContent,
-      unit: unit
-  );
-
-  return userInput?.trim();
-}
 
 List<String> windComponentString({required double? headTail, required double? xCross}) {
   final finalString = <String>[];
@@ -95,9 +78,8 @@ void printDownData(Map<String, String> data) {
 }
 
 void screenHeader({required String title, int color = 22, bool errorWindow = true}) {
-  final yamlFile = File(r'..\pubspec.yaml');
-  final yamlContent = yamlFile.readAsStringSync();
-  final yamlDecoded = loadYaml(yamlContent) as Map;
+  final yamlFile = File(r'..\lib\setting\setting.yaml').readAsStringSync();
+  final yamlDecoded = loadYaml(yamlFile) as Map;
   final versionStr = ' v${yamlDecoded['version']} ';
 
   final windowWidth = comm.console.windowWidth;

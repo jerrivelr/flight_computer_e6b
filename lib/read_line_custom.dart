@@ -5,7 +5,8 @@ import 'package:flight_e6b/shortcuts.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
 extension CustomConsole on Console {
-  String? readLineCustom(
+  String? input(
+      String? printOut,
       {bool cancelOnBreak = false,
         bool cancelOnEscape = false,
         bool cancelOnEOF = false,
@@ -27,7 +28,13 @@ extension CustomConsole on Console {
 
     final bufferMaxLength = windowWidth - screenColOffset - 3;
 
+    if (printOut != null) {
+      write(printOut);
+    }
+
+    setForegroundExtendedColor(180);
     write(buffer);
+
     final currentCol = cursorPosition!.col;
     cursorPosition = Coordinate(screenRow, currentCol - unit.length);
 
@@ -53,7 +60,7 @@ extension CustomConsole on Console {
             }
             comm.currentPosition++;
 
-            return buffer.substring(0, buffer.length - unit.length);
+            return buffer.substring(0, buffer.length - unit.length).trim();
           case ControlCharacter.ctrlC:
             if (cancelOnBreak) return null;
             break;
@@ -108,7 +115,7 @@ extension CustomConsole on Console {
             }
             comm.currentPosition++;
 
-            return buffer.substring(0, buffer.length - unit.length);
+            return buffer.substring(0, buffer.length - unit.length).trim();
           case ControlCharacter.arrowRight:
             if (index < buffer.length &&  index + 1 <= buffer.length - unit.length) {
               index++;

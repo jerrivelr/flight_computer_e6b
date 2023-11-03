@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flight_e6b/simple_io.dart';
+import 'package:flight_e6b/read_line_custom.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 import 'package:http/http.dart' as http;
 
@@ -11,7 +11,7 @@ final content = airportJson.readAsStringSync();
 final contentDecoded = jsonDecode(content);
 
 String? retrieveAirport([String? variable]) {
-  final idInput = input(null, onlyNumbers: false, charLimit: 4)?.toUpperCase();
+  final idInput = comm.console.input(null, onlyNumbers: false, charLimit: 4)?.toUpperCase();
 
   // If user inputs something inside the optionList global variable, it will exit the option and jump to the selected
   // option without creating any instance.
