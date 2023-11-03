@@ -6,7 +6,7 @@ import 'package:flight_e6b/communication_var.dart' as comm;
 
 class MenuLogic {
   MenuLogic({
-    required this.optionName,
+    required this.optionTitle,
     required this.inCaseInvalid,
     this.unit = '',
     this.digitLimit = 5,
@@ -22,7 +22,7 @@ class MenuLogic {
 
   int digitLimit;
   String unit;
-  String optionName;
+  String optionTitle;
   String inCaseInvalid;
   String ifNegative;
   String invalidDir;
@@ -45,7 +45,7 @@ class MenuLogic {
     switch (type) {
       case InputTitle.temperature:
         return MenuLogic(
-            optionName: InputTitle.temperature.title,
+            optionTitle: InputTitle.temperature.title,
             inCaseInvalid: 'Invalid Temperature',
             digitLimit: 3,
             unitLookup: temperatureUnit,
@@ -53,7 +53,7 @@ class MenuLogic {
         );
       case InputTitle.dewpoint:
         return MenuLogic(
-            optionName: InputTitle.dewpoint.title,
+            optionTitle: InputTitle.dewpoint.title,
             inCaseInvalid: 'Invalid Dewpoint',
             digitLimit: 3,
             unitLookup: temperatureUnit,
@@ -61,7 +61,7 @@ class MenuLogic {
         );
       case InputTitle.indicatedAlt:
         return MenuLogic(
-            optionName: InputTitle.indicatedAlt.title,
+            optionTitle: InputTitle.indicatedAlt.title,
             inCaseInvalid: 'Invalid Indicated Altitude',
             checkNegative: true,
             ifNegative: 'Indicated Altitude must be greater than 0',
@@ -70,7 +70,7 @@ class MenuLogic {
         );
       case InputTitle.baro:
         return MenuLogic(
-            optionName: InputTitle.baro.title,
+            optionTitle: InputTitle.baro.title,
             inCaseInvalid: 'Invalid Altimeter',
             digitLimit: 4,
             checkNegative: true,
@@ -80,7 +80,7 @@ class MenuLogic {
         );
       case InputTitle.distance:
         return MenuLogic(
-            optionName: InputTitle.distance.title,
+            optionTitle: InputTitle.distance.title,
             inCaseInvalid: 'Invalid Distance',
             checkNegative: true,
             ifNegative: 'Distance must be greater than 0',
@@ -89,7 +89,7 @@ class MenuLogic {
         );
       case InputTitle.time:
         return MenuLogic(
-            optionName: InputTitle.time.title,
+            optionTitle: InputTitle.time.title,
             inCaseInvalid: 'Invalid Time. Ex. 1.5.',
             checkNegative: true,
             digitLimit: 2,
@@ -99,7 +99,7 @@ class MenuLogic {
         );
       case InputTitle.calibratedAir:
         return MenuLogic(
-            optionName: InputTitle.calibratedAir.title,
+            optionTitle: InputTitle.calibratedAir.title,
             inCaseInvalid: 'Invalid Calibrated Airspeed',
             checkNegative: true,
             digitLimit: 3,
@@ -109,14 +109,14 @@ class MenuLogic {
         );
       case InputTitle.pressureAlt:
         return MenuLogic(
-            optionName: InputTitle.pressureAlt.title,
+            optionTitle: InputTitle.pressureAlt.title,
             inCaseInvalid: 'Invalid Pressure Altitude',
             unitLookup: altitudeUnit,
             inputType: type
         );
       case InputTitle.windDirection:
         return MenuLogic(
-            optionName: InputTitle.windDirection.title,
+            optionTitle: InputTitle.windDirection.title,
             inCaseInvalid: 'Invalid Wind Direction',
             checkDir: true,
             invalidDir: 'Wind Direction must be between 0° — 360°',
@@ -126,7 +126,7 @@ class MenuLogic {
         );
       case InputTitle.windSpeed:
         return MenuLogic(
-            optionName: InputTitle.windSpeed.title,
+            optionTitle: InputTitle.windSpeed.title,
             inCaseInvalid: 'Invalid Wind Speed',
             checkNegative: true,
             digitLimit: 3,
@@ -135,7 +135,7 @@ class MenuLogic {
         );
       case InputTitle.runway:
         return MenuLogic(
-            optionName: InputTitle.runway.title,
+            optionTitle: InputTitle.runway.title,
             inCaseInvalid: 'Invalid Runway',
             checkRunway: true,
             digitLimit: 2,
@@ -144,7 +144,7 @@ class MenuLogic {
         );
       case InputTitle.trueCourse:
         return MenuLogic(
-            optionName: InputTitle.trueCourse.title,
+            optionTitle: InputTitle.trueCourse.title,
             inCaseInvalid: 'Invalid Course',
             checkDir: true,
             digitLimit: 3,
@@ -154,7 +154,7 @@ class MenuLogic {
         );
       case InputTitle.trueAirspeed:
         return MenuLogic(
-            optionName: InputTitle.trueAirspeed.title,
+            optionTitle: InputTitle.trueAirspeed.title,
             inCaseInvalid: 'Invalid True Airspeed',
             digitLimit: 3,
             checkNegative: true,
@@ -164,7 +164,7 @@ class MenuLogic {
         );
       case InputTitle.fuelVolume:
         return MenuLogic(
-            optionName: InputTitle.fuelVolume.title,
+            optionTitle: InputTitle.fuelVolume.title,
             inCaseInvalid: 'Invalid Fuel Volume',
             checkNegative: true,
             ifNegative: 'Fuel Volume must be positive',
@@ -173,7 +173,7 @@ class MenuLogic {
         );
       case InputTitle.fuelRate:
         return MenuLogic(
-            optionName: InputTitle.fuelRate.title,
+            optionTitle: InputTitle.fuelRate.title,
             inCaseInvalid: 'Invalid Fuel Rate',
             digitLimit: 4,
             checkNegative: true,
@@ -183,7 +183,7 @@ class MenuLogic {
         );
       case InputTitle.groundSpeed:
         return MenuLogic(
-            optionName: InputTitle.groundSpeed.title,
+            optionTitle: InputTitle.groundSpeed.title,
             inCaseInvalid: 'Invalid Ground Speed',
             digitLimit: 3,
             checkNegative: true,
@@ -251,10 +251,10 @@ class MenuLogic {
     comm.console.setForegroundColor(ConsoleColor.brightWhite);
     if (comm.currentCursorPos?.row == _row || firstOption) {
       firstOption = false;
-      comm.console.write(optionName);
+      comm.console.write(optionTitle);
       comm.currentCursorPos = Coordinate(_row ?? 0, 0);
     } else {
-      comm.console.write(optionName);
+      comm.console.write(optionTitle);
       comm.console.setForegroundExtendedColor(180);
 
       if (_inputContent.isEmpty) {
