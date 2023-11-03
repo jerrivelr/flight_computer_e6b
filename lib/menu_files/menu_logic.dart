@@ -233,8 +233,6 @@ class MenuLogic {
     comm.errorMessage = '';
     comm.selectedOption = null;
 
-    // To indicate the screen will be refresh
-    comm.screenCleared = true;
     _inputContent = userInput;
     comm.inputValues[inputType] = _inputContent; // Saves the input value for reuse when the option is re access.
 

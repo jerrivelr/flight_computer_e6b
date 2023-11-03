@@ -75,7 +75,6 @@ Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async
 
     comm.noInternet = false;
     comm.formatError = false;
-    comm.screenCleared = true;
 
     comm.console.clearScreen();
 
