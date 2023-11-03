@@ -6,10 +6,10 @@ altitude:
     meters: ' M'
 speed:
     knots: ' KTS'
-    kilometersHours: ' KM/HR'
+    kilometer_hours: ' KM/HR'
     milesHour: ' MPH'
 distance:
-  nauticalMiles: ' NM'
+  nautical_miles: ' NM'
   feet: ' FT'
   inches: ' IN'
   kilometers: ' KM'
@@ -19,8 +19,16 @@ time:
   minute: ' MIN'
   seconds: ' SEC'
 pressure:
-  inchesOfMercury: ' InHg'
+  inches_of_mercury: ' InHg'
   millibars: ' MB'
 weight:
-  pound: ' LB'
+  pound: ' LBS'
   kilograms: ' KG'
+fuel_rate:
+  gallon_hour: ' GAL/HR'
+  pound_hour: ' LBS/HR'
+  liter_hour: ' L/HR'
+fuel_volume:
+  gallon: ' GAL'
+  pound: ' LBS'
+  liter: ' L'

@@ -25,5 +25,13 @@ selected_unit:
     inches_of_mercury: true
     millibars: false
   weight:
-    pound: true
-    kilograms: false
+    pound: false
+    kilograms: true
+  fuel_rate:
+    gallon_hour: false
+    pound_hour: true
+    liter_hour: false
+  fuel_volume:
+    gallon: true
+    pound: false
+    liter: false
