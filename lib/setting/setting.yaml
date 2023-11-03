@@ -1,3 +1,5 @@
+version: 0.6.1
+
 selected_unit:
   temperature:
     fahrenheit: false
