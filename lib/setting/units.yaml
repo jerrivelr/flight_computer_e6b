@@ -1,13 +1,13 @@
 temperature:
-    fahrenheit: ' °F'
-    celsius: ' °C'
+  fahrenheit: ' °F'
+  celsius: ' °C'
 altitude:
-    feet: ' FT'
-    meters: ' M'
+  feet: ' FT'
+  meters: ' M'
 speed:
-    knots: ' KTS'
-    kilometer_hours: ' KM/HR'
-    milesHour: ' MPH'
+  knots: ' KTS'
+  kilometer_hours: ' KM/HR'
+  milesHour: ' MPH'
 distance:
   nautical_miles: ' NM'
   feet: ' FT'
