@@ -22,6 +22,23 @@ String? temperatureUnit() {
   return null;
 }
 
+String? altitudeUnit() {
+  _updateFile();
+
+  final altMapBool = settingDecoded?['selected_unit']['altitude'] as YamlMap?;
+  final altUnits = unitDecoded?['altitude'] as YamlMap?;
+
+  if (altMapBool != null && altUnits != null) {
+    for (final item in altMapBool.entries) {
+      if (item.value == true) {
+        return altUnits[item.key];
+      }
+    }
+  }
+
+  return null;
+}
+
 void _updateFile() {
   final settingYaml = File(r'..\lib\setting\setting.yaml').readAsStringSync();
   settingDecoded = loadYaml(settingYaml) as YamlMap;
