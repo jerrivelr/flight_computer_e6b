@@ -1,34 +1,34 @@
-temperature:
+Temperature:
   fahrenheit: ' °F'
   celsius: ' °C'
-altitude:
+Altitude:
   feet: ' FT'
   meters: ' M'
-speed:
+Speed:
   knots: ' KTS'
   kilometer_hours: ' KM/HR'
   milesHour: ' MPH'
-distance:
+Distance:
   nautical_miles: ' NM'
   feet: ' FT'
   inches: ' IN'
   kilometers: ' KM'
   meters: ' M'
-time:
+Time:
   hour: ' HR'
   minute: ' MIN'
   seconds: ' SEC'
-pressure:
+Pressure:
   inches_of_mercury: ' InHg'
   millibars: ' MB'
-weight:
+Weight:
   pound: ' LBS'
   kilograms: ' KG'
-fuel_rate:
+Fuel Rate:
   gallon_hour: ' GAL/HR'
   pound_hour: ' LBS/HR'
   liter_hour: ' L/HR'
-fuel_volume:
+Fuel Volume:
   gallon: ' GAL'
   pound: ' LBS'
   liter: ' L'

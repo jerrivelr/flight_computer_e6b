@@ -8,8 +8,8 @@ YamlMap? unitDecoded;
 String? temperatureUnit() {
   _updateFile();
 
-  final tempMapBool = settingDecoded?['selected_unit']['temperature'] as YamlMap?;
-  final tempUnits = unitDecoded?['temperature'] as YamlMap?;
+  final tempMapBool = settingDecoded?['selected_unit']['Temperature'] as YamlMap?;
+  final tempUnits = unitDecoded?['Temperature'] as YamlMap?;
 
   if (tempMapBool != null && tempUnits != null) {
     for (final item in tempMapBool.entries) {
@@ -25,8 +25,8 @@ String? temperatureUnit() {
 String? altitudeUnit() {
   _updateFile();
 
-  final altMapBool = settingDecoded?['selected_unit']['altitude'] as YamlMap?;
-  final altUnits = unitDecoded?['altitude'] as YamlMap?;
+  final altMapBool = settingDecoded?['selected_unit']['Altitude'] as YamlMap?;
+  final altUnits = unitDecoded?['Altitude'] as YamlMap?;
 
   if (altMapBool != null && altUnits != null) {
     for (final item in altMapBool.entries) {
@@ -42,8 +42,8 @@ String? altitudeUnit() {
 String? speedUnit() {
   _updateFile();
 
-  final speedMapBool = settingDecoded?['selected_unit']['speed'] as YamlMap?;
-  final speedUnits = unitDecoded?['speed'] as YamlMap?;
+  final speedMapBool = settingDecoded?['selected_unit']['Speed'] as YamlMap?;
+  final speedUnits = unitDecoded?['Speed'] as YamlMap?;
 
   if (speedMapBool != null && speedUnits != null) {
     for (final item in speedMapBool.entries) {
@@ -59,8 +59,8 @@ String? speedUnit() {
 String? distanceUnit() {
   _updateFile();
 
-  final disMapBool = settingDecoded?['selected_unit']['distance'] as YamlMap?;
-  final disUnits = unitDecoded?['distance'] as YamlMap?;
+  final disMapBool = settingDecoded?['selected_unit']['Distance'] as YamlMap?;
+  final disUnits = unitDecoded?['Distance'] as YamlMap?;
 
   if (disMapBool != null && disUnits != null) {
     for (final item in disMapBool.entries) {
@@ -76,8 +76,8 @@ String? distanceUnit() {
 String? timeUnit() {
   _updateFile();
 
-  final timeMapBool = settingDecoded?['selected_unit']['time'] as YamlMap?;
-  final timeUnits = unitDecoded?['time'] as YamlMap?;
+  final timeMapBool = settingDecoded?['selected_unit']['Time'] as YamlMap?;
+  final timeUnits = unitDecoded?['Time'] as YamlMap?;
 
   if (timeMapBool != null && timeUnits != null) {
     for (final item in timeMapBool.entries) {
@@ -93,8 +93,8 @@ String? timeUnit() {
 String? pressUnit() {
   _updateFile();
 
-  final pressMapBool = settingDecoded?['selected_unit']['pressure'] as YamlMap?;
-  final pressUnits = unitDecoded?['pressure'] as YamlMap?;
+  final pressMapBool = settingDecoded?['selected_unit']['Pressure'] as YamlMap?;
+  final pressUnits = unitDecoded?['Pressure'] as YamlMap?;
 
   if (pressMapBool != null && pressUnits != null) {
     for (final item in pressMapBool.entries) {
@@ -110,8 +110,8 @@ String? pressUnit() {
 String? weightUnit() {
   _updateFile();
 
-  final weightMapBool = settingDecoded?['selected_unit']['weight'] as YamlMap?;
-  final weightUnits = unitDecoded?['weight'] as YamlMap?;
+  final weightMapBool = settingDecoded?['selected_unit']['Weight'] as YamlMap?;
+  final weightUnits = unitDecoded?['Weight'] as YamlMap?;
 
   if (weightMapBool != null && weightUnits != null) {
     for (final item in weightMapBool.entries) {
@@ -127,8 +127,8 @@ String? weightUnit() {
 String? fuelRateUnit() {
   _updateFile();
 
-  final rateMapBool = settingDecoded?['selected_unit']['fuel_rate'] as YamlMap?;
-  final rateUnits = unitDecoded?['fuel_rate'] as YamlMap?;
+  final rateMapBool = settingDecoded?['selected_unit']['Fuel Rate'] as YamlMap?;
+  final rateUnits = unitDecoded?['Fuel Rate'] as YamlMap?;
 
   if (rateMapBool != null && rateUnits != null) {
     for (final item in rateMapBool.entries) {
@@ -144,8 +144,8 @@ String? fuelRateUnit() {
 String? fuelUnit() {
   _updateFile();
 
-  final fuelMapBool = settingDecoded?['selected_unit']['fuel_volume'] as YamlMap?;
-  final fuelUnits = unitDecoded?['fuel_volume'] as YamlMap?;
+  final fuelMapBool = settingDecoded?['selected_unit']['Fuel Volume'] as YamlMap?;
+  final fuelUnits = unitDecoded?['Fuel Volume'] as YamlMap?;
 
   if (fuelMapBool != null && fuelUnits != null) {
     for (final item in fuelMapBool.entries) {
@@ -160,8 +160,8 @@ String? fuelUnit() {
 
 void _updateFile() {
   final settingYaml = File(r'..\lib\setting\setting.yaml').readAsStringSync();
-  settingDecoded = loadYaml(settingYaml) as YamlMap;
+  settingDecoded = loadYaml(settingYaml);
 
   final unitYaml = File(r'..\lib\setting\units.yaml').readAsStringSync();
-  unitDecoded = loadYaml(unitYaml) as YamlMap;
+  unitDecoded = loadYaml(unitYaml);
 }
