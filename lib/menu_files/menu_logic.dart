@@ -64,8 +64,8 @@ class MenuLogic {
             optionName: InputInfo.indicatedAlt.title,
             inCaseInvalid: 'Invalid Indicated Altitude',
             checkNegative: true,
-            ifNegative: 'Indicated Altitude must be greater than 0ft',
-            unit: InputInfo.indicatedAlt.unit,
+            ifNegative: 'Indicated Altitude must be greater than 0',
+            unitLookup: altitudeUnit,
             inputType: type
         );
       case InputInfo.baro:
@@ -74,8 +74,8 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Altimeter',
             digitLimit: 4,
             checkNegative: true,
-            ifNegative: 'Altimeter setting must be greater than 0 InHg',
-            unit: InputInfo.baro.unit,
+            ifNegative: 'Altimeter setting must be greater than 0',
+            unitLookup: pressUnit,
             inputType: type
         );
       case InputInfo.distance:
@@ -83,8 +83,8 @@ class MenuLogic {
             optionName: InputInfo.distance.title,
             inCaseInvalid: 'Invalid Distance',
             checkNegative: true,
-            ifNegative: 'Distance must be greater than 0nm',
-            unit: InputInfo.distance.unit,
+            ifNegative: 'Distance must be greater than 0',
+            unitLookup: distanceUnit,
             inputType: type
         );
       case InputInfo.time:
@@ -94,7 +94,7 @@ class MenuLogic {
             checkNegative: true,
             digitLimit: 2,
             ifNegative: 'Time must be greater than 0 hr',
-            unit: InputInfo.time.unit,
+            unitLookup: timeUnit,
             inputType: type
         );
       case InputInfo.calibratedAir:
@@ -103,15 +103,15 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Calibrated Airspeed',
             checkNegative: true,
             digitLimit: 3,
-            ifNegative: 'Calibrated Airspeed must be greater than 0kt',
-            unit: InputInfo.calibratedAir.unit,
+            ifNegative: 'Calibrated Airspeed must be greater than 0',
+            unitLookup: speedUnit,
             inputType: type
         );
       case InputInfo.pressureAlt:
         return MenuLogic(
             optionName: InputInfo.pressureAlt.title,
             inCaseInvalid: 'Invalid Pressure Altitude',
-            unit: InputInfo.pressureAlt.unit,
+            unitLookup: altitudeUnit,
             inputType: type
         );
       case InputInfo.windDirection:
@@ -130,7 +130,7 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Wind Speed',
             checkNegative: true,
             digitLimit: 3,
-            unit: InputInfo.windSpeed.unit,
+            unitLookup: speedUnit,
             inputType: type
         );
       case InputInfo.runway:
@@ -159,7 +159,7 @@ class MenuLogic {
             digitLimit: 3,
             checkNegative: true,
             ifNegative: 'True Airspeed must be positive',
-            unit: InputInfo.trueAirspeed.unit,
+            unitLookup: speedUnit,
             inputType: type
         );
       case InputInfo.fuelVolume:
@@ -168,7 +168,7 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Fuel Volume',
             checkNegative: true,
             ifNegative: 'Fuel Volume must be positive',
-            unit: InputInfo.fuelVolume.unit,
+            unitLookup: fuelUnit,
             inputType: type
         );
       case InputInfo.fuelRate:
@@ -178,7 +178,7 @@ class MenuLogic {
             digitLimit: 4,
             checkNegative: true,
             ifNegative: 'Fuel Rate must be greater than 0 Gal/hr',
-            unit: InputInfo.fuelRate.unit,
+            unitLookup: fuelRateUnit,
             inputType: type
         );
       case InputInfo.groundSpeed:
@@ -187,8 +187,8 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Ground Speed',
             digitLimit: 3,
             checkNegative: true,
-            ifNegative: 'Ground Speed must be greater than 0 KT',
-            unit: InputInfo.groundSpeed.unit,
+            ifNegative: 'Ground Speed must be greater than 0',
+            unitLookup: speedUnit,
             inputType: type
         );
     }
@@ -246,7 +246,7 @@ class MenuLogic {
   void printInput() {
     _inputContent = comm.inputValues[inputType] ?? '';
     _row = comm.console.cursorPosition?.row;
-    if (unitLookup != null ) _unit = unitLookup!() ?? '';
+    _unit = (unitLookup != null) ? unitLookup!() : unit;
 
     comm.console.setForegroundColor(ConsoleColor.brightWhite);
     if (comm.currentCursorPos?.row == _row || firstOption) {
@@ -272,7 +272,7 @@ class MenuLogic {
 
   String? _inputChecker(String? printOut, {String ifInvalid = 'Invalid number', }) {
     String? userInput;
-    if (unitLookup != null ) _unit = unitLookup!() ?? '';
+    _unit = (unitLookup != null) ? unitLookup!() : unit;
 
     userInput = comm.console.input(printOut, unit: _unit.toString(), inputContent: _inputContent, charLimit: digitLimit)?.toLowerCase();
 
