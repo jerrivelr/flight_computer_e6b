@@ -81,8 +81,8 @@ void printDownData(Map<String, String> data) {
 
 void screenHeader({required String title, int color = 22, bool errorWindow = true}) {
   final yamlFile = File(r'..\lib\setting\setting.yaml').readAsStringSync();
-  final yamlDecoded = loadYaml(yamlFile) as Map;
-  final versionStr = ' v${yamlDecoded['version']} ';
+  final yamlDecoded = loadYaml(yamlFile) as YamlMap?;
+  final versionStr = ' v${yamlDecoded?['version']} ';
 
   final windowWidth = comm.console.windowWidth;
   final windowHalf = (windowWidth / 2) - (title.length / 2);
