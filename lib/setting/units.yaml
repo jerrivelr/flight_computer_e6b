@@ -1,6 +1,6 @@
 Temperature:
-  fahrenheit: ' °F'
   celsius: ' °C'
+  fahrenheit: ' °F'
 Altitude:
   feet: ' FT'
   meters: ' M'
@@ -10,10 +10,10 @@ Speed:
   milesHour: ' MPH'
 Distance:
   nautical_miles: ' NM'
-  feet: ' FT'
+  dis_feet: ' FT'
   inches: ' IN'
   kilometers: ' KM'
-  meters: ' M'
+  dis_meters: ' M'
 Time:
   hour: ' HR'
   minute: ' MIN'
@@ -22,12 +22,12 @@ Pressure:
   inches_of_mercury: ' InHg'
   millibars: ' MB'
 Weight:
-  pound: ' LBS'
+  weight_pound: ' LBS'
   kilograms: ' KG'
 Fuel Rate:
-  gallon_hour: ' GAL/HR'
-  pound_hour: ' LBS/HR'
-  liter_hour: ' L/HR'
+  gallon: ' GAL/HR'
+  pound: ' LBS/HR'
+  liter: ' L/HR'
 Fuel Volume:
   gallon: ' GAL'
   pound: ' LBS'

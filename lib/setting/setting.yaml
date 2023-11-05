@@ -1,37 +1,36 @@
-version: 0.6.2
-
-selected_unit:
-  Temperature:
-    fahrenheit: false
+version: 0.7.0
+selected_unit: 
+  Temperature: 
     celsius: true
-  Altitude:
+    fahrenheit: false
+  Altitude: 
     feet: true
     meters: false
-  Speed:
+  Speed: 
     knots: true
     kilometer_hours: false
     milesHour: false
-  Distance:
+  Distance: 
     nautical_miles: true
-    feet: false
+    dis_feet: false
     inches: false
     kilometers: false
-    meters: false
-  Time:
+    dis_meters: false
+  Time: 
     hour: true
     minute: false
     seconds: false
-  Pressure:
+  Pressure: 
     inches_of_mercury: true
     millibars: false
-  Weight:
+  Weight: 
+    weight_pound: true
+    kilograms: false
+  Fuel Rate: 
+    gallon: true
     pound: false
-    kilograms: true
-  Fuel Rate:
-    gallon_hour: false
-    pound_hour: true
-    liter_hour: false
-  Fuel Volume:
+    liter: false
+  Fuel Volume: 
     gallon: true
     pound: false
     liter: false
