@@ -67,24 +67,24 @@ var _returnMenu = false;
 OptionIdent? settingScreen() {
   comm.selectedOption = null;
   _currentHighlight = 0;
+  comm.currentPosition = 0;
 
   while (comm.selectedOption == null) {
     screenHeader(title: 'SETTINGS');
 
     final settingYaml = File(r'..\lib\setting\setting.yaml').readAsStringSync();
     final unitYaml = File(r'..\lib\setting\units.yaml').readAsStringSync();
-    var settingDecoded = loadYaml(settingYaml) as YamlMap?;
+    var settingDecoded = loadYaml(settingYaml)?['selected_unit'] as YamlMap?;
     var unitDecoded = loadYaml(unitYaml) as YamlMap?;
 
     _printSettingTitle('Select Unit:');
 
     if (settingDecoded != null && unitDecoded != null) {
       comm.console.setForegroundColor(ConsoleColor.white);
+      comm.console.hideCursor();
 
-      final settingMap = settingDecoded['selected_unit'] as YamlMap;
-      final settingKeys = settingMap.keys.toList();
-
-      _highlightControl(settingMap);
+      final settingKeys = settingDecoded.keys.toList();
+      _highlightControl(settingDecoded);
 
       for (var item in unitDecoded.entries) {
         final optionLength = item.key.length;
@@ -113,7 +113,7 @@ OptionIdent? settingScreen() {
             comm.console.resetColorAttributes();
             _selection = {settingKeys[_currentHighlight]: _selectedRowKeys[_unitSelection]};
 
-          } else if (settingMap[item.key][val.key] == true) {
+          } else if (settingDecoded[item.key][val.key] == true) {
             comm.console.setBackgroundExtendedColor(22);
             comm.console.write(unitPadded);
             comm.console.resetColorAttributes();
@@ -128,10 +128,20 @@ OptionIdent? settingScreen() {
       }
     }
 
-    final backOrNot = interMenu(_currentHighlight > 9, _helpMenu);
-    if (!backOrNot) _keyLogic();
+    final backOrNot = interMenu(comm.currentPosition >= (settingDecoded?.length ?? 0), _helpMenu);
+    if (backOrNot) continue;
+
+    if (_returnMenu == true) {
+      _returnMenu = false;
+      comm.console.clearScreen();
+      continue;
+    }
+
+    _keyLogic();
   }
 
+  _returnMenu = false;
+  comm.console.showCursor();
   return comm.selectedOption;
 }
 
@@ -148,6 +158,7 @@ void _highlightControl(Map map) {
     _returnMenu = true;
   } else if (_currentHighlight < 0) {
     _currentHighlight = map.length - 1;
+    comm.currentPosition = map.length - 1;
   }
 }
 
@@ -170,6 +181,7 @@ void _keyLogic() {
       }
 
       _currentHighlight++;
+      comm.currentPosition++;
       comm.console.clearScreen();
       break;
     case ControlCharacter.arrowUp:
@@ -179,6 +191,7 @@ void _keyLogic() {
       }
 
       _currentHighlight--;
+      if (comm.currentPosition > 0) comm.currentPosition--;
       comm.console.clearScreen();
       break;
     case ControlCharacter.arrowLeft:

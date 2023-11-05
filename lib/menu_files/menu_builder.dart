@@ -170,6 +170,5 @@ bool interMenu(bool condition, [Map<String, OptionIdent?> options = const {'Retu
     return true;
   }
 
-  comm.console.showCursor();
   return false;
 }
