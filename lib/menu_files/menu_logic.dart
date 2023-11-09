@@ -35,10 +35,11 @@ class MenuLogic {
 
   var _inputContent = '';
 
-  int? _row = 0;
-  int? _colum = 0;
-  int? get row => _row;
-  int? get colum => _colum;
+  int _row = 0;
+  int _colum = 0;
+
+  int get row => _row;
+  int get colum => _colum;
   Object? _unit;
 
   factory MenuLogic.screenType(InputTitle type) {
