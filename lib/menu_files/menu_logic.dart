@@ -140,7 +140,6 @@ class MenuLogic {
             inCaseInvalid: 'Invalid Runway',
             checkRunway: true,
             digitLimit: 2,
-            unit: '°',
             inputType: type
         );
       case InputTitle.trueCourse:
