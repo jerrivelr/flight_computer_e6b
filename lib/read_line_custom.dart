@@ -16,15 +16,18 @@ extension CustomConsole on Console {
         String unit = '',
         void Function(String text, Key lastPressed)? callback}) {
 
-    const allowedChars = ['.', '-'];
     var buffer = inputContent + unit;
     var index = buffer.length - unit.length; // cursor position relative to buffer, not screen
-    final symbolLookup = RegExp(r'[-.]');
 
-    var charAmount = index - symbolLookup.allMatches(buffer).length;
+    final regexDigit = '\\d{0,$charLimit}';
+    final regexSymbols = r'-|\.|-\.';
 
-    final screenRow = cursorPosition?.row ?? 0;
-    final screenColOffset = cursorPosition?.col ?? 0;
+    final letterFilter = RegExp('^\\w{0,$charLimit}\$');
+    final numberFilter = RegExp('^(($regexSymbols)?$regexDigit\$)\$|^(-?$regexDigit(\\.\\d{0,6})?)\$');
+    final noReturn = RegExp(r'^[.-]{1,2}$');
+
+    final screenRow = cursorPosition?.row ?? inputRow;
+    final screenColOffset = cursorPosition?.col ?? inputCol;
 
     final bufferMaxLength = windowWidth - screenColOffset - 3;
 
@@ -74,7 +77,6 @@ extension CustomConsole on Console {
               index--;
             }
 
-            if (charAmount > 0) charAmount--;
             break;
           case ControlCharacter.ctrlS:
             buffer = buffer.substring(index, buffer.length);
@@ -153,21 +155,16 @@ extension CustomConsole on Console {
           default:
             break;
         }
-      } else if (buffer.length < bufferMaxLength) {
+      } else if (buffer.length < bufferMaxLength && key.char != ' ') {
         key.char = key.char.toUpperCase();
 
-        if (symbolLookup.hasMatch(key.char)) {
+        var nextBuffer = buffer.substring(0, index) + key.char + buffer.substring(index);
+        nextBuffer = nextBuffer.substring(0, nextBuffer.length - unit.length).trim();
 
-        } else {
-          charAmount++;
-        }
-
-        if (int.tryParse(key.char) == null && onlyNumbers && !allowedChars.contains(key.char)) {
+        if (onlyNumbers && !numberFilter.hasMatch(nextBuffer)) {
           key.char = '';
-          charAmount--;
-        } else if (charAmount > charLimit) {
+        } else if (!onlyNumbers && !letterFilter.hasMatch(nextBuffer)) {
           key.char = '';
-          charAmount--;
         } else if (index == buffer.length) {
           buffer += key.char;
           index++;
@@ -183,6 +180,11 @@ extension CustomConsole on Console {
       cursorPosition = Coordinate(screenRow, screenColOffset + index);
 
       if (callback != null) callback(buffer, key);
+
+      final returnString = buffer.substring(0, buffer.length - unit.length).trim();
+
+      if (noReturn.hasMatch(returnString)) continue;
+      if (liveReturn) return returnString;
     }
   }
 
