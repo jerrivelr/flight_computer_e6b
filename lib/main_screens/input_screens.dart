@@ -69,8 +69,8 @@ OptionIdent? cloudBaseScreen() {
     if (menu) continue;
 
     final positions = [
-      Coordinate(tp.tempInput.row!, tp.tempInput.colum!),
-      Coordinate(tp.dewInput.row!, tp.dewInput.colum!),
+      Coordinate(tp.tempInput.row, tp.tempInput.colum),
+      Coordinate(tp.dewInput.row, tp.dewInput.colum),
     ];
 
     pos.changePosition(positions);
@@ -189,9 +189,9 @@ OptionIdent? trueAirspeedScreen() {
     if (menu) continue;
 
     final positions = [
-      Coordinate(tp.calibratedInput.row!, tp.calibratedInput.colum!),
-      Coordinate(tp.pressAltInput.row!, tp.pressAltInput.colum!),
-      Coordinate(tp.tempInput.row!, tp.tempInput.colum!),
+      Coordinate(tp.calibratedInput.row, tp.calibratedInput.colum),
+      Coordinate(tp.pressAltInput.row, tp.pressAltInput.colum),
+      Coordinate(tp.tempInput.row, tp.tempInput.colum),
     ];
 
     pos.changePosition(positions);
@@ -246,9 +246,9 @@ OptionIdent? windComponentScreen() {
     if (menu) continue;
 
     final positions = [
-      Coordinate(tp.windDirInput.row!, tp.windDirInput.colum!),
-      Coordinate(tp.windSpeedInput.row!, tp.windSpeedInput.colum!),
-      Coordinate(tp.runwayInput.row!, tp.runwayInput.colum!),
+      Coordinate(tp.windDirInput.row, tp.windDirInput.colum),
+      Coordinate(tp.windSpeedInput.row, tp.windSpeedInput.colum),
+      Coordinate(tp.runwayInput.row, tp.runwayInput.colum),
     ];
 
     pos.changePosition(positions);
@@ -326,10 +326,10 @@ OptionIdent? headingCorrectionScreen() {
     if (menu) continue;
 
     final positions = [
-      Coordinate(tp.trueAirspeedInput.row!, tp.trueAirspeedInput.colum!),
-      Coordinate(tp.trueCourseInput.row!, tp.trueCourseInput.colum!),
-      Coordinate(tp.windDirInput.row!, tp.windDirInput.colum!),
-      Coordinate(tp.windSpeedInput.row!, tp.windSpeedInput.colum!),
+      Coordinate(tp.trueAirspeedInput.row, tp.trueAirspeedInput.colum),
+      Coordinate(tp.trueCourseInput.row, tp.trueCourseInput.colum),
+      Coordinate(tp.windDirInput.row, tp.windDirInput.colum),
+      Coordinate(tp.windSpeedInput.row, tp.windSpeedInput.colum),
     ];
 
     pos.changePosition(positions);

@@ -43,8 +43,8 @@ OptionIdent? volumeScreen() {
     if (menu) continue;
 
     final positions = [
-      Coordinate(tp.fuelRateInput.row!, tp.fuelRateInput.colum!),
-      Coordinate(tp.timeInput.row!, tp.timeInput.colum!),
+      Coordinate(tp.fuelRateInput.row, tp.fuelRateInput.colum),
+      Coordinate(tp.timeInput.row, tp.timeInput.colum),
     ];
 
     pos.changePosition(positions);
@@ -105,8 +105,8 @@ OptionIdent? enduranceScreen() {
     if (menu) continue;
 
     final positions = [
-      Coordinate(tp.volumeInput.row!, tp.volumeInput.colum!),
-      Coordinate(tp.fuelRateInput.row!, tp.fuelRateInput.colum!),
+      Coordinate(tp.volumeInput.row, tp.volumeInput.colum),
+      Coordinate(tp.fuelRateInput.row, tp.fuelRateInput.colum),
     ];
 
     pos.changePosition(positions);
@@ -160,8 +160,8 @@ OptionIdent? fuelRateScreen() {
     if (menu) continue;
 
     final positions = [
-      Coordinate(tp.volumeInput.row!, tp.volumeInput.colum!),
-      Coordinate(tp.timeInput.row!, tp.timeInput.colum!),
+      Coordinate(tp.volumeInput.row, tp.volumeInput.colum),
+      Coordinate(tp.timeInput.row, tp.timeInput.colum),
     ];
 
     pos.changePosition(positions);

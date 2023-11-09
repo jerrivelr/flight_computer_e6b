@@ -46,8 +46,8 @@ OptionIdent? speedScreen() {
     if (menu) continue;
 
     final positions = [
-      Coordinate(tp.distanceInput.row!, tp.distanceInput.colum!),
-      Coordinate(tp.timeInput.row!, tp.timeInput.colum!),
+      Coordinate(tp.distanceInput.row, tp.distanceInput.colum),
+      Coordinate(tp.timeInput.row, tp.timeInput.colum),
     ];
 
     pos.changePosition(positions);
@@ -102,8 +102,8 @@ OptionIdent? durationScreen() {
     if (menu) continue;
 
     final positions = [
-      Coordinate(tp.distanceInput.row!, tp.distanceInput.colum!),
-      Coordinate(tp.groundSpeedInput.row!, tp.groundSpeedInput.colum!),
+      Coordinate(tp.distanceInput.row, tp.distanceInput.colum),
+      Coordinate(tp.groundSpeedInput.row, tp.groundSpeedInput.colum),
     ];
 
     pos.changePosition(positions);
@@ -156,8 +156,8 @@ OptionIdent? distanceScreen() {
     if (menu) continue;
 
     final positions = [
-      Coordinate(tp.groundSpeedInput.row!, tp.groundSpeedInput.colum!),
-      Coordinate(tp.timeInput.row!, tp.timeInput.colum!),
+      Coordinate(tp.groundSpeedInput.row, tp.groundSpeedInput.colum),
+      Coordinate(tp.timeInput.row, tp.timeInput.colum),
     ];
 
     pos.changePosition(positions);
