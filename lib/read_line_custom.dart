@@ -1,20 +1,13 @@
 import 'dart:math';
 
 import 'package:dart_console/dart_console.dart';
+import 'package:flight_e6b/enums.dart';
 import 'package:flight_e6b/shortcuts.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
 extension CustomConsole on Console {
-  String? input(
-      String? printOut,
-      {bool cancelOnBreak = false,
-        bool cancelOnEscape = false,
-        bool cancelOnEOF = false,
-        bool onlyNumbers = true,
-        int charLimit = 10,
-        String inputContent = '',
-        String unit = '',
-        void Function(String text, Key lastPressed)? callback}) {
+  String? input({String? printOut, bool onlyNumbers = true, int charLimit = 10, String inputContent = '', String unit = '',
+      int inputRow = 0, int inputCol = 0, bool liveReturn = false, void Function(String text, Key lastPressed)? callback}) {
 
     var buffer = inputContent + unit;
     var index = buffer.length - unit.length; // cursor position relative to buffer, not screen
@@ -54,22 +47,13 @@ extension CustomConsole on Console {
 
         switch (key.controlChar) {
           case ControlCharacter.enter:
-            if (scrollbackBuffer != null) {
-              scrollbackBuffer!.add(buffer);
-            }
+            if (scrollbackBuffer != null) scrollbackBuffer!.add(buffer);
 
-            if (buffer.isEmpty) {
-              break;
-            }
+            if (buffer.isEmpty) break;
+
             comm.currentPosition++;
 
             return buffer.substring(0, buffer.length - unit.length).trim();
-          case ControlCharacter.ctrlC:
-            if (cancelOnBreak) return null;
-            break;
-          case ControlCharacter.escape:
-            if (cancelOnEscape) return null;
-            break;
           case ControlCharacter.backspace:
           case ControlCharacter.ctrlH:
             if (index > 0) {
@@ -86,9 +70,8 @@ extension CustomConsole on Console {
           case ControlCharacter.ctrlD:
             if (index < buffer.length) {
               buffer = buffer.substring(0, index) + buffer.substring(index + 1);
-            } else if (cancelOnEOF) {
-              return null;
             }
+
             break;
           case ControlCharacter.ctrlK:
             buffer = buffer.substring(0, index);
