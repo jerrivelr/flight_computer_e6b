@@ -93,7 +93,7 @@ class MenuLogic {
             optionTitle: InputTitle.time.title,
             inCaseInvalid: 'Invalid Time. Ex. 1.5.',
             checkNegative: true,
-            digitLimit: 2,
+            digitLimit: 3,
             ifNegative: 'Time must be greater than 0 hr',
             unitLookup: timeUnit,
             inputType: type
