@@ -1,11 +1,12 @@
-import 'package:dart_console/dart_console.dart';
-import 'package:flight_e6b/setting/setting_lookup.dart';
-import 'package:flight_e6b/simple_io.dart';
-import 'package:flight_e6b/input_type.dart' as tp;
-import 'package:flight_e6b/cursor_position.dart' as pos;
-import 'package:flight_e6b/communication_var.dart' as comm;
-import 'package:flight_e6b/menu_files/menu_builder.dart';
 import 'package:flight_e6b/enums.dart';
+import 'package:flight_e6b/simple_io.dart';
+import 'package:dart_console/dart_console.dart';
+import 'package:flight_e6b/input_type.dart' as tp;
+import 'package:flight_e6b/setting/setting_lookup.dart';
+import 'package:flight_e6b/cursor_position.dart' as pos;
+import 'package:flight_e6b/menu_files/menu_builder.dart';
+import 'package:flight_e6b/communication_var.dart' as comm;
+import 'package:flight_e6b/conversion/conversion_func.dart';
 
 const options = {
   'Return to:': null,
@@ -30,15 +31,15 @@ OptionIdent? volumeScreen() {
     tp.fuelRateInput.printInput();
     tp.timeInput.printInput();
 
-    fuelVolume = (fuelRate == null || fuelTime == null) ? null : fuelRate * fuelTime;
-    fuelWeight = (fuelVolume == null) ? null : fuelVolume * 6;
+    fuelVolume = (fuelRate == null || fuelTime == null) ? null : fuelRate * timeConvHr(time: fuelTime);
+    fuelWeight = (fuelVolume == null) ? null : fuelWeightConv(fuelVolume);
 
     resultPrinter([
       'Fuel Volume: ${formatNumber(fuelVolume)}${fuelUnit()}',
       'Fuel Weight: ${formatNumber(fuelWeight)}${weightUnit()}'
     ]);
 
-    final menu = interMenu(comm.currentPosition > 1, options);
+    final menu = returnMenu(comm.currentPosition > 1, options);
     if (menu) continue;
 
     final positions = [
@@ -84,15 +85,23 @@ OptionIdent? enduranceScreen() {
     tp.fuelRateInput.printInput();
 
     comm.errorMessage = (fuelRate == 0) ? 'Fuel rate must be greater than 0' : '';
-    endurance = (fuelRate == 0 || fuelRate == null || fuelVolume == null) ? null : fuelVolume / fuelRate;
-    fuelWeight = (fuelVolume == null) ? null : fuelVolume * 6;
+
+    final inputsNotNull = fuelRate == 0 || fuelRate == null || fuelVolume == null;
+    endurance = (inputsNotNull) ? null : fuelVolume / fuelRate;
+
+    if (endurance != null) {
+      endurance = timeConvHr(time: endurance, convResult: true);
+      comm.inputValues[InputTitle.time] = formatNumber(endurance);
+    }
+
+    fuelWeight = (fuelVolume == null) ? null : fuelWeightConv(fuelVolume);
 
     resultPrinter([
       'Fuel Endurance: ${formatNumber(endurance)}${timeUnit()}',
       'Fuel Weight: ${formatNumber(fuelWeight)}${weightUnit()}'
     ]);
 
-    final menu = interMenu(comm.currentPosition > 1, options);
+    final menu = returnMenu(comm.currentPosition > 1, options);
     if (menu) continue;
 
     final positions = [
@@ -138,15 +147,16 @@ OptionIdent? fuelRateScreen() {
     tp.timeInput.printInput();
 
     comm.errorMessage = (fuelTime == 0) ? 'Time must be greater than 0' : '';
-    fuelRate = (fuelTime == 0 || fuelTime == null || fuelVolume == null) ? null : fuelVolume / fuelTime;
-    fuelWeight = (fuelVolume == null) ? null : fuelVolume * 6;
+    final inputsNotNull = fuelTime == 0 || fuelTime == null || fuelVolume == null;
+    fuelRate = (inputsNotNull) ? null : fuelVolume / timeConvHr(time: fuelTime);
+    fuelWeight = (fuelVolume == null) ? null : fuelWeightConv(fuelVolume);
 
     resultPrinter([
       'Fuel Rate: ${formatNumber(fuelRate)}${fuelRateUnit()}',
       'Fuel Weight: ${formatNumber(fuelWeight)}${weightUnit()}'
     ]);
 
-    final menu = interMenu(comm.currentPosition > 1, options);
+    final menu = returnMenu(comm.currentPosition > 1, options);
     if (menu) continue;
 
     final positions = [

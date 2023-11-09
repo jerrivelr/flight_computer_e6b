@@ -1,11 +1,12 @@
 import 'package:flight_e6b/enums.dart';
-import 'package:flight_e6b/setting/setting_lookup.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/input_type.dart' as tp;
+import 'package:flight_e6b/setting/setting_lookup.dart';
 import 'package:flight_e6b/cursor_position.dart' as pos;
 import 'package:flight_e6b/menu_files/menu_builder.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
+import 'package:flight_e6b/conversion/conversion_func.dart';
 
 const options = {
   'Return to:': null,
@@ -16,10 +17,10 @@ const options = {
 OptionIdent? speedScreen() {
   tp.distanceInput.firstOption = true;
 
-  double? distanceNm = double.tryParse(comm.inputValues[tp.distanceInput.inputType] ?? '');
+  double? distance = double.tryParse(comm.inputValues[tp.distanceInput.inputType] ?? '');
   double? timeHr = double.tryParse(comm.inputValues[tp.timeInput.inputType] ?? '');
 
-  int? calGroundSpeed;
+  double? calGroundSpeed;
   comm.currentPosition = 0;
   comm.selectedOption = null;
 
@@ -30,13 +31,18 @@ OptionIdent? speedScreen() {
     tp.timeInput.printInput();
 
     comm.errorMessage = (timeHr == 0) ? 'Time must be greater than 0' : '';
-    calGroundSpeed = (distanceNm == null || timeHr == null || timeHr == 0) ? null : (distanceNm / timeHr).round();
 
-    comm.inputValues[InputTitle.groundSpeed] = calGroundSpeed?.toString();
+    final inputsNotNull = distance == null || timeHr == null || timeHr == 0;
+    calGroundSpeed = (inputsNotNull) ? null : distanceConvNm(distance: distance) / timeConvHr(time: timeHr);
 
-    resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed)}'], unit: speedUnit);
+    if (calGroundSpeed != null) {
+      calGroundSpeed = speedConvKnt(speed: calGroundSpeed, convResult: true); // result conversion
+      comm.inputValues[InputTitle.groundSpeed] = formatNumber(calGroundSpeed);
+    }
 
-    final menu = interMenu(comm.currentPosition > 1, options);
+    resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed?.round())}'], unit: speedUnit);
+
+    final menu = returnMenu(comm.currentPosition > 1, options);
     if (menu) continue;
 
     final positions = [
@@ -48,7 +54,7 @@ OptionIdent? speedScreen() {
 
     switch (comm.currentPosition) {
       case 0:
-        distanceNm = tp.distanceInput.optionLogic();
+        distance = tp.distanceInput.optionLogic();
         break;
       case 1:
         timeHr = tp.timeInput.optionLogic();
@@ -81,13 +87,18 @@ OptionIdent? durationScreen() {
     tp.groundSpeedInput.printInput();
 
     comm.errorMessage = (groundSpeedKt == 0) ? 'Ground Speed must greater than 0' : '';
-    result = (distance == null || groundSpeedKt == null || groundSpeedKt == 0) ? null : distance / groundSpeedKt.round();
 
-    comm.inputValues[InputTitle.time] = result?.toStringAsPrecision(2);
+    final inputsNotNull = distance == null || groundSpeedKt == null || groundSpeedKt == 0;
+    result = (inputsNotNull) ? null : distanceConvNm(distance: distance) / speedConvKnt(speed: groundSpeedKt).round();
+
+    if (result != null) {
+      result = timeConvHr(time: result, convResult: true);       // result conversion
+      comm.inputValues[InputTitle.time] = formatNumber(result);
+    }
 
     resultPrinter(['Duration: ${formatNumber(result)}'], unit: timeUnit);
 
-    final menu = interMenu(comm.currentPosition > 1, options);
+    final menu = returnMenu(comm.currentPosition > 1, options);
     if (menu) continue;
 
     final positions = [
@@ -121,7 +132,7 @@ OptionIdent? distanceScreen() {
   double? groundSpeedKt = double.tryParse(comm.inputValues[tp.groundSpeedInput.inputType] ?? '');
   double? timeHr = double.tryParse(comm.inputValues[tp.timeInput.inputType] ?? '');
 
-  int? result;
+  double? result;
   comm.currentPosition = 0;
   comm.selectedOption = null;
 
@@ -131,13 +142,17 @@ OptionIdent? distanceScreen() {
     tp.groundSpeedInput.printInput();
     tp.timeInput.printInput();
 
-    result = (timeHr == null || groundSpeedKt == null) ? null : (groundSpeedKt * timeHr).round();
+    final inputsNotNull = timeHr == null || groundSpeedKt == null;
+    result = (inputsNotNull) ? null : (speedConvKnt(speed: groundSpeedKt) * timeConvHr(time: timeHr));
 
-    comm.inputValues[InputTitle.distance] = result?.toString();
+    if (result != null) {
+      result = distanceConvNm(distance: result, convResult: true); // result conversion
+      comm.inputValues[InputTitle.distance] = formatNumber(result);
+    }
 
-    resultPrinter(['Distance: ${formatNumber(result)}'], unit: distanceUnit);
+    resultPrinter(['Distance: ${formatNumber(result?.round())}'], unit: distanceUnit);
 
-    final menu = interMenu(comm.currentPosition > 1, options);
+    final menu = returnMenu(comm.currentPosition > 1, options);
     if (menu) continue;
 
     final positions = [

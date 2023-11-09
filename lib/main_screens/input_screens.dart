@@ -60,9 +60,10 @@ OptionIdent? cloudBaseScreen() {
     tp.tempInput.printInput();
     tp.dewInput.printInput();
 
+
     result = cloudBase(temperature, dewpoint);
 
-    resultPrinter(['Cloud Base: ${formatNumber(result)}'], unit: altitudeUnit);
+    resultPrinter(['Cloud Base: ${formatNumber(result)}'], unit: altitudeUnit, isAgl: true);
 
     final menu = interMenu(comm.currentPosition > 1);
     if (menu) continue;

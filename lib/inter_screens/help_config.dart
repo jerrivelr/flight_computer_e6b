@@ -50,19 +50,19 @@ OptionIdent? helpScreen() {
     comm.console.writeLine('• Conditions at airport is the only option that allow all characters');
     comm.console.writeLine();
     
-    final backOrNot = interMenu(true, _helpMenu);
+    final backOrNot = returnMenu(true, _helpMenu);
     if (backOrNot) continue;
   }
 
   return comm.selectedOption;
 }
 
-var _currentHighlight = 0;
-var _unitSelection = 0;
-var _selectedRowKeys = [];
-var _selection = <dynamic, dynamic>{};
-var _rowSelection = false;
-var _returnMenu = false;
+var _currentHighlight = 0; // Stores current selection
+var _unitSelection = 0; // Stores the current selection when making a selection in a row
+var _selectedRowKeys = []; // Stores all keys of the units inside units.yaml
+var _selection = <dynamic, dynamic>{}; // Stores current selection of an option
+var _rowSelection = false; // To tell when making a selection in a row
+var _returnMenu = false; // To tell when making selection on the return menu
 
 OptionIdent? settingScreen() {
   comm.selectedOption = null;
@@ -128,7 +128,7 @@ OptionIdent? settingScreen() {
       }
     }
 
-    final backOrNot = interMenu(comm.currentPosition >= (settingDecoded?.length ?? 0), _helpMenu);
+    final backOrNot = returnMenu(comm.currentPosition >= (settingDecoded?.length ?? 0), _helpMenu);
     if (backOrNot) continue;
 
     if (_returnMenu == true) {
@@ -233,9 +233,8 @@ void _keyLogic() {
 void _changeSetting() {
   // Unreadable like shit, but works (❁´◡`❁)
 
-  final settingYaml = File(r'..\lib\setting\setting.yaml').readAsStringSync();
-  final settingDecoded = loadYaml(settingYaml) as YamlMap?;
-  final modifiable = getModifiableNode(settingDecoded) as Map?;
+  comm.updateYamlFile();
+  final modifiable = getModifiableNode(comm.settingDecoded) as Map?;
 
   if (modifiable != null) {
     final loopMap = modifiable['selected_unit'] as Map;
