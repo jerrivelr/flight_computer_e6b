@@ -13,7 +13,6 @@ selected_unit:
   Distance: 
     nautical_miles: true
     dis_feet: false
-    inches: false
     kilometers: false
     dis_meters: false
   Time: 
