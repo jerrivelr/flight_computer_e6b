@@ -36,8 +36,7 @@ String formatNumber(num? number) {
 
   if (number == null) {
     return '--';
-  }
-  if (number == number.toInt()) {
+  } else if (number == number.toInt()) {
     return myFormat.format(number); // Omit decimal point and trailing zeros for integers
   }
 
