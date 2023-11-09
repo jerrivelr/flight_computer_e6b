@@ -196,7 +196,7 @@ class MenuLogic {
 
   double? optionLogic() {
     String? userInput;
-    userInput = _inputChecker(null, ifInvalid: inCaseInvalid);
+    userInput = _inputChecker(ifInvalid: inCaseInvalid);
 
     if (userInput == inCaseInvalid) {
       if (comm.errorMessage.isEmpty) {
