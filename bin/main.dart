@@ -14,7 +14,6 @@ void main(List<String> arguments) async {
     comm.unknownInput = null;
 
     switch (userSelection) {
-
       case OptionIdent.menu:
         mainMenu.menuOptions = {
           'Help/Settings': OptionIdent.helpSetting,
