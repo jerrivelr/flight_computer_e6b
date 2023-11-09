@@ -7,7 +7,7 @@ import 'package:flight_e6b/communication_var.dart' as comm;
 class MenuBuilder {
   MenuBuilder({required this.menuOptions, this.highlightColor = 94, this.title = '', this.noTitle = false});
 
-  final Map<String, OptionIdent?> menuOptions;
+  Map<String, OptionIdent?> menuOptions;
   int highlightColor;
   bool noTitle;
   String title;
@@ -32,7 +32,7 @@ class MenuBuilder {
     while (selection == null) {
       if (!noTitle) {
         // Creating the title bar.
-        screenHeader(title: title, errorWindow: false);
+        screenHeader(title: title);
       }
 
       if (_currentHighlight < _firstOption) {
@@ -98,7 +98,7 @@ class MenuBuilder {
 }
 
 var _currentHighlight = 1;
-bool interMenu(bool condition, [Map<String, OptionIdent?> options = const {'Return to:': null,'Back to Main Menu': OptionIdent.menu}]) {
+bool returnMenu(bool condition, [Map<String, OptionIdent?> options = const {'Return to:': null,'Back to Main Menu': OptionIdent.menu}]) {
   final optionKeys = options.keys.toList();
 
   if (_currentHighlight < 1) {

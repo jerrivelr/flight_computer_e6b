@@ -1,8 +1,8 @@
+import 'package:flight_e6b/conversion/conversion_func.dart';
 import 'package:flight_e6b/enums.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/aviation_math.dart';
 import 'package:dart_console/dart_console.dart';
-import 'package:flight_e6b/menu_files/menus.dart';
 import 'package:flight_e6b/input_type.dart' as tp;
 import 'package:flight_e6b/setting/setting_lookup.dart';
 import 'package:flight_e6b/cursor_position.dart' as pos;
@@ -12,6 +12,8 @@ import 'package:flight_e6b/communication_var.dart' as comm;
 import 'package:flight_e6b/inter_screens/fuel_inter_screens.dart';
 import 'package:flight_e6b/inter_screens/pd_altitude_inter_screens.dart';
 import 'package:flight_e6b/inter_screens/ground_speed_inter_screen.dart';
+
+import '../menu_files/menus.dart';
 
 OptionIdent? helpConfig() {
   OptionIdent? selection;
@@ -65,7 +67,7 @@ OptionIdent? cloudBaseScreen() {
 
     resultPrinter(['Cloud Base: ${formatNumber(result)}'], unit: altitudeUnit, isAgl: true);
 
-    final menu = interMenu(comm.currentPosition > 1);
+    final menu = returnMenu(comm.currentPosition > 1);
     if (menu) continue;
 
     final positions = [
@@ -129,6 +131,17 @@ OptionIdent? groundSpeedScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
+    final groundSpeedMenu = MenuBuilder(
+        title: 'GROUND SPEED',
+        menuOptions: {
+          'Calculate...': null,
+          'Ground Speed (${speedUnit()?.trim()})': OptionIdent.calGroundSpeed,
+          'Duration (${timeUnit()?.trim()})': OptionIdent.groundDur,
+          'Distance (${distanceUnit()?.trim()})': OptionIdent.groundDis,
+          'Main Menu': OptionIdent.menu
+        }
+    );
+
     selection = groundSpeedMenu.displayMenu();
 
     switch (selection) {
@@ -185,7 +198,7 @@ OptionIdent? trueAirspeedScreen() {
 
     comm.inputValues[InputTitle.trueAirspeed] = calTrueAirspeed?.toString();
 
-    final menu = interMenu(comm.currentPosition > 2);
+    final menu = returnMenu(comm.currentPosition > 2);
     if (menu) continue;
 
     final positions = [
@@ -242,7 +255,7 @@ OptionIdent? windComponentScreen() {
 
     resultPrinter(windComponentString(headTail: headTailComp, xCross: xWindComp));
 
-    final menu = interMenu(comm.currentPosition > 2);
+    final menu = returnMenu(comm.currentPosition > 2);
     if (menu) continue;
 
     final positions = [
@@ -322,7 +335,7 @@ OptionIdent? headingCorrectionScreen() {
       'Ground Speed: ${formatNumber(groundSpeedKt?.round())}${speedUnit()}'
     ]);
 
-    final menu = interMenu(comm.currentPosition > 3);
+    final menu = returnMenu(comm.currentPosition > 3);
     if (menu) continue;
 
     final positions = [
@@ -365,6 +378,15 @@ OptionIdent? fuelScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
+    fuelMenu.title = 'FUEL (${fuelTypeSel()?.trim()})';
+    fuelMenu.menuOptions = {
+      'Calculate Fuel...': null,
+      'Volume (${fuelUnit()?.trim()})': OptionIdent.fuelVol,
+      'Endurance (${timeUnit()?.trim()})': OptionIdent.fuelDur,
+      'Rate (${fuelRateUnit()?.trim()})': OptionIdent.fuelRate,
+      'Main Menu': OptionIdent.menu
+    };
+
     selection = fuelMenu.displayMenu();
 
     switch (selection) {
