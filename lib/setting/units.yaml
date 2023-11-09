@@ -20,14 +20,18 @@ Time:
 Pressure:
   inches_of_mercury: ' InHg'
   millibars: ' MB'
-Weight:
+Fuel Weight:
   weight_pound: ' LBS'
   kilograms: ' KG'
 Fuel Rate:
-  gallon: ' GAL/HR'
-  pound: ' LBS/HR'
-  liter: ' L/HR'
+  fuel_gallon: ' GAL/HR'
+  fuel_pound: ' LBS/HR'
+  fuel_liter: ' L/HR'
 Fuel Volume:
-  gallon: ' GAL'
-  pound: ' LBS'
-  liter: ' L'
+  fuel_gallon: ' GAL'
+  fuel_pound: ' LBS'
+  fuel_liter: ' L'
+Fuel Type:
+  avgas: ' AvGas'
+  jet_a: ' Jet A'
+  jet_b: ' Jet B'

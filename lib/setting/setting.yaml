@@ -22,14 +22,18 @@ selected_unit:
   Pressure: 
     inches_of_mercury: true
     millibars: false
-  Weight: 
+  Fuel Weight: 
     weight_pound: true
     kilograms: false
   Fuel Rate: 
-    gallon: true
-    pound: false
-    liter: false
+    fuel_gallon: true
+    fuel_pound: false
+    fuel_liter: false
   Fuel Volume: 
-    gallon: true
-    pound: false
-    liter: false
+    fuel_gallon: true
+    fuel_pound: false
+    fuel_liter: false
+  Fuel Type: 
+    avgas: true
+    jet_a: false
+    jet_b: false
