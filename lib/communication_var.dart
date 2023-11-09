@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/enums.dart';
 import 'package:yaml/yaml.dart';
@@ -5,6 +7,7 @@ import 'package:yaml/yaml.dart';
 final console = Console();
 
 OptionIdent? selectedOption; // Stores values that are part of the optionList if userInput equals to one of the options.
+ControlCharacter? unknownInput;
 var errorMessage = ''; // Stores errors messages if any.
 var inputValues = <InputTitle?, String?>{}; // This Map will contain the calculated data for reuse in other options.
 var currentCursorPos = console.cursorPosition;

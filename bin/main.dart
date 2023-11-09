@@ -8,7 +8,8 @@ void main(List<String> arguments) async {
   OptionIdent? userSelection = OptionIdent.menu;
 
   while (userSelection != OptionIdent.exit) {
-    comm.errorMessage = '';
+    if (comm.unknownInput != ControlCharacter.unknown) comm.errorMessage = '';
+    comm.unknownInput = null;
 
     switch (userSelection) {
       case OptionIdent.menu:

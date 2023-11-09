@@ -228,6 +228,8 @@ class MenuLogic {
       _inputContent = '';
       comm.inputValues[inputType] = _inputContent;
       return null;
+    } else if (comm.unknownInput == ControlCharacter.unknown) {
+      return null;
     }
 
     comm.errorMessage = '';

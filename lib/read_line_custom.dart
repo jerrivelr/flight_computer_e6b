@@ -145,6 +145,11 @@ extension CustomConsole on Console {
           case ControlCharacter.end:
             index = buffer.length - unit.length;
             break;
+          case ControlCharacter.unknown:
+            comm.selectedOption = OptionIdent.menu;
+            comm.unknownInput = ControlCharacter.unknown;
+            comm.errorMessage = 'Invalid Input';
+            break;
           default:
             break;
         }
