@@ -44,3 +44,15 @@ enum OptionIdent {
   yes,
   no;
 }
+
+enum Conversion {
+  celsius,
+  fahrenheit,
+  meters,
+  feet,
+  millibars,
+  inchesMercury,
+  knots,
+  kilometerHours,
+  milesHour,
+}
