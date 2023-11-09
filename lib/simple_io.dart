@@ -55,16 +55,17 @@ void errorMessage(String message) {
   comm.console.resetColorAttributes();
 }
 
-void resultPrinter(List<String> displayString, {Function? unit}) {
+void resultPrinter(List<String> displayString, {Function? unit, bool isAgl = false}) {
   final table = Table()
     ..borderColor = ConsoleColor.brightGreen
     ..borderStyle = BorderStyle.bold
     ..borderType = BorderType.horizontal;
 
   Object? displayUnit = (unit != null) ? unit() : '';
+  final agl = (isAgl) ? ' AGL' : '';
 
   for (final item in displayString) {
-    table.insertRow(['$item$displayUnit']);
+    table.insertRow(['$item$displayUnit$agl']);
   }
 
   comm.console.write(table);
