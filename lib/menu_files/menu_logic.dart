@@ -245,14 +245,14 @@ class MenuLogic {
 
   void printInput() {
     _inputContent = comm.inputValues[inputType] ?? '';
-    _row = comm.console.cursorPosition?.row;
+    _row = comm.console.cursorPosition?.row ?? _row;
     _unit = (unitLookup != null) ? unitLookup!() : unit;
 
     comm.console.setForegroundColor(ConsoleColor.brightWhite);
     if (comm.currentCursorPos?.row == _row || firstOption) {
       firstOption = false;
       comm.console.write(optionTitle);
-      comm.currentCursorPos = Coordinate(_row ?? 0, 0);
+      comm.currentCursorPos = Coordinate(_row, 0);
     } else {
       comm.console.write(optionTitle);
       comm.console.setForegroundExtendedColor(180);
@@ -266,15 +266,23 @@ class MenuLogic {
       comm.console.resetColorAttributes();
     }
 
-    _colum = comm.console.cursorPosition?.col;
+    _colum = comm.console.cursorPosition?.col ?? _colum;
     comm.console.writeLine();
   }
 
-  String? _inputChecker(String? printOut, {String ifInvalid = 'Invalid number', }) {
+  String? _inputChecker({String? printOut, String ifInvalid = 'Invalid number', }) {
     String? userInput;
     _unit = (unitLookup != null) ? unitLookup!() : unit;
 
-    userInput = comm.console.input(printOut, unit: _unit.toString(), inputContent: _inputContent, charLimit: digitLimit)?.toLowerCase();
+    userInput = comm.console.input(
+      printOut: printOut,
+      unit: _unit.toString(),
+      inputContent: _inputContent,
+      charLimit: digitLimit,
+      liveReturn: true,
+      inputRow: row,
+      inputCol: colum,
+    )?.toLowerCase();
 
    if (userInput?.isEmpty ?? false) {
       userInput = null;
