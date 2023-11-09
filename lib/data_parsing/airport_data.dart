@@ -11,7 +11,7 @@ final content = airportJson.readAsStringSync();
 final contentDecoded = jsonDecode(content);
 
 String? retrieveAirport([String? variable]) {
-  final idInput = comm.console.input(null, onlyNumbers: false, charLimit: 4)?.toUpperCase();
+  final idInput = comm.console.input(onlyNumbers: false, charLimit: 4)?.toUpperCase();
 
   // If user inputs something inside the optionList global variable, it will exit the option and jump to the selected
   // option without creating any instance.
