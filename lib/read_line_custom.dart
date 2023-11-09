@@ -31,7 +31,7 @@ extension CustomConsole on Console {
     setForegroundExtendedColor(180);
     write(buffer);
 
-    final currentCol = cursorPosition!.col;
+    final currentCol = cursorPosition?.col ?? inputCol;
     cursorPosition = Coordinate(screenRow, currentCol - unit.length);
 
     while (true) {
@@ -41,9 +41,7 @@ extension CustomConsole on Console {
         comm.keyPressed = key.controlChar;
 
         final selection = shortcuts(key);
-        if (selection != null) {
-          return null;
-        }
+        if (selection != null) return null;
 
         switch (key.controlChar) {
           case ControlCharacter.enter:
@@ -170,5 +168,4 @@ extension CustomConsole on Console {
       if (liveReturn) return returnString;
     }
   }
-
 }
