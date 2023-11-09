@@ -6,7 +6,7 @@ Altitude:
   meters: ' M'
 Speed:
   knots: ' KTS'
-  kilometer_hours: ' KM/HR'
+  kilometer_hours: ' KPH'
   milesHour: ' MPH'
 Distance:
   nautical_miles: ' NM'
