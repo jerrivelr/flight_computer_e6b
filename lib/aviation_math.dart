@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:flight_e6b/enums.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
+import 'package:flight_e6b/conversion/conversion_func.dart';
 
 String windsInterpolation({
   required int altOne,
@@ -41,10 +43,13 @@ int? cloudBase(double? temp, double? dew) {
   if (temp == null || dew == null) {
     return null;
   }
+  comm.updateYamlFile();
 
   final spread = temp - dew;
-  final base = (spread / 2.5) * 1000;
-  return base.round();
+  final base = (comm.celsiusTrue) ? (spread / 2.5) * 1000 : (spread / 4.4) * 1000;
+
+  final result = altitudeConv(inputUnit: Conversion.feet, alt: base, convResult: true);
+  return result.round();
 }
 
 int? pressureAlt(double? indicatedAlt, double? stationInch) {
@@ -52,22 +57,31 @@ int? pressureAlt(double? indicatedAlt, double? stationInch) {
     return null;
   }
 
+  indicatedAlt = altitudeConv(inputUnit: Conversion.feet, alt: indicatedAlt);
+
   // Pressure in Millibars
-  final stationMill = stationInch * 33.8639;
+  final stationMill = pressConv(inputUnit: Conversion.millibars, pressUnit: stationInch);
   final pressDiff = (1 - pow(stationMill / 1013.25, 0.190284)) * 145366.45;
   final calPressAlt = indicatedAlt + (pressDiff);
 
-  return calPressAlt.round();
+  final result = altitudeConv(inputUnit: Conversion.feet, alt: calPressAlt, convResult: true);
+  return result.round();
 }
 
-int? densityAlt({required double? tempC, required double? stationInches, required double? dewC, required double? elevation}) {
-  if (tempC == null || stationInches == null || dewC == null || elevation == null) {
+int? densityAlt({required double? temp, required double? stationInches, required double? dew, required double? elevation}) {
+  if (temp == null || stationInches == null || dew == null || elevation == null) {
     return null;
   }
-  final vaporPress = _saturationVapor(tempC: dewC); // Converting Celsius to Kelvin
-  final humidity = vaporPress / _saturationVapor(tempC: tempC) * 100; // Relative humidity
-  final pressInMb = _mbPressure(altimeterIn: stationInches, stationElevation: elevation); // Pressure in millibars at a certain altitude.
-  final density = _airDensity(pressMb: pressInMb, tempC: tempC, relativeHumidity: humidity); // Air density at the input elevation
+
+  temp = temperatureConv(inputUnit: Conversion.celsius, temp: temp);
+  dew = temperatureConv(inputUnit: Conversion.celsius, temp: dew);
+  elevation = altitudeConv(inputUnit: Conversion.feet, alt: elevation);
+  final stationPresMb = pressConv(inputUnit: Conversion.millibars, pressUnit: stationInches);
+
+  final vaporPress = _saturationVapor(tempC: dew); // Converting Celsius to Kelvin
+  final humidity = vaporPress / _saturationVapor(tempC: temp) * 100; // Relative humidity
+  final pressInMb = _mbPressure(altimeterMb: stationPresMb, stationElevation: elevation); // Pressure in millibars at a certain altitude.
+  final density = _airDensity(pressMb: pressInMb, tempC: temp, relativeHumidity: humidity); // Air density at the input elevation
 
   // Density Altitude in kilometers and the altitude is geo potential.
   final calDensityKm = 44.3308 - (42.2665 * (pow(density, 0.234969))); // In km
@@ -79,13 +93,17 @@ int? densityAlt({required double? tempC, required double? stationInches, require
   // Converting altitude in feet and into geo metric altitude
   final calDensityFt = _geometricAlt(calDensityKm) * 3280.84; // In ft
 
-  return calDensityFt.round();
+  final result = altitudeConv(inputUnit: Conversion.feet, alt: calDensityFt, convResult: true);
+  return result.round();
 }
 
 int? groundSpeed({required double? trueAirspeed, required double? windDirection, required double? windSpeed, required double? course, required double? corrAngle}) {
   if (trueAirspeed == null || windDirection == null || windSpeed == null || course == null || corrAngle == null) {
     return null;
   }
+
+  trueAirspeed = speedConvKnt(speed: trueAirspeed);
+  windSpeed = speedConvKnt(speed: windSpeed);
 
   final courseRadians = course * (pi / 180);
   final corrAngleRadians = corrAngle * (pi / 180);
@@ -95,14 +113,21 @@ int? groundSpeed({required double? trueAirspeed, required double? windDirection,
 
   final formulaPart1 = pow(trueAirspeed, 2) + pow(windSpeed, 2);
   final formulaPart2 = (2 * trueAirspeed * windSpeed * calCos);
+  final calGs = sqrt(formulaPart1 - formulaPart2);
 
-  return sqrt(formulaPart1 - formulaPart2).round();
+  final result = speedConvKnt(speed: calGs, convResult: true);
+
+  return result.round();
 }
 
 int? trueAirspeed({required double? calibratedAirS, required double? pressAltitude, required double? tempC}) {
   if (calibratedAirS == null || pressAltitude == null || tempC == null) {
     return null;
   }
+
+  calibratedAirS = speedConvKnt(speed: calibratedAirS);
+  tempC = temperatureConv(inputUnit: Conversion.celsius, temp: tempC);
+  pressAltitude = altitudeConv(inputUnit: Conversion.meters, alt: pressAltitude);
 
   final mbPressAtAlt = _pressAtAltitude(pressAltitude, tempC);
 
@@ -116,13 +141,17 @@ int? trueAirspeed({required double? calibratedAirS, required double? pressAltitu
     return null;
   }
 
-  return tas.round();
+  final result = speedConvKnt(speed: tas, convResult: true);
+
+  return result.round();
 }
 
 double? crossWindComp({required double? direction, required double? windDirection, required double? windSpeed}) {
   if (direction == null || windDirection == null || windSpeed == null) {
     return null;
   }
+
+  windSpeed = speedConvKnt(speed: windSpeed);
 
   final double angularDiff = windDirection - (direction * 10);
 
@@ -135,6 +164,8 @@ double? headWindComp({required double? direction, required double? windDirection
   if (direction == null || windDirection == null || windSpeed == null) {
     return null;
   }
+
+  windSpeed = speedConvKnt(speed: windSpeed);
 
   final double angularDiff = windDirection - (direction * 10);
 
@@ -153,6 +184,9 @@ double? correctionAngle({
   if (trueCourse == null || windDirection == null || windSpeed == null || trueAirspeed == null) {
     return null;
   }
+
+  windSpeed = speedConvKnt(speed: windSpeed);
+  trueAirspeed = speedConvKnt(speed: trueAirspeed);
 
   // The angle between the wind direction and the desired course
   final windAngle = trueCourse - (180 + windDirection);
@@ -240,9 +274,8 @@ double _airDensity({required double pressMb, required double tempC, double relat
   return density;
 }
 
-double _mbPressure({required double altimeterIn, required double stationElevation}) {
+double _mbPressure({required double altimeterMb, required double stationElevation}) {
   /// This function determines the pressure in millibars at a specific elevation
-  final altimeterMb = altimeterIn *  33.864;
   final aS = pow(altimeterMb, 0.190263) as double;
   final body = 8.417286 * 1e-5 * (stationElevation / 3.281);
 
@@ -251,7 +284,7 @@ double _mbPressure({required double altimeterIn, required double stationElevatio
   return result;
 }
 
-double _pressAtAltitude(double altitudeFT, double tempC) {
+double _pressAtAltitude(double altitudeM, double tempC) {
   // Function returns atmospheric pressure in Millibars
 
   // Constants for the formula
@@ -261,7 +294,6 @@ double _pressAtAltitude(double altitudeFT, double tempC) {
   const gasConst = 8.315; // J/(mol * k)
   const oneAtmosphere = 1; // atm
 
-  final altitudeM = altitudeFT / 3.28; // altitude in meters
   final tempK = tempC + 273.16; // Temperature in Kelvin
 
   final exponent = (gravity * molar) / (gasConst * lapseRate);
