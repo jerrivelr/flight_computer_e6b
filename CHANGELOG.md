@@ -1,3 +1,8 @@
+# Version v0.7.0
+- Added: Setting screen added
+- Added: You can now change units through the setting menu
+- Several errors fixed
+
 # Version v0.6.0
 - Added: You can now navigate through each input using the arrow keys
 - Added: Help menu added
