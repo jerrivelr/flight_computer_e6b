@@ -29,10 +29,15 @@ Future<OptionIdent?> conditionsAirportScreen() async {
   //               //                   //
   while(comm.selectedOption == null) {
     screenHeader(title: 'PRESSURE/DENSITY ALTITUDE');
+    comm.updateYamlFile();
 
     comm.console.write('Airport: ');
     final cursorPosition = comm.console.cursorPosition;
     comm.console.writeLine('\n');
+
+    if (comm.metersTrue && _airpElevation != null) {
+      _airpElevation = (_airpElevation! * 0.3048).round();
+    }
 
     // Data for calculation.
     final elevation = _airpElevation?.toDouble();
@@ -43,10 +48,10 @@ Future<OptionIdent?> conditionsAirportScreen() async {
     printDownData({
       'ID: ': _airportFormat(),
       'METAR: ': '${_metarData?.rawMetar ?? '--'}\n',
-      'Elevation: ': '${formatNumber(elevation)} FT\n',
-      'Temperature: ': '${formatNumber(temperature)} °C\n',
-      'Dewpoint: ': '${formatNumber(dewpoint)} °C\n',
-      'Altimeter: ': '${formatNumber(altimeter)} InHg\n'
+      'Elevation: ': '${formatNumber(elevation?.round())}${altitudeUnit()}\n',
+      'Temperature: ': '${formatNumber(temperature)}${temperatureUnit()}\n',
+      'Dewpoint: ': '${formatNumber(dewpoint)}${temperatureUnit()}\n',
+      'Altimeter: ': '${altimeter?.toStringAsFixed(2) ?? '--'}${pressUnit()}\n'
     }); // Prints downloaded data with colors.
 
     // Calculated pressure altitude.
@@ -54,18 +59,18 @@ Future<OptionIdent?> conditionsAirportScreen() async {
 
     // Calculated density altitude
     final density = densityAlt(
-        tempC: temperature,
+        temp: temperature,
         stationInches: altimeter,
-        dewC: dewpoint,
+        dew: dewpoint,
         elevation: elevation
     );
 
     resultPrinter([
-      'Pressure Altitude: ${formatNumber(pressure)} FT',
-      'Density Altitude: ${formatNumber(density)} FT']
+      'Pressure Altitude: ${formatNumber(pressure)}${altitudeUnit()}',
+      'Density Altitude: ${formatNumber(density)}${altitudeUnit()}']
     );
 
-    final menu = interMenu(comm.currentPosition > 0, options);
+    final menu = returnMenu(comm.currentPosition > 0, options);
     if (menu) continue;
 
     comm.console.cursorPosition = cursorPosition;
@@ -134,9 +139,9 @@ OptionIdent? manualScreen() {
     // Calculated pressure altitude.
     pressure = pressureAlt(indicatedAlt, pressInHg);
     density = densityAlt(
-        tempC: temperature,
+        temp: temperature,
         stationInches: pressInHg,
-        dewC: dewpoint,
+        dew: dewpoint,
         elevation: indicatedAlt
     );
 
@@ -147,14 +152,14 @@ OptionIdent? manualScreen() {
       'Density Altitude: ${formatNumber(density)}'],
     unit: altitudeUnit);
 
-    final menu = interMenu(comm.currentPosition > 3, options);
+    final menu = returnMenu(comm.currentPosition > 3, options);
     if (menu) continue;
 
     final positions = [
-      Coordinate(tp.indiAltInput.row!, tp.indiAltInput.colum!),
-      Coordinate(tp.altimeterInput.row!, tp.altimeterInput.colum!),
-      Coordinate(tp.tempInput.row!, tp.tempInput.colum!),
-      Coordinate(tp.dewInput.row!, tp.dewInput.colum!),
+      Coordinate(tp.indiAltInput.row, tp.indiAltInput.colum),
+      Coordinate(tp.altimeterInput.row, tp.altimeterInput.colum),
+      Coordinate(tp.tempInput.row, tp.tempInput.colum),
+      Coordinate(tp.dewInput.row, tp.dewInput.colum),
     ];
 
     pos.changePosition(positions);

@@ -1,21 +1,54 @@
+import 'package:flight_e6b/communication_var.dart' as comm;
+
 class Metar {
   Metar({
-    required this.temperature,
-    required this.dewpoint,
+    required this.temp,
+    required this.dew,
     required this.windDirection,
     required this.windSpeed,
     required this.rawMetar,
-    required this.altimeterInHg,
+    required this.altimeter,
   });
+
+  num? temp;
+  num? dew;
+  num? windDirection;
+  num? windSpeed;
+  num? altimeter;
+  String? rawMetar;
+
+  num? get temperature {
+    if (comm.fahrenheitTrue && temp != null) {
+      return (temp! * 9/5) + 32;
+    }
+
+    return temp;
+  }
+
+  num? get dewpoint {
+    if (comm.fahrenheitTrue && dew != null) {
+      return (dew! * 9/5) + 32;
+    }
+
+    return dew;
+  }
+
+  num? get altimeterInHg {
+    if (comm.inchesMercuryTrue && altimeter != null) {
+      return altimeter! / 33.8639;
+    }
+
+    return altimeter;
+  }
 
   factory Metar.fromJson(List<dynamic>? jsonMap) {
     if (jsonMap?.isEmpty ?? true) {
       return Metar(
-          temperature: null,
-          dewpoint: null,
+          temp: null,
+          dew: null,
           windDirection: null,
           windSpeed: null,
-          altimeterInHg: null,
+          altimeter: null,
           rawMetar: null,
       );
     }
@@ -24,30 +57,15 @@ class Metar {
       jsonMap?[0]['wdir'] = null;
     }
 
-    // In the rare case the altimeter setting is received in Inches of Mercury already, the conversion will not be
-    // be performed unless the altimeter setting is in millibars.
-    final altimeterInMillibars = RegExp(r'^\d{3,4}'); // to check the altimeter setting is millibar.
-    if (altimeterInMillibars.hasMatch(jsonMap?[0]['altim']?.toString() ?? '')) {
-      final altimeter = jsonMap?[0]['altim'];
-      jsonMap?[0]['altim'] = num.tryParse(altimeter.toString())! / 33.864;
-    }
-
     return Metar(
-        temperature: jsonMap?[0]['temp'] as num?,
-        dewpoint: jsonMap?[0]['dewp'] as num?,
+        temp: jsonMap?[0]['temp'] as num?,
+        dew: jsonMap?[0]['dewp'] as num?,
         windDirection: jsonMap?[0]['wdir'] as num?,
         windSpeed: jsonMap?[0]['wspd'] as num?,
-        altimeterInHg: jsonMap?[0]['altim'] as num?,
+        altimeter: jsonMap?[0]['altim'] as num?,
         rawMetar: jsonMap?[0]['rawOb'] as String?
     );
   }
-
-  num? temperature;
-  num? dewpoint;
-  num? windDirection;
-  num? windSpeed;
-  num? altimeterInHg;
-  String? rawMetar;
 
   @override
   String toString() {
