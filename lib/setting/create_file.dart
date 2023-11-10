@@ -29,7 +29,7 @@ void unitYamlFile() {
 
 void settingYamlFile() {
   final content = <String, dynamic>{
-    'version': '0.7.0',
+    'version': '0.7.1',
     'selected_unit': {
       'Temperature': {'celsius': true, 'fahrenheit': false},
       'Altitude': {'feet': true, 'meters': false},
