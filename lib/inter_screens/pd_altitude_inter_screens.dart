@@ -35,6 +35,8 @@ Future<OptionIdent?> conditionsAirportScreen() async {
     final cursorPosition = comm.console.cursorPosition;
     comm.console.writeLine('\n');
 
+    _airpElevation = airportElevation(_airportId);
+
     if (comm.metersTrue && _airpElevation != null) {
       _airpElevation = (_airpElevation! * 0.3048).round();
     }
@@ -77,7 +79,6 @@ Future<OptionIdent?> conditionsAirportScreen() async {
 
     _airportId = retrieveAirport(_airportId);
     _airpName = airportName(_airportId);
-    _airpElevation = airportElevation(_airportId);
 
     if (_invalidAirportFormat(_airportId) && comm.keyPressed != ControlCharacter.arrowDown) {
       // Airport invalid and screens updates.
