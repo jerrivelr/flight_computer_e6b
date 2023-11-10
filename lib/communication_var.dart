@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/enums.dart';
 import 'package:yaml/yaml.dart';
+import 'package:flight_e6b/setting/create_file.dart';
 
 final console = Console();
 
@@ -45,8 +46,11 @@ YamlMap? settingDecoded;
 YamlMap? unitDecoded;
 
 void updateYamlFile() {
-  final settingYaml = File(r'..\lib\setting\setting.yaml').readAsStringSync();
-  final unitYaml = File(r'..\lib\setting\units.yaml').readAsStringSync();
+  unitYamlFile();
+  settingYamlFile();
+
+  final settingYaml = File(r'.\settings\setting.yaml').readAsStringSync();
+  final unitYaml = File(r'.\settings\units.yaml').readAsStringSync();
   settingDecoded = loadYaml(settingYaml);
   unitDecoded = loadYaml(unitYaml);
 
