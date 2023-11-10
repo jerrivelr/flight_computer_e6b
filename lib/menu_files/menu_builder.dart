@@ -5,12 +5,13 @@ import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
 class MenuBuilder {
-  MenuBuilder({required this.menuOptions, this.highlightColor = 94, this.title = '', this.noTitle = false});
+  MenuBuilder({required this.menuOptions, this.highlightColor = 94, this.title = '', this.noTitle = false, this.errorWindow = false});
 
   Map<String, OptionIdent?> menuOptions;
   int highlightColor;
-  bool noTitle;
   String title;
+  bool noTitle;
+  bool errorWindow;
 
   int _firstOption = 0;
   int _currentHighlight = 0;
@@ -32,7 +33,7 @@ class MenuBuilder {
     while (selection == null) {
       if (!noTitle) {
         // Creating the title bar.
-        screenHeader(title: title);
+        screenHeader(title: title, errorWindow: errorWindow);
       }
 
       if (_currentHighlight < _firstOption) {
@@ -85,6 +86,11 @@ class MenuBuilder {
           selection = menuOptions[optionKeys[_currentHighlight]];
           comm.console.clearScreen();
           break;
+        case ControlCharacter.unknown:
+          comm.console.clearScreen();
+          comm.unknownInput = key.controlChar;
+          comm.errorMessage = 'Invalid value';
+          comm.selectedOption = OptionIdent.menu;
         default:
           comm.console.clearScreen();
           break;
@@ -148,6 +154,12 @@ bool returnMenu(bool condition, [Map<String, OptionIdent?> options = const {'Ret
         comm.console.showCursor();
         comm.selectedOption = options[optionKeys[_currentHighlight]];
         _currentHighlight = 1;
+        return true;
+      case ControlCharacter.unknown:
+        comm.console.clearScreen();
+        comm.unknownInput = key.controlChar;
+        comm.errorMessage = 'Invalid value';
+        comm.selectedOption = OptionIdent.menu;
         return true;
       default:
         comm.console.clearScreen();
