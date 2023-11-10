@@ -1,8 +1,8 @@
-import 'package:flight_e6b/conversion/conversion_func.dart';
 import 'package:flight_e6b/enums.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/aviation_math.dart';
 import 'package:dart_console/dart_console.dart';
+import 'package:flight_e6b/menu_files/menus.dart';
 import 'package:flight_e6b/input_type.dart' as tp;
 import 'package:flight_e6b/setting/setting_lookup.dart';
 import 'package:flight_e6b/cursor_position.dart' as pos;
@@ -13,7 +13,6 @@ import 'package:flight_e6b/inter_screens/fuel_inter_screens.dart';
 import 'package:flight_e6b/inter_screens/pd_altitude_inter_screens.dart';
 import 'package:flight_e6b/inter_screens/ground_speed_inter_screen.dart';
 
-import '../menu_files/menus.dart';
 
 OptionIdent? helpConfig() {
   OptionIdent? selection;
