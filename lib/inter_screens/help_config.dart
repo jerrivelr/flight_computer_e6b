@@ -70,10 +70,12 @@ OptionIdent? settingScreen() {
   comm.currentPosition = 0;
 
   while (comm.selectedOption == null) {
+    comm.updateYamlFile();
     screenHeader(title: 'SETTINGS');
 
-    final settingYaml = File(r'..\lib\setting\setting.yaml').readAsStringSync();
-    final unitYaml = File(r'..\lib\setting\units.yaml').readAsStringSync();
+    final settingYaml = File(r'.\settings\setting.yaml').readAsStringSync();
+    final unitYaml = File(r'.\settings\units.yaml').readAsStringSync();
+
     var settingDecoded = loadYaml(settingYaml)?['selected_unit'] as YamlMap?;
     var unitDecoded = loadYaml(unitYaml) as YamlMap?;
 
@@ -253,7 +255,9 @@ void _changeSetting() {
 
           modifiable['selected_unit'][key][value] = true;
           final strYaml = toYamlString(modifiable);
-          File(r'..\lib\setting\setting.yaml').writeAsStringSync(strYaml);
+          final cwd = Directory.current.path;
+
+          File('$cwd\\settings\\setting.yaml').writeAsStringSync(strYaml);
         }
       }
     }

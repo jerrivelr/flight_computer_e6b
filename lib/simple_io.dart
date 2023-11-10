@@ -80,7 +80,9 @@ void printDownData(Map<String, String> data) {
 }
 
 void screenHeader({required String title, int color = 22, bool errorWindow = true}) {
-  final yamlFile = File(r'..\lib\setting\setting.yaml').readAsStringSync();
+  comm.updateYamlFile();
+
+  final yamlFile = File(r'.\settings\setting.yaml').readAsStringSync();
   final yamlDecoded = loadYaml(yamlFile) as YamlMap?;
   final versionStr = ' v${yamlDecoded?['version']} ';
 
