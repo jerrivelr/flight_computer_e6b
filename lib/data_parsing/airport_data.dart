@@ -5,10 +5,7 @@ import 'dart:io';
 import 'package:flight_e6b/read_line_custom.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 import 'package:http/http.dart' as http;
-
-final airportJson = File(r'..\lib\airport_database\airports.json');
-final content = airportJson.readAsStringSync();
-final contentDecoded = jsonDecode(content);
+import 'package:flight_e6b/airport_database/airports.dart' as db;
 
 String? retrieveAirport([String? variable]) {
   final idInput = comm.console.input(onlyNumbers: false, charLimit: 4)?.toUpperCase();
@@ -21,9 +18,9 @@ String? retrieveAirport([String? variable]) {
 
   // This is for when user inputs the airport ID in IATA so the output is in ICAO because the weather API only accepts
   // airport in ICAO.
-  final iataInput = RegExp(r'"icao": "(\w{4})",\n\s{8}"iata": "' + (idInput ?? '') + r'",');
-  if (iataInput.hasMatch(content)) {
-    final icao = iataInput.firstMatch(content)?.group(1);
+  final iataInput = RegExp('icao: (\\w{4}), iata: ${idInput ?? ''},');
+  if (iataInput.hasMatch(db.airports.toString())) {
+    final icao = iataInput.firstMatch(db.airports.toString())?.group(1);
     return icao;
   }
 
@@ -31,7 +28,7 @@ String? retrieveAirport([String? variable]) {
 }
 
 int? airportElevation(String? airportId) {
-  final elevation = contentDecoded?[airportId]?['elevation'] as int?;
+  final elevation = db.airports[airportId]?['elevation'] as int?;
 
   if (elevation != null) {
     return elevation;
@@ -41,7 +38,7 @@ int? airportElevation(String? airportId) {
 }
 
 String? airportName(String? airportId) {
-  final icao = contentDecoded?[airportId]?['name'] as String?;
+  final icao = db.airports[airportId]?['name'] as String?;
 
   if (icao != null) {
     return icao;
@@ -102,15 +99,3 @@ Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async
     return null;
   }
 }
-
-// List<dynamic>? testMetar() {
-//   try {
-//     final jsonFile = File(r'C:\Users\jerri\IdeaProjects\flight_e6b\lib\test_response.json');
-//     final decodedMetar = jsonDecode(jsonFile.readAsStringSync());
-//
-//     return decodedMetar;
-//   } on FormatException {
-//     comm.formatError = true;
-//     return null;
-//   }
-// }
