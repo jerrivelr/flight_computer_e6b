@@ -1,6 +1,6 @@
-# Version v0.7.0
+# Version v0.7.1
 - Added: Setting screen added
-- Added: You can now change units through the setting menu
+- Added: You can now change units through the settings menu
 - Several errors fixed
 
 # Version v0.6.0
