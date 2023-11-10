@@ -1,0 +1,39 @@
+version: 0.7.0
+selected_unit: 
+  Temperature: 
+    celsius: true
+    fahrenheit: false
+  Altitude: 
+    feet: true
+    meters: false
+  Speed: 
+    knots: true
+    kilometer_hours: false
+    milesHour: false
+  Distance: 
+    nautical_miles: true
+    dis_feet: false
+    kilometers: false
+    dis_meters: false
+  Time: 
+    hour: true
+    minute: false
+    seconds: false
+  Pressure: 
+    inches_of_mercury: true
+    millibars: false
+  Fuel Weight: 
+    weight_pound: true
+    kilograms: false
+  Fuel Rate: 
+    fuel_gallon: true
+    fuel_pound: false
+    fuel_liter: false
+  Fuel Volume: 
+    fuel_gallon: true
+    fuel_pound: false
+    fuel_liter: false
+  Fuel Type: 
+    avgas: true
+    jet_a: false
+    jet_b: false

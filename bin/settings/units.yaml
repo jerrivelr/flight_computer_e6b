@@ -1,0 +1,37 @@
+Temperature: 
+  celsius:  °C
+  fahrenheit:  °F
+Altitude: 
+  feet:  FT
+  meters:  M
+Speed: 
+  knots:  KTS
+  kilometer_hours:  KPH
+  milesHour:  MPH
+Distance: 
+  nautical_miles:  NM
+  dis_feet:  FT
+  kilometers:  KM
+  dis_meters:  M
+Time: 
+  hour:  HR
+  minute:  MIN
+  seconds:  SEC
+Pressure: 
+  inches_of_mercury:  InHg
+  millibars:  MB
+Fuel Weight: 
+  weight_pound:  LBS
+  kilograms:  KG
+Fuel Rate: 
+  fuel_gallon:  GAL/HR
+  fuel_pound:  LBS/HR
+  fuel_liter:  L/HR
+Fuel Volume: 
+  fuel_gallon:  GAL
+  fuel_pound:  LBS
+  fuel_liter:  L
+Fuel Type: 
+  avgas:  AvGas
+  jet_a:  Jet A
+  jet_b: Jet B}
