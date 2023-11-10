@@ -3,7 +3,8 @@ import 'package:flight_e6b/enums.dart';
 
 final mainMenu = MenuBuilder(
     title: 'FLIGHT COMPUTER (E6B)',
-    menuOptions: {}
+    menuOptions: {},
+    errorWindow: true
 ); // Main Menu
 
 final helpConfigMenu = MenuBuilder(
@@ -12,7 +13,7 @@ final helpConfigMenu = MenuBuilder(
       'Help': OptionIdent.help,
       'Settings': OptionIdent.setting,
       'Main Menu': OptionIdent.menu
-    }
+    },
 );
 
 final pressDenMenu = MenuBuilder(
