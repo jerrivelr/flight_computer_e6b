@@ -63,7 +63,7 @@ double pressConv({required Conversion inputUnit, required double pressUnit}) {
       }
 
       // MB to InHg
-      return pressUnit / 0.02953;
+      return pressUnit / 33.8639;
     case Conversion.millibars:
       if (comm.millibarsTrue) {
         return pressUnit;
