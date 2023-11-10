@@ -10,7 +10,7 @@ String? temperatureUnit() {
   if (tempMapBool != null && tempUnits != null) {
     for (final item in tempMapBool.entries) {
         if (item.value == true) {
-          return tempUnits[item.key];
+          return ' ${tempUnits[item.key]}';
         }
       }
   }
@@ -27,7 +27,7 @@ String? altitudeUnit() {
   if (altMapBool != null && altUnits != null) {
     for (final item in altMapBool.entries) {
       if (item.value == true) {
-        return altUnits[item.key];
+        return ' ${altUnits[item.key]}';
       }
     }
   }
@@ -44,7 +44,7 @@ String? speedUnit() {
   if (speedMapBool != null && speedUnits != null) {
     for (final item in speedMapBool.entries) {
       if (item.value == true) {
-        return speedUnits[item.key];
+        return ' ${speedUnits[item.key]}';
       }
     }
   }
@@ -61,7 +61,7 @@ String? distanceUnit() {
   if (disMapBool != null && disUnits != null) {
     for (final item in disMapBool.entries) {
       if (item.value == true) {
-        return disUnits[item.key];
+        return ' ${disUnits[item.key]}';
       }
     }
   }
@@ -78,7 +78,7 @@ String? timeUnit() {
   if (timeMapBool != null && timeUnits != null) {
     for (final item in timeMapBool.entries) {
       if (item.value == true) {
-        return timeUnits[item.key];
+        return ' ${timeUnits[item.key]}';
       }
     }
   }
@@ -95,7 +95,7 @@ String? pressUnit() {
   if (pressMapBool != null && pressUnits != null) {
     for (final item in pressMapBool.entries) {
       if (item.value == true) {
-        return pressUnits[item.key];
+        return ' ${pressUnits[item.key]}';
       }
     }
   }
@@ -112,7 +112,7 @@ String? weightUnit() {
   if (weightMapBool != null && weightUnits != null) {
     for (final item in weightMapBool.entries) {
       if (item.value == true) {
-        return weightUnits[item.key];
+        return ' ${weightUnits[item.key]}';
       }
     }
   }
@@ -129,7 +129,7 @@ String? fuelRateUnit() {
   if (rateMapBool != null && rateUnits != null) {
     for (final item in rateMapBool.entries) {
       if (item.value == true) {
-        return rateUnits[item.key];
+        return ' ${rateUnits[item.key]}';
       }
     }
   }
@@ -146,7 +146,7 @@ String? fuelUnit() {
   if (fuelMapBool != null && fuelUnits != null) {
     for (final item in fuelMapBool.entries) {
       if (item.value == true) {
-        return fuelUnits[item.key];
+        return ' ${fuelUnits[item.key]}';
       }
     }
   }
@@ -163,7 +163,7 @@ String? fuelTypeSel() {
   if (fuelMapBool != null && fuelUnits != null) {
     for (final item in fuelMapBool.entries) {
       if (item.value == true) {
-        return fuelUnits[item.key];
+        return ' ${fuelUnits[item.key]}';
       }
     }
   }
