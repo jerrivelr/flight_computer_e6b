@@ -37,7 +37,7 @@ OptionIdent? speedScreen() {
 
     if (calGroundSpeed != null) {
       calGroundSpeed = speedConvKnt(speed: calGroundSpeed, convResult: true); // result conversion
-      comm.inputValues[InputTitle.groundSpeed] = formatNumber(calGroundSpeed);
+      comm.inputValues[InputTitle.groundSpeed] = formatNumber(calGroundSpeed, noCommas: true);
     }
 
     resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed?.round())}'], unit: speedUnit);
@@ -93,7 +93,7 @@ OptionIdent? durationScreen() {
 
     if (result != null) {
       result = timeConvHr(time: result, convResult: true);       // result conversion
-      comm.inputValues[InputTitle.time] = formatNumber(result);
+      comm.inputValues[InputTitle.time] = formatNumber(result, noCommas: true);
     }
 
     resultPrinter(['Duration: ${formatNumber(result)}'], unit: timeUnit);
@@ -147,7 +147,7 @@ OptionIdent? distanceScreen() {
 
     if (result != null) {
       result = distanceConvNm(distance: result, convResult: true); // result conversion
-      comm.inputValues[InputTitle.distance] = formatNumber(result);
+      comm.inputValues[InputTitle.distance] = formatNumber(result, noCommas: true);
     }
 
     resultPrinter(['Distance: ${formatNumber(result?.round())}'], unit: distanceUnit);

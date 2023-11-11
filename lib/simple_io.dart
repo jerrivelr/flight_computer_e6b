@@ -31,16 +31,19 @@ List<String> windComponentString({required double? headTail, required double? xC
   return finalString;
 }
 
-String formatNumber(num? number) {
+String formatNumber(num? number, {bool noCommas = false}) {
   final myFormat = NumberFormat.decimalPattern('en_us');
 
   if (number == null) {
     return '--';
   } else if (number == number.toInt()) {
+    if (noCommas) return number.toInt().toString();
+
     return myFormat.format(number); // Omit decimal point and trailing zeros for integers
   }
 
   final inDouble = number.toDouble().toStringAsFixed(2); // To return a double with only two decimals.
+  if (noCommas) return inDouble;
 
   return myFormat.format(double.tryParse(inDouble)); // Keep decimal point for non-integer numbers
 

@@ -34,7 +34,7 @@ OptionIdent? volumeScreen() {
     fuelVolume = (fuelRate == null || fuelTime == null) ? null : fuelRate * timeConvHr(time: fuelTime);
     fuelWeight = (fuelVolume == null) ? null : fuelWeightConv(fuelVolume);
 
-    if (fuelVolume != null) comm.inputValues[InputTitle.fuelVolume] = fuelVolume.toStringAsFixed(2);
+    if (fuelVolume != null) comm.inputValues[InputTitle.fuelVolume] = formatNumber(fuelVolume, noCommas: true);
 
     resultPrinter([
       'Fuel Volume: ${formatNumber(fuelVolume)}${fuelUnit()}',
@@ -93,7 +93,7 @@ OptionIdent? enduranceScreen() {
 
     if (endurance != null) {
       endurance = timeConvHr(time: endurance, convResult: true);
-      comm.inputValues[InputTitle.time] = endurance.toStringAsFixed(2);
+      comm.inputValues[InputTitle.time] = formatNumber(endurance, noCommas: true);
     }
 
     fuelWeight = (fuelVolume == null) ? null : fuelWeightConv(fuelVolume);
@@ -154,7 +154,7 @@ OptionIdent? fuelRateScreen() {
     fuelRate = (inputsNotNull) ? null : fuelVolume / timeConvHr(time: fuelTime);
     fuelWeight = (fuelVolume == null) ? null : fuelWeightConv(fuelVolume);
 
-    if (fuelRate != null) comm.inputValues[InputTitle.fuelRate] = fuelRate.toStringAsFixed(2);
+    if (fuelRate != null) comm.inputValues[InputTitle.fuelRate] = formatNumber(fuelRate, noCommas: true);
 
     resultPrinter([
       'Fuel Rate: ${formatNumber(fuelRate)}${fuelRateUnit()}',
