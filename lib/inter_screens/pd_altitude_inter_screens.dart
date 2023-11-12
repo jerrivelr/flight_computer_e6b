@@ -92,7 +92,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
       continue;
     }
     // Downloads METAR information from the selected airport.
-    _downloadMetar = await metar(_airportId);
+    _downloadMetar = await metarDownload(_airportId);
     _metarData = Metar.fromJson(_downloadMetar);
 
     // Checks for no internet connection and when the connection comes back.

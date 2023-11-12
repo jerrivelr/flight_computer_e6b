@@ -47,7 +47,7 @@ String? airportName(String? airportId) {
   return null;
 }
 
-Future<List<dynamic>?> metar(String? airportId, {bool includeTaf = false}) async {
+Future<List<dynamic>?> metarDownload(String? airportId, {bool includeTaf = false}) async {
   if (airportId == null || airportId.isEmpty) {
     return null;
   }
