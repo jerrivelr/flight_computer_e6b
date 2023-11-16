@@ -5,7 +5,11 @@ import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
 class MenuBuilder {
-  MenuBuilder({required this.menuOptions, this.highlightColor = 94, this.title = '', this.noTitle = false, this.errorWindow = false});
+  MenuBuilder({
+    this.menuOptions = const {'Return to:': null, 'Back to Main Menu': OptionIdent.menu},
+    this.highlightColor = 94, this.title = '',
+    this.noTitle = false, this.errorWindow = false
+  });
 
   Map<String, OptionIdent?> menuOptions;
   int highlightColor;
@@ -15,6 +19,7 @@ class MenuBuilder {
 
   int _firstOption = 0;
   int _currentHighlight = 0;
+  int _currentHighlightReturn = 1;
 
   OptionIdent? displayMenu() {
     comm.console.hideCursor();
@@ -41,7 +46,7 @@ class MenuBuilder {
         _currentHighlight = _firstOption;
       }
 
-      _drawMenuOptions();
+      _drawMenuOptions(_currentHighlight);
 
       key = comm.console.readKey();
       // Checking for control combination
@@ -76,7 +81,69 @@ class MenuBuilder {
     return selection;
   }
 
-  void _drawMenuOptions() {
+  bool returnMenu(bool condition) {
+    final optionKeys = menuOptions.keys.toList();
+
+    if (_currentHighlightReturn < 1) {
+      _currentHighlightReturn = menuOptions.length - 1;
+    } else if (_currentHighlightReturn > menuOptions.length - 1) {
+      _currentHighlightReturn = 1;
+    }
+
+    _drawMenuOptions(_currentHighlightReturn, condition);
+
+    if (condition) {
+      comm.console.hideCursor();
+
+      var key = comm.console.readKey();
+      shortcuts(key);
+
+      switch (key.controlChar) {
+        case ControlCharacter.arrowDown:
+          _currentHighlightReturn++;
+          comm.console.clearScreen();
+          break;
+        case ControlCharacter.arrowUp:
+          _currentHighlightReturn--;
+          comm.console.clearScreen();
+          break;
+        case ControlCharacter.enter:
+          comm.console.clearScreen();
+          comm.console.showCursor();
+          comm.selectedOption = menuOptions[optionKeys[_currentHighlightReturn]];
+          _currentHighlightReturn = 1;
+          return true;
+        case ControlCharacter.unknown:
+          comm.console.clearScreen();
+          comm.unknownInput = key.controlChar;
+          comm.errorMessage = 'Invalid value';
+          comm.selectedOption = OptionIdent.menu;
+          return true;
+        default:
+          comm.console.clearScreen();
+          break;
+      }
+    }
+
+    if (_currentHighlightReturn > menuOptions.length - 1 ) {
+      _currentHighlightReturn = menuOptions.length - 1;
+      return true;
+    } else if (_currentHighlightReturn < 1) {
+      comm.console.showCursor();
+      _currentHighlightReturn = 1;
+
+      if (comm.currentPosition > 0) comm.currentPosition--;
+
+      comm.currentCursorPos = Coordinate(comm.currentCursorPos!.row - 1, comm.console.cursorPosition!.col);
+      return true;
+    } else if (condition && _currentHighlightReturn <= menuOptions.length - 1) {
+      return true;
+    }
+
+    return false;
+  }
+
+  void _drawMenuOptions(int highlightPos, [bool condition = true]) {
     final optionKeys = menuOptions.keys.toList();
 
     for (var item in menuOptions.entries) {
@@ -91,10 +158,10 @@ class MenuBuilder {
       }
 
       // Sets exit button with a red highlight when selected
-      if (menuOptions[item.key] == OptionIdent.exit && item.key == optionKeys[_currentHighlight]) {
+      if (menuOptions[item.key] == OptionIdent.exit && item.key == optionKeys[highlightPos]) {
         comm.console.setForegroundColor(ConsoleColor.white);
         comm.console.setBackgroundColor(ConsoleColor.red);
-      } else if (item.key == optionKeys[_currentHighlight]) {
+      } else if (condition && item.key == optionKeys[highlightPos]) {
         comm.console.setBackgroundExtendedColor(highlightColor); // Sets selected highlight color when exit button no selected.
       }
 
@@ -106,86 +173,4 @@ class MenuBuilder {
       comm.console.resetColorAttributes();
     }
   }
-}
-
-var _currentHighlight = 1;
-bool returnMenu(bool condition, [Map<String, OptionIdent?> options = const {'Return to:': null,'Back to Main Menu': OptionIdent.menu}]) {
-  final optionKeys = options.keys.toList();
-
-  if (_currentHighlight < 1) {
-    _currentHighlight = options.length - 1;
-  } else if (_currentHighlight > options.length - 1) {
-    _currentHighlight = 1;
-  }
-
-  for (var item in options.entries) {
-    if (options[item.key] == null) {
-      comm.console.setForegroundExtendedColor(180);
-      comm.console.setTextStyle(bold: true, italic: true);
-      comm.console.writeLine(item.key);
-      comm.console.resetColorAttributes();
-      continue;
-    }
-
-    if (condition && item.key == optionKeys[_currentHighlight]) {
-      comm.console.setBackgroundExtendedColor(94);
-    }
-
-    final optionLength = item.key.length;
-
-    comm.console.setTextStyle(bold: true);
-    comm.console.write(item.key.padLeft(optionLength + 2).padRight(optionLength + 4));
-    comm.console.writeLine();
-    comm.console.resetColorAttributes();
-  }
-
-  if (condition) {
-    comm.console.hideCursor();
-
-    var key = comm.console.readKey();
-    shortcuts(key);
-
-    switch (key.controlChar) {
-      case ControlCharacter.arrowDown:
-        _currentHighlight++;
-        comm.console.clearScreen();
-        break;
-      case ControlCharacter.arrowUp:
-        _currentHighlight--;
-        comm.console.clearScreen();
-        break;
-      case ControlCharacter.enter:
-        comm.console.clearScreen();
-        comm.console.showCursor();
-        comm.selectedOption = options[optionKeys[_currentHighlight]];
-        _currentHighlight = 1;
-        return true;
-      case ControlCharacter.unknown:
-        comm.console.clearScreen();
-        comm.unknownInput = key.controlChar;
-        comm.errorMessage = 'Invalid value';
-        comm.selectedOption = OptionIdent.menu;
-        return true;
-      default:
-        comm.console.clearScreen();
-        break;
-    }
-  }
-
-  if (_currentHighlight > options.length - 1 ) {
-    _currentHighlight = options.length - 1;
-    return true;
-  } else if (_currentHighlight < 1) {
-    comm.console.showCursor();
-    _currentHighlight = 1;
-
-    if (comm.currentPosition > 0) comm.currentPosition--;
-
-    comm.currentCursorPos = Coordinate(comm.currentCursorPos!.row - 1, comm.console.cursorPosition!.col);
-    return true;
-  } else if (condition && _currentHighlight <= options.length - 1) {
-    return true;
-  }
-
-  return false;
 }
