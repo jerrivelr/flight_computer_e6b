@@ -17,12 +17,11 @@ class MenuBuilder {
   int _currentHighlight = 0;
 
   OptionIdent? displayMenu() {
-    final optionKeys = menuOptions.keys.toList();
     comm.console.hideCursor();
+    final optionKeys = menuOptions.keys.toList();
 
     if (menuOptions[optionKeys[0]] == null) {
       _firstOption = 1;
-
     } else {
       _firstOption = 0;
     }
@@ -42,32 +41,7 @@ class MenuBuilder {
         _currentHighlight = _firstOption;
       }
 
-      for (var item in menuOptions.entries) {
-        if (menuOptions[item.key] == null) {
-          comm.console.setForegroundExtendedColor(180);
-          comm.console.setTextStyle(bold: true, italic: true);
-          comm.console.writeLine(item.key);
-          comm.console.resetColorAttributes();
-          continue;
-        } else if (menuOptions[item.key] == OptionIdent.exit) {
-          comm.console.setForegroundColor(ConsoleColor.red); // Exit button text red when not selected
-        }
-
-        // Sets exit button with a red highlight when selected
-        if (menuOptions[item.key] == OptionIdent.exit && item.key == optionKeys[_currentHighlight]) {
-          comm.console.setForegroundColor(ConsoleColor.white);
-          comm.console.setBackgroundColor(ConsoleColor.red);
-        } else if (item.key == optionKeys[_currentHighlight]) {
-          comm.console.setBackgroundExtendedColor(highlightColor); // Sets selected highlight color when exit button no selected.
-        }
-
-        final optionLength = item.key.length;
-
-        comm.console.setTextStyle(bold: true);
-        comm.console.write(item.key.padLeft(optionLength + 2).padRight(optionLength + 4));
-        comm.console.writeLine();
-        comm.console.resetColorAttributes();
-      }
+      _drawMenuOptions();
 
       key = comm.console.readKey();
       // Checking for control combination
@@ -100,6 +74,37 @@ class MenuBuilder {
     comm.console.showCursor();
 
     return selection;
+  }
+
+  void _drawMenuOptions([int index = 0]) {
+    final optionKeys = menuOptions.keys.toList();
+
+    for (var item in menuOptions.entries) {
+      if (menuOptions[item.key] == null) {
+        comm.console.setForegroundExtendedColor(180);
+        comm.console.setTextStyle(bold: true, italic: true);
+        comm.console.writeLine(item.key);
+        comm.console.resetColorAttributes();
+        continue;
+      } else if (menuOptions[item.key] == OptionIdent.exit) {
+        comm.console.setForegroundColor(ConsoleColor.red); // Exit button text red when not selected
+      }
+
+      // Sets exit button with a red highlight when selected
+      if (menuOptions[item.key] == OptionIdent.exit && item.key == optionKeys[_currentHighlight]) {
+        comm.console.setForegroundColor(ConsoleColor.white);
+        comm.console.setBackgroundColor(ConsoleColor.red);
+      } else if (item.key == optionKeys[_currentHighlight]) {
+        comm.console.setBackgroundExtendedColor(highlightColor); // Sets selected highlight color when exit button no selected.
+      }
+
+      final optionLength = item.key.length;
+
+      comm.console.setTextStyle(bold: true);
+      comm.console.write(item.key.padLeft(optionLength + 2).padRight(optionLength + 4));
+      comm.console.writeLine();
+      comm.console.resetColorAttributes();
+    }
   }
 }
 
