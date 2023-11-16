@@ -76,7 +76,7 @@ class MenuBuilder {
     return selection;
   }
 
-  void _drawMenuOptions([int index = 0]) {
+  void _drawMenuOptions() {
     final optionKeys = menuOptions.keys.toList();
 
     for (var item in menuOptions.entries) {
