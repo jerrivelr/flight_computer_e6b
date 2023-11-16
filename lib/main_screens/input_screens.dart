@@ -20,7 +20,7 @@ OptionIdent? helpConfig() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    selection = helpConfigMenu.displayMenu();
+    selection = helpConfigMenu.mainMenu();
 
     switch (selection) {
       case OptionIdent.help:
@@ -100,7 +100,7 @@ Future<OptionIdent?> pressDensityScreen() async {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    selection = pressDenMenu.displayMenu();
+    selection = pressDenMenu.mainMenu();
 
     switch (selection) {
       case OptionIdent.airport:
@@ -141,7 +141,7 @@ OptionIdent? groundSpeedScreen() {
         }
     );
 
-    selection = groundSpeedMenu.displayMenu();
+    selection = groundSpeedMenu.mainMenu();
 
     switch (selection) {
       case OptionIdent.calGroundSpeed:
@@ -386,7 +386,7 @@ OptionIdent? fuelScreen() {
       'Main Menu': OptionIdent.menu
     };
 
-    selection = fuelMenu.displayMenu();
+    selection = fuelMenu.mainMenu();
 
     switch (selection) {
       case OptionIdent.fuelVol:

@@ -21,7 +21,7 @@ class MenuBuilder {
   int _currentHighlight = 0;
   int _currentHighlightReturn = 1;
 
-  OptionIdent? displayMenu() {
+  OptionIdent? mainMenu() {
     comm.console.hideCursor();
     final optionKeys = menuOptions.keys.toList();
 

@@ -27,7 +27,7 @@ void main(List<String> arguments) async {
           'Exit': OptionIdent.exit
         };
 
-        userSelection = mainMenu.displayMenu();
+        userSelection = mainMenu.mainMenu();
         break;
       case OptionIdent.helpSetting:
         userSelection = helpConfig();
