@@ -18,25 +18,19 @@ class Metar {
   String? rawMetar;
 
   num? get temperature {
-    if (comm.fahrenheitTrue && temp != null) {
-      return (temp! * 9/5) + 32;
-    }
+    if (comm.fahrenheitTrue && temp != null) return (temp! * 9/5) + 32;
 
     return temp;
   }
 
   num? get dewpoint {
-    if (comm.fahrenheitTrue && dew != null) {
-      return (dew! * 9/5) + 32;
-    }
+    if (comm.fahrenheitTrue && dew != null) return (dew! * 9/5) + 32;
 
     return dew;
   }
 
   num? get altimeterInHg {
-    if (comm.inchesMercuryTrue && altimeter != null) {
-      return altimeter! / 33.8639;
-    }
+    if (comm.inchesMercuryTrue && altimeter != null) return altimeter! / 33.8639;
 
     return altimeter;
   }
