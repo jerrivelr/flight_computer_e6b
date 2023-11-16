@@ -56,7 +56,7 @@ OptionIdent? cloudBaseScreen() {
   comm.selectedOption = null;
 
   while (comm.selectedOption == null) {
-    screenHeader(title: 'CLOUD BASE 🌧️');
+    screenHeader(title: 'CLOUD BASE (${altitudeUnit()?.trim()})');
 
     tp.tempInput.printInput();
     tp.dewInput.printInput();
@@ -66,7 +66,7 @@ OptionIdent? cloudBaseScreen() {
 
     resultPrinter(['Cloud Base: ${formatNumber(result)}'], unit: altitudeUnit, isAgl: true);
 
-    final menu = returnMenu(comm.currentPosition > 1);
+    final menu = genericReturnMenu.returnMenu(comm.currentPosition > 1);
     if (menu) continue;
 
     final positions = [
@@ -197,7 +197,7 @@ OptionIdent? trueAirspeedScreen() {
 
     comm.inputValues[InputTitle.trueAirspeed] = calTrueAirspeed?.toString();
 
-    final menu = returnMenu(comm.currentPosition > 2);
+    final menu = genericReturnMenu.returnMenu(comm.currentPosition > 2);
     if (menu) continue;
 
     final positions = [
@@ -254,7 +254,7 @@ OptionIdent? windComponentScreen() {
 
     resultPrinter(windComponentString(headTail: headTailComp, xCross: xWindComp));
 
-    final menu = returnMenu(comm.currentPosition > 2);
+    final menu = genericReturnMenu.returnMenu(comm.currentPosition > 2);
     if (menu) continue;
 
     final positions = [
@@ -334,7 +334,7 @@ OptionIdent? headingCorrectionScreen() {
       'Ground Speed: ${formatNumber(groundSpeedKt?.round())}${speedUnit()}'
     ]);
 
-    final menu = returnMenu(comm.currentPosition > 3);
+    final menu = genericReturnMenu.returnMenu(comm.currentPosition > 3);
     if (menu) continue;
 
     final positions = [
