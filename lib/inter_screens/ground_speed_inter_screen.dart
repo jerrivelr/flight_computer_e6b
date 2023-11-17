@@ -1,18 +1,12 @@
 import 'package:flight_e6b/enums.dart';
+import 'package:flight_e6b/menu_files/menus.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:dart_console/dart_console.dart';
 import 'package:flight_e6b/input_type.dart' as tp;
 import 'package:flight_e6b/setting/setting_lookup.dart';
 import 'package:flight_e6b/cursor_position.dart' as pos;
-import 'package:flight_e6b/menu_files/menu_builder.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 import 'package:flight_e6b/conversion/conversion_func.dart';
-
-const options = {
-  'Return to:': null,
-  'Ground Speed Menu': OptionIdent.groundSpeed,
-  'Main Menu': OptionIdent.menu
-};
 
 OptionIdent? speedScreen() {
   tp.distanceInput.firstOption = true;
@@ -42,7 +36,7 @@ OptionIdent? speedScreen() {
 
     resultPrinter(['Ground Speed: ${formatNumber(calGroundSpeed?.round())}'], unit: speedUnit);
 
-    final menu = returnMenu(comm.currentPosition > 1, options);
+    final menu = groundReturnMenu.returnMenu(comm.currentPosition > 1);
     if (menu) continue;
 
     final positions = [
@@ -98,7 +92,7 @@ OptionIdent? durationScreen() {
 
     resultPrinter(['Duration: ${formatNumber(result)}'], unit: timeUnit);
 
-    final menu = returnMenu(comm.currentPosition > 1, options);
+    final menu = groundReturnMenu.returnMenu(comm.currentPosition > 1);
     if (menu) continue;
 
     final positions = [
@@ -152,7 +146,7 @@ OptionIdent? distanceScreen() {
 
     resultPrinter(['Distance: ${formatNumber(result?.round())}'], unit: distanceUnit);
 
-    final menu = returnMenu(comm.currentPosition > 1, options);
+    final menu = groundReturnMenu.returnMenu(comm.currentPosition > 1);
     if (menu) continue;
 
     final positions = [

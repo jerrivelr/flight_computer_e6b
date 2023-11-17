@@ -1,4 +1,5 @@
 import 'package:flight_e6b/enums.dart';
+import 'package:flight_e6b/menu_files/menus.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:flight_e6b/aviation_math.dart';
 import 'package:dart_console/dart_console.dart';
@@ -6,7 +7,6 @@ import 'package:flight_e6b/input_type.dart' as tp;
 import 'package:flight_e6b/setting/setting_lookup.dart';
 import 'package:flight_e6b/cursor_position.dart' as pos;
 import 'package:flight_e6b/data_parsing/metar_data.dart';
-import 'package:flight_e6b/menu_files/menu_builder.dart';
 import 'package:flight_e6b/data_parsing/airport_data.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
 
@@ -15,12 +15,6 @@ List<dynamic>? _downloadMetar;
 Metar? _metarData;
 String? _airpName;
 int? _airpElevation;
-
-const options = {
-  'Return to:': null,
-  'Pressure/Density Altitude Menu': OptionIdent.pressDenAlt,
-  'Main Menu': OptionIdent.menu
-};
 
 Future<OptionIdent?> conditionsAirportScreen() async {
   comm.selectedOption = null;
@@ -72,7 +66,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
       'Density Altitude: ${formatNumber(density)}${altitudeUnit()}']
     );
 
-    final menu = returnMenu(comm.currentPosition > 0, options);
+    final menu = pressReturnMenu.returnMenu(comm.currentPosition > 0);
     if (menu) continue;
 
     comm.console.cursorPosition = cursorPosition;
@@ -92,7 +86,7 @@ Future<OptionIdent?> conditionsAirportScreen() async {
       continue;
     }
     // Downloads METAR information from the selected airport.
-    _downloadMetar = await metar(_airportId);
+    _downloadMetar = await metarDownload(_airportId);
     _metarData = Metar.fromJson(_downloadMetar);
 
     // Checks for no internet connection and when the connection comes back.
@@ -153,7 +147,7 @@ OptionIdent? manualScreen() {
       'Density Altitude: ${formatNumber(density)}'],
     unit: altitudeUnit);
 
-    final menu = returnMenu(comm.currentPosition > 3, options);
+    final menu = pressReturnMenu.returnMenu(comm.currentPosition > 3);
     if (menu) continue;
 
     final positions = [

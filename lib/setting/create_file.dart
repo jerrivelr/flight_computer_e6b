@@ -28,7 +28,7 @@ void unitYamlFile() {
 }
 
 void settingYamlFile() {
-  final content = <String, dynamic>{
+  const content = <String, dynamic>{
     'version': '0.7.2',
     'selected_unit': {
       'Temperature': {'celsius': true, 'fahrenheit': false},

@@ -35,3 +35,38 @@ final fuelMenu = MenuBuilder(
    title: 'FUEL',
    menuOptions: {}
 );
+
+final genericReturnMenu = MenuBuilder();
+
+final pressReturnMenu = MenuBuilder(
+    menuOptions: {
+      'Return to:': null,
+      'Pressure/Density Altitude Menu': OptionIdent.pressDenAlt,
+      'Main Menu': OptionIdent.menu
+    }
+);
+
+final setReturnMenu = MenuBuilder(
+  menuOptions: {
+    'Return to:': null,
+    'Help/Settings': OptionIdent.helpSetting,
+    'Main Menu': OptionIdent.menu
+  }
+);
+
+final groundReturnMenu = MenuBuilder(
+  menuOptions: {
+    'Return to:': null,
+    'Ground Speed Menu': OptionIdent.groundSpeed,
+    'Main Menu': OptionIdent.menu
+  }
+);
+
+final fuelReturnMenu = MenuBuilder(
+  menuOptions: {
+    'Return to:': null,
+    'Fuel Menu': OptionIdent.fuel,
+    'Main Menu': OptionIdent.menu
+  }
+);
+

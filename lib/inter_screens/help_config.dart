@@ -1,18 +1,12 @@
 import 'dart:io';
 
 import 'package:flight_e6b/enums.dart';
+import 'package:flight_e6b/menu_files/menus.dart';
 import 'package:flight_e6b/shortcuts.dart';
 import 'package:flight_e6b/simple_io.dart';
 import 'package:yaml_modify/yaml_modify.dart';
 import 'package:dart_console/dart_console.dart';
-import 'package:flight_e6b/menu_files/menu_builder.dart';
 import 'package:flight_e6b/communication_var.dart' as comm;
-
-const _helpMenu = {
-  'Return to:': null,
-  'Help/Settings': OptionIdent.helpSetting,
-  'Main Menu': OptionIdent.menu
-};
 
 OptionIdent? helpScreen() {
   const List<List<Object>>tableContent = [
@@ -50,7 +44,7 @@ OptionIdent? helpScreen() {
     comm.console.writeLine('• Conditions at airport is the only option that allow all characters');
     comm.console.writeLine();
     
-    final backOrNot = returnMenu(true, _helpMenu);
+    final backOrNot = setReturnMenu.returnMenu(true);
     if (backOrNot) continue;
   }
 
@@ -130,7 +124,7 @@ OptionIdent? settingScreen() {
       }
     }
 
-    final backOrNot = returnMenu(comm.currentPosition >= (settingDecoded?.length ?? 0), _helpMenu);
+    final backOrNot = setReturnMenu.returnMenu(comm.currentPosition >= (settingDecoded?.length ?? 0));
     if (backOrNot) continue;
 
     if (_returnMenu == true) {
